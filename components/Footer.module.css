@@ -1,0 +1,36 @@
+.footer {
+  display: flex;
+  flex-direction: column;
+  margin-top: auto;
+  padding: 1rem 2rem 0.5rem 2rem;
+  min-height: 77px;
+  background-color: #1c1c1c;
+  color: white;
+}
+
+.linksSection {
+  display: flex;
+  justify-content: space-evenly;
+}
+
+.socialMediaSection,
+.contactSection,
+.menuSection {
+  flex: 1;
+}
+
+.menuItems {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.CTASection {
+  align-self: center;
+  padding-top: 1rem;
+}
+
+.copyrightSection {
+  align-self: center;
+  padding: 1rem 0;
+}

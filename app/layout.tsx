@@ -1,7 +1,7 @@
 import "./globals.css";
 import Header from "@/components/Header";
-import ClientOnly from "./components/ClientOnly";
 import Footer from "@/components/Footer";
+import { ActiveProvider } from "./context/ActiveContext";
 
 export default function RootLayout({
   children,
@@ -11,11 +11,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body suppressHydrationWarning={true}>
-        <ClientOnly>
+        <ActiveProvider>
           <Header />
-        </ClientOnly>
-        {children}
-        <Footer />
+          {children}
+          <Footer />
+        </ActiveProvider>
       </body>
     </html>
   );

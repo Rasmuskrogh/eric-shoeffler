@@ -1,0 +1,59 @@
+.backgroundContainer {
+  position: relative;
+  width: 100%;
+  height: 60vh;
+  z-index: 1;
+  overflow: hidden;
+  background: #f8fafc;
+}
+
+.backgroundSvg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  transition: opacity 1.2s cubic-bezier(0.4, 0, 0.2, 1),
+    transform 1.2s cubic-bezier(0.4, 0, 0.2, 1);
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
+}
+
+.active {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+}
+
+.inactive {
+  opacity: 0;
+  transform: scale(1.02) translateY(-10px);
+  pointer-events: none;
+}
+
+/* Smooth transitions for all SVG elements */
+.backgroundSvg path,
+.backgroundSvg rect {
+  transition: fill 0.8s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Ensure smooth rendering */
+.backgroundSvg {
+  shape-rendering: geometricPrecision;
+  image-rendering: -webkit-optimize-contrast;
+  will-change: opacity, transform;
+}
+
+/* Add subtle animation to active state */
+.active .backgroundSvg {
+  animation: subtleFloat 6s ease-in-out infinite;
+}
+
+@keyframes subtleFloat {
+  0%,
+  100% {
+    transform: scale(1) translateY(0);
+  }
+  50% {
+    transform: scale(1.005) translateY(-2px);
+  }
+}

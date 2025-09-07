@@ -1,10 +1,18 @@
 .header {
-  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.25);
   width: 100%;
   height: 4rem;
   display: flex;
   position: fixed;
-  z-index: 5;
+  z-index: 10;
+  border: none;
+  outline: none;
+  transition: opacity 0.7s ease-in-out;
+  /* box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); */
+}
+
+.header.scrolled {
+  opacity: 0.8;
+  backdrop-filter: blur(10px);
 }
 
 .blue,
@@ -23,7 +31,7 @@
 .blue {
   background-color: darkblue;
   color: white;
-  transition: flex 0.3s ease-in-out;
+  transition: flex 0.5s ease-in-out;
 }
 
 .white {
@@ -32,6 +40,7 @@
   align-items: flex-start;
   flex-direction: column;
   background-color: white;
+  color: black;
 }
 
 .language {
@@ -41,6 +50,7 @@
 .red {
   background-color: darkred;
   transition: flex 0.5s ease-in-out;
+  color: white;
 }
 
 .textWrapper {

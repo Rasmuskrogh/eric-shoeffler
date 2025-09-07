@@ -1,0 +1,80 @@
+.hero {
+  width: 100%;
+  height: 60vh;
+  min-height: 600px;
+  display: flex;
+  padding-top: 4rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.blueArea,
+.whiteArea,
+.redArea {
+  height: 100%;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.active {
+  flex: 40;
+}
+
+.blueArea {
+  background: linear-gradient(
+    to bottom,
+    darkblue 0%,
+    #3b82f6 20%,
+    #60a5fa 40%,
+    #93c5fd 100%
+  );
+  transition: flex 0.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: 2rem;
+}
+
+.whiteArea {
+  background-color: white;
+  transition: flex 0.5s ease-in-out;
+}
+
+.redArea {
+  background: linear-gradient(
+    to bottom,
+    darkred 0%,
+    #ef4444 15%,
+    #f87171 30%,
+    #fca5a5 100%
+  );
+  transition: flex 0.5s ease-in-out;
+}
+
+.tagline {
+  width: 50%;
+  padding-left: 2rem;
+  align-self: center;
+}
+.taglineTitle {
+  font-size: 3rem;
+}
+.taglineSubtitle {
+  font-size: 1.5rem;
+}
+
+.profileImageWrapper {
+  position: relative;
+  width: 50%;
+  height: 100%;
+}
+
+.profileImage {
+  object-fit: contain;
+  width: auto;
+  height: 100%;
+  position: absolute;
+  bottom: 0;
+  right: 0;
+}

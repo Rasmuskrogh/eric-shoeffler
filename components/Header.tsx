@@ -1,14 +1,25 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import styles from "./Header.module.css";
+import { useActive } from "../app/context/ActiveContext";
 
 function Header() {
-  const [active, setActive] = useState(true);
+  const { active, setActive } = useActive();
   const [displayText, setDisplayText] = useState("Eric Shoeffler");
   const [displaySubtext, setDisplaySubtext] = useState("Klassisk basbaryton");
   const [redText, setRedText] = useState("Annat");
   const [redSubtext, setRedSubtext] = useState("");
+  const [isScrolled, setIsScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 0);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   const handleBlueClick = () => {
     setActive(true);
@@ -31,7 +42,7 @@ function Header() {
   };
 
   return (
-    <header className={styles.header}>
+    <header className={`${styles.header} ${isScrolled ? styles.scrolled : ""}`}>
       <div
         className={`${styles.blue} ${active ? styles.active : ""}`}
         onClick={handleBlueClick}

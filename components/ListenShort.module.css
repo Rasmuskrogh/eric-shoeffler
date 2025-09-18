@@ -1,0 +1,30 @@
+.listenSection {
+  width: 100%;
+  background-color: #93c5fd;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.listenTitle {
+  padding-top: 1rem;
+}
+
+.listenIframe {
+  border-radius: 1rem;
+  padding: 0 1rem;
+}
+
+.listenButton {
+  padding: 0.5rem 1rem;
+  border-radius: 1rem;
+  background-color: #1e40af;
+  color: white;
+  border: white 2px solid;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 1rem;
+}

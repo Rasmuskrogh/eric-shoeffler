@@ -1,0 +1,90 @@
+.navbar {
+  background: white;
+  border-top: 1px solid #e5e7eb;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  transition: opacity 0.3s ease-in-out;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+}
+
+.navList {
+  display: flex;
+  list-style: none;
+  margin: 0;
+  padding: 0.5rem 1rem;
+  gap: 0.8rem;
+}
+
+.navItem {
+  margin: 0;
+}
+
+.navLink {
+  display: block;
+  text-decoration: none;
+  color: #374151;
+  font-weight: 500;
+  padding: 0.25rem 0.5rem;
+  border-radius: 50px;
+  transition: background-color 0.2s ease-in-out, color 0.2s ease-in-out;
+  font-size: 0.875rem;
+  border: 2px white solid;
+  white-space: nowrap;
+}
+
+.navLink:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}
+
+/* Type-specific styles */
+.navbar.blue {
+  background: transparent;
+  border-top-color: transparent;
+  padding-left: 6rem;
+}
+
+.navbar.blue .navLink {
+  color: white;
+}
+
+.navbar.blue .navLink:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.navbar.red {
+  background: transparent;
+  border-top-color: transparent;
+  padding-left: 7rem;
+}
+
+.navbar.red .navLink {
+  color: white;
+}
+
+.navbar.red .navLink:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+}
+
+.navbar.white {
+  background: white;
+  border-top-color: #e5e7eb;
+}
+
+.navbar.white .navLink {
+  color: #374151;
+}
+
+.navbar.white .navLink:hover {
+  background-color: #f3f4f6;
+  color: #111827;
+}

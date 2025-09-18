@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./Footer.module.css";
+import Image from "next/image";
 
 function Footer() {
   return (
@@ -25,13 +26,34 @@ function Footer() {
         </div>
         <div className={styles.socialMediaSection}>
           <h3>Sociala medier</h3>
-          <figure></figure>
-          <figure></figure>
-          <figure></figure>
+          <div className={styles.socialIcons}>
+            <a href="#" className={styles.socialLink} aria-label="Facebook">
+              <Image
+                src="/facebook.svg"
+                alt="Facebook"
+                width={24}
+                height={24}
+              />
+            </a>
+            <a href="#" className={styles.socialLink} aria-label="Instagram">
+              <Image
+                src="/instagram.svg"
+                alt="Instagram"
+                width={24}
+                height={24}
+              />
+            </a>
+            <a href="#" className={styles.socialLink} aria-label="YouTube">
+              <Image src="/youtube.svg" alt="YouTube" width={24} height={24} />
+            </a>
+            <a href="#" className={styles.socialLink} aria-label="Spotify">
+              <Image src="/spotify.svg" alt="Spotify" width={24} height={24} />
+            </a>
+          </div>
         </div>
       </section>
       <section className={styles.CTASection}>
-        <button>Boka mig</button>
+        <button className={styles.ctaButton}>Boka mig</button>
       </section>
       <section className={styles.copyrightSection}>
         <p>Copyright 2025</p>

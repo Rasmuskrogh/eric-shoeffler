@@ -1,22 +1,19 @@
 import React from "react";
-import Image from "next/image";
 import Hero from "@/components/Hero";
+import Short from "@/components/Short";
 
 import styles from "./page.module.css";
+import ListenShort from "@/components/ListenShort";
+import RepertoirShort from "@/components/RepertoirShort";
 
 export default function Page() {
   return (
     <>
       <Hero />
-      <section className={styles.presentationShort}>
-        <h2>Om mig</h2>
-        <p>
-          Jag är Eric Schoeffler, frilansande klassisk sångare med en passion
-          för att beröra publiken genom opera, konserter och romansprogram. Med
-          en bred repertoar och lång erfarenhet på scen skapar jag musikaliska
-          ögonblick som stannar kvar.
-        </p>
-        <button>Läs mer om mig</button>
+      <Short />
+      <section className={styles.listenAndRepertoirSection}>
+        <ListenShort />
+        <RepertoirShort />
       </section>
       <section className={styles.videoSection}>
         <div className={styles.videoContainer}>

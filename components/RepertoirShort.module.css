@@ -1,0 +1,22 @@
+.repertoirSection {
+  width: 100%;
+  background-color: #93c5fd;
+  border-radius: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.repertoirTitle {
+  padding-top: 1rem;
+}
+
+.repertoirList {
+  list-style: none;
+  padding-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+}

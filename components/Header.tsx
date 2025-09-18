@@ -24,6 +24,7 @@ function Header() {
     { label: "Lyssna", href: "/listen" },
     { label: "Repertoar", href: "/repertoire" },
     { label: "Agenda", href: "/agenda" },
+    { label: "Galleri", href: "/gallery" },
     { label: "Press", href: "/press" },
   ];
 
@@ -44,17 +45,13 @@ function Header() {
 
   const handleBlueClick = () => {
     setActive(true);
-    // Reset logo centering
     setCenterRedLogo(false);
     setCenterBlueLogo(false);
-    // Fade out red navbar
     setRedNavbarOpacity(0);
     setTimeout(() => {
       setShowRedNavbar(false);
-      // Center red logo after navbar is invisible
       setCenterRedLogo(true);
     }, 300);
-    // Show and fade in blue navbar after area transition
     setTimeout(() => {
       setShowBlueNavbar(true);
       setBlueNavbarOpacity(1);
@@ -63,17 +60,13 @@ function Header() {
 
   const handleRedClick = () => {
     setActive(false);
-    // Reset logo centering
     setCenterBlueLogo(false);
     setCenterRedLogo(false);
-    // Fade out blue navbar
     setBlueNavbarOpacity(0);
     setTimeout(() => {
       setShowBlueNavbar(false);
-      // Center blue logo after navbar is invisible
       setCenterBlueLogo(true);
     }, 300);
-    // Show and fade in red navbar after area transition
     setTimeout(() => {
       setShowRedNavbar(true);
       setRedNavbarOpacity(1);
@@ -113,17 +106,49 @@ function Header() {
         </div>
       </div>
       <div className={styles.white}>
-        <div className={styles.language}>
-          <input type="radio" name="language" id="language" />
-          <label htmlFor="language">Svenska</label>
-        </div>
-        <div className={styles.language}>
-          <input type="radio" name="language" id="language" />
-          <label htmlFor="language">Engelska</label>
-        </div>
-        <div className={styles.language}>
-          <input type="radio" name="language" id="language" />
-          <label htmlFor="language">Franska</label>
+        <div className={styles.languageSelector}>
+          <div className={styles.language}>
+            <input type="radio" name="language" id="swedish" defaultChecked />
+            <label htmlFor="swedish">
+              <span className={styles.flag}>
+                <Image
+                  src="/swedishFlag.svg"
+                  alt="Swedish Flag"
+                  width={20}
+                  height={15}
+                />
+              </span>
+              <span className={styles.languageText}>Svenska</span>
+            </label>
+          </div>
+          <div className={styles.language}>
+            <input type="radio" name="language" id="english" />
+            <label htmlFor="english">
+              <span className={styles.flag}>
+                <Image
+                  src="/englishFlag.svg"
+                  alt="English Flag"
+                  width={20}
+                  height={15}
+                />
+              </span>
+              <span className={styles.languageText}>English</span>
+            </label>
+          </div>
+          <div className={styles.language}>
+            <input type="radio" name="language" id="french" />
+            <label htmlFor="french">
+              <span className={styles.flag}>
+                <Image
+                  src="/frenchFlag.svg"
+                  alt="French Flag"
+                  width={20}
+                  height={15}
+                />
+              </span>
+              <span className={styles.languageText}>Français</span>
+            </label>
+          </div>
         </div>
       </div>
       <div

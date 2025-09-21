@@ -15,17 +15,14 @@ function Header() {
   const [showRedNavbar, setShowRedNavbar] = useState(false);
   const [redNavbarOpacity, setRedNavbarOpacity] = useState(0);
   const [centerBlueLogo, setCenterBlueLogo] = useState(false);
-  const [centerRedLogo, setCenterRedLogo] = useState(false);
+  const [centerRedLogo, setCenterRedLogo] = useState(true);
 
   const blueNavItems: NavItem[] = [
     { label: "Om mig", href: "/about" },
-    { label: "Kontakt", href: "/contact" },
-    { label: "Bokning", href: "/booking" },
-    { label: "Lyssna", href: "/listen" },
-    { label: "Repertoar", href: "/repertoire" },
     { label: "Agenda", href: "/agenda" },
-    { label: "Galleri", href: "/gallery" },
+    { label: "Lyssna och se", href: "/listen" },
     { label: "Press", href: "/press" },
+    { label: "Kontakt & bokning", href: "/contact" },
   ];
 
   const redNavItems: NavItem[] = [
@@ -77,7 +74,7 @@ function Header() {
     <header className={`${styles.header} ${isScrolled ? styles.scrolled : ""}`}>
       <div
         className={`${styles.blue} ${active ? styles.active : ""}`}
-        onClick={handleBlueClick}
+        onClick={active ? undefined : handleBlueClick}
       >
         <div
           className={`${styles.textWrapper} ${
@@ -153,7 +150,7 @@ function Header() {
       </div>
       <div
         className={`${styles.red} ${!active ? styles.active : ""}`}
-        onClick={handleRedClick}
+        onClick={!active ? undefined : handleRedClick}
       >
         <div
           className={`${styles.textWrapper} ${

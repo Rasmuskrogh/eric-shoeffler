@@ -39,12 +39,17 @@
 
 .active {
   flex: 4;
+  cursor: unset;
 }
 
 .blue {
   background-color: darkblue;
   color: white;
   transition: flex 0.5s ease-in-out;
+}
+
+.blue:not(.active) {
+  cursor: pointer;
 }
 
 .white {
@@ -132,6 +137,10 @@
   background-color: darkred;
   transition: flex 0.5s ease-in-out;
   color: white;
+}
+
+.red:not(.active) {
+  cursor: pointer;
 }
 
 .textWrapper {

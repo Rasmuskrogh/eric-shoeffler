@@ -47,6 +47,7 @@
 .contactSection h3,
 .menuSection h3 {
   margin-bottom: 1.5rem;
+  font-family: var(--font-playfair), serif;
   font-size: 1.2rem;
   color: #f1f5f9;
   font-weight: 600;
@@ -80,6 +81,7 @@
   color: #e2e8f0;
   text-decoration: none;
   transition: all 0.3s ease;
+  font-family: var(--font-merriweather), serif;
   font-size: 0.95rem;
   padding: 0.5rem 1rem;
   border-radius: 8px;
@@ -106,6 +108,7 @@
   color: #cbd5e1;
   text-decoration: none;
   transition: all 0.3s ease;
+  font-family: var(--font-merriweather), serif;
   font-size: 0.95rem;
   display: inline-block;
   padding: 0.25rem 0;
@@ -175,6 +178,7 @@
   border: 2px solid darkblue;
   padding: 1.4rem 3rem;
   border-radius: 50px;
+  font-family: var(--font-playfair), serif;
   font-size: 1.1rem;
   font-weight: 700;
   cursor: pointer;
@@ -218,6 +222,7 @@
   padding: 1.5rem 0;
   border-top: 1px solid #475569;
   color: #94a3b8;
+  font-family: var(--font-merriweather), serif;
   font-size: 0.9rem;
   text-align: center;
   position: relative;

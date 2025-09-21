@@ -34,6 +34,7 @@
   align-items: center;
   justify-content: flex-start;
   gap: 2rem;
+  position: relative;
 }
 
 .whiteArea {
@@ -50,31 +51,90 @@
     #fca5a5 100%
   );
   transition: flex 0.5s ease-in-out;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 2rem;
+  position: relative;
 }
 
 .tagline {
-  width: 50%;
-  padding-left: 2rem;
-  align-self: center;
+  position: absolute;
+  left: calc(2rem + 1vw); /* Responsiv marginal baserat på skärmstorlek */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40%;
+  transition: all 0.5s ease-in-out;
+}
+
+.blueArea:not(.active) .tagline {
+  left: calc(-200px - 1vw); /* Responsiv utflyttning */
+}
+
+.redArea .tagline {
+  position: absolute;
+  right: calc(2rem + 1vw); /* Responsiv marginal från höger kant */
+  left: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 38%;
+  transition: all 0.5s ease-in-out;
+}
+
+.redArea:not(.active) .tagline {
+  right: calc(-200px - 1vw); /* Responsiv utflyttning till höger */
 }
 .taglineTitle {
+  font-family: var(--font-playfair), serif;
   font-size: 3rem;
+  font-weight: 600;
+}
+
+.redArea .taglineTitle {
+  word-break: break-word;
 }
 .taglineSubtitle {
+  font-family: var(--font-merriweather), serif;
   font-size: 1.5rem;
+  font-weight: 400;
 }
 
 .profileImageWrapper {
-  position: relative;
-  width: 50%;
-  height: 100%;
+  position: absolute;
+  right: calc(2rem + 1vw); /* Responsiv marginal baserat på skärmstorlek */
+  top: 50%;
+  transform: translateY(-50%);
+  width: auto;
+  height: calc(100% - 4rem);
+  transition: all 0.5s ease-in-out;
+  margin-left: 3rem; /* Ökar marginalen mellan tagline och bild */
+  margin-right: 0rem;
 }
 
 .profileImage {
   object-fit: contain;
   width: auto;
   height: 100%;
-  position: absolute;
-  bottom: 0;
-  right: 0;
+  border-radius: 2rem;
 }
+
+.redArea .profileImage {
+  width: 89%;
+  object-fit: cover;
+  object-position: center;
+}
+
+.redArea .profileImageWrapper {
+  position: absolute;
+  left: calc(2rem + 1vw); /* Avstånd från vänster kant */
+  right: auto;
+  top: 50%;
+  transform: translateY(-50%);
+  width: auto;
+  height: calc(100% - 4rem);
+  transition: all 0.5s ease-in-out;
+  margin-right: 3rem; /* Ökar marginalen mellan tagline och bild */
+  margin-left: 0rem;
+}
+
+/* Bilden ska alltid hålla samma avstånd till vänster kant - ingen utflyttning */

@@ -102,9 +102,6 @@ function Footer() {
           </div>
         </div>
       </section>
-      <section className={styles.CTASection}>
-        <button className={styles.ctaButton}>Boka mig</button>
-      </section>
       <section className={styles.copyrightSection}>
         <p>Copyright 2025</p>
       </section>

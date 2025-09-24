@@ -15,12 +15,16 @@
   height: 110px;
   filter: invert(1);
   object-fit: contain;
+  position: relative;
+  z-index: 20;
 }
 
 .SMGLogo {
   width: auto;
   height: 100%;
   object-fit: contain;
+  position: relative;
+  z-index: 20;
 }
 
 .header.scrolled {
@@ -43,8 +47,8 @@
 }
 
 .blue {
-  background-color: darkblue;
-  color: white;
+  background-color: black;
+  color: black;
   transition: flex 0.5s ease-in-out;
 }
 
@@ -57,7 +61,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-color: white;
+  background-color: black;
   color: black;
   padding: 0.3rem;
 }
@@ -89,7 +93,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   border: 1px solid transparent;
-  background: rgba(0, 0, 0, 0.05);
+  background: white;
   font-size: 0.8rem;
   font-weight: 500;
   white-space: nowrap;
@@ -98,7 +102,7 @@
 }
 
 .language label:hover {
-  background: rgba(0, 0, 0, 0.1);
+  background: lightblue;
   border-color: rgba(0, 0, 0, 0.2);
   transform: translateY(-1px);
 }
@@ -134,7 +138,7 @@
 }
 
 .red {
-  background-color: darkred;
+  background-color: black;
   transition: flex 0.5s ease-in-out;
   color: white;
 }
@@ -157,4 +161,9 @@
 /* Center logo when needed */
 .centerLogo {
   justify-content: center !important;
+}
+
+.bookButton {
+  width: 80%;
+  height: auto;
 }

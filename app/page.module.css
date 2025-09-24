@@ -20,7 +20,12 @@
 
 .listenAndRepertoirSection {
   display: flex;
-  gap: 1rem;
-  padding: 0 1rem;
   align-items: stretch;
+  gap: 0;
+}
+
+.listenAndRepertoirSection > * {
+  flex: 1 1 50%;
+  min-width: 0;
+  box-sizing: border-box;
 }

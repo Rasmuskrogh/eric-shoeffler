@@ -6,6 +6,7 @@ import { useActive } from "../app/context/ActiveContext";
 import Navbar from "./Navbar";
 import { NavItem } from "../types/interfaces";
 import Image from "next/image";
+import Link from "next/link";
 
 function Header() {
   const { active, setActive } = useActive();
@@ -18,11 +19,11 @@ function Header() {
   const [centerRedLogo, setCenterRedLogo] = useState(true);
 
   const blueNavItems: NavItem[] = [
-    { label: "Om mig", href: "/about" },
+    { label: "About me", href: "/about" },
     { label: "Agenda", href: "/agenda" },
-    { label: "Lyssna och se", href: "/listen" },
+    { label: "Listen & watch", href: "/listen" },
     { label: "Press", href: "/press" },
-    { label: "Kontakt & bokning", href: "/contact" },
+    { label: "Contact & bookning", href: "/contact" },
   ];
 
   const redNavItems: NavItem[] = [
@@ -82,13 +83,25 @@ function Header() {
           }`}
         >
           <figure>
-            <Image
-              className={styles.EricLogo}
-              src="/Eric logo.png"
-              alt="Eric Shoeffler"
-              width={100}
-              height={100}
-            />
+            {active ? (
+              <Link href="/">
+                <Image
+                  className={styles.EricLogo}
+                  src="/Eric logo.png"
+                  alt="Eric Shoeffler"
+                  width={100}
+                  height={100}
+                />
+              </Link>
+            ) : (
+              <Image
+                className={styles.EricLogo}
+                src="/Eric logo.png"
+                alt="Eric Shoeffler"
+                width={100}
+                height={100}
+              />
+            )}
           </figure>
           {showBlueNavbar && (
             <div
@@ -158,13 +171,25 @@ function Header() {
           }`}
         >
           <figure>
-            <Image
-              className={styles.SMGLogo}
-              src="/SMG logo.png"
-              alt="Stockholm Music Group"
-              width={100}
-              height={100}
-            />
+            {!active ? (
+              <Link href="/">
+                <Image
+                  className={styles.bookButton}
+                  src="/bookButton.svg"
+                  alt="Book button"
+                  width={100}
+                  height={100}
+                />
+              </Link>
+            ) : (
+              <Image
+                className={styles.bookButton}
+                src="/bookButton.svg"
+                alt="Book button"
+                width={100}
+                height={100}
+              />
+            )}
           </figure>
           {showRedNavbar && (
             <div

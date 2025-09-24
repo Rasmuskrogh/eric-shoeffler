@@ -20,9 +20,11 @@ function Short() {
             <Image
               src="/ProfilePicture Eric Shoeffler.png"
               alt="Eric Shoeffler"
-              width={300}
-              height={400}
+              width={400}
+              height={500}
               className={styles.image}
+              quality={95}
+              priority
             />
           </figure>
         </section>

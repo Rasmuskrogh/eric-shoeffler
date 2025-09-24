@@ -1,6 +1,5 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
 import styles from "./Hero.module.css";
 import { useActive } from "../app/context/ActiveContext";
 import Image from "next/image";
@@ -27,7 +26,6 @@ const Hero: React.FC = () => {
           />
         </figure>
       </div>
-      <div className={styles.whiteArea} />
       <div className={`${styles.redArea} ${!active ? styles.active : ""}`}>
         <article className={styles.tagline}>
           <h1 className={styles.taglineTitle}>Stockholm Music&nbsp;Group</h1>

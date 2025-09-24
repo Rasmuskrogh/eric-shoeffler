@@ -9,26 +9,19 @@
 }
 
 .blueArea,
-.whiteArea,
 .redArea {
   height: 100%;
-  flex: 1;
+  flex: 0;
   display: flex;
   align-items: center;
 }
 
 .active {
-  flex: 40;
+  flex: 1;
 }
 
 .blueArea {
-  background: linear-gradient(
-    to bottom,
-    darkblue 0%,
-    #3b82f6 20%,
-    #60a5fa 40%,
-    #93c5fd 100%
-  );
+  background: white;
   transition: flex 0.5s ease-in-out;
   display: flex;
   align-items: center;
@@ -37,19 +30,8 @@
   position: relative;
 }
 
-.whiteArea {
-  background-color: white;
-  transition: flex 0.5s ease-in-out;
-}
-
 .redArea {
-  background: linear-gradient(
-    to bottom,
-    darkred 0%,
-    #ef4444 15%,
-    #f87171 30%,
-    #fca5a5 100%
-  );
+  background: rgb(30, 31, 31);
   transition: flex 0.5s ease-in-out;
   display: flex;
   align-items: center;
@@ -101,11 +83,11 @@
 
 .profileImageWrapper {
   position: absolute;
-  right: calc(2rem + 1vw); /* Responsiv marginal baserat på skärmstorlek */
+  right: 0; /* Responsiv marginal baserat på skärmstorlek */
   top: 50%;
   transform: translateY(-50%);
   width: auto;
-  height: calc(100% - 4rem);
+  height: calc(100% + 1px);
   transition: all 0.5s ease-in-out;
   margin-left: 3rem; /* Ökar marginalen mellan tagline och bild */
   margin-right: 0rem;
@@ -115,7 +97,6 @@
   object-fit: contain;
   width: auto;
   height: 100%;
-  border-radius: 2rem;
 }
 
 .redArea .profileImage {

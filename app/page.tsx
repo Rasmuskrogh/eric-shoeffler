@@ -12,8 +12,8 @@ export default function Page() {
       <Hero />
       <Short />
       <section className={styles.listenAndRepertoirSection}>
-        <ListenShort />
         <RepertoirShort />
+        <ListenShort />
       </section>
       <section className={styles.videoSection}>
         <div className={styles.videoContainer}>

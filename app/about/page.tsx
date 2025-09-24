@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./page.module.css";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function AboutPage() {
   return (
@@ -45,10 +46,12 @@ export default function AboutPage() {
 
           <div className={styles.imageSection}>
             <div className={styles.imageContainer}>
-              <img
+              <Image
                 src="/ProfilePicture Eric Shoeffler.png"
                 alt="Eric Shoeffler"
                 className={styles.profileImage}
+                width={300}
+                height={400}
               />
             </div>
           </div>

@@ -23,6 +23,7 @@ export default function Page() {
             frameBorder="0"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
+            border-radius="none"
           />
         </div>
       </section>

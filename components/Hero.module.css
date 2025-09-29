@@ -119,3 +119,38 @@
 }
 
 /* Bilden ska alltid hålla samma avstånd till vänster kant - ingen utflyttning */
+
+/* FORMULÄR STYLING */
+.formContainer {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 80%;
+  max-width: 600px;
+  transition: all 0.5s ease-in-out;
+  z-index: 5;
+}
+
+.formPlaceholder {
+  background: rgba(255, 255, 255, 0.95);
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  text-align: center;
+  color: #1e293b;
+}
+
+.formPlaceholder h2 {
+  font-family: var(--font-playfair), serif;
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  color: #1e293b;
+}
+
+.formPlaceholder p {
+  font-family: var(--font-merriweather), serif;
+  font-size: 1.1rem;
+  color: #64748b;
+}

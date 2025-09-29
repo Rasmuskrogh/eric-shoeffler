@@ -116,7 +116,7 @@ function Header() {
         </div>
       </div>
       <div className={styles.white}>
-        <div className={styles.languageSelector}>
+        {/*         <div className={styles.languageSelector}>
           <div className={styles.language}>
             <input type="radio" name="language" id="swedish" defaultChecked />
             <label htmlFor="swedish">
@@ -159,7 +159,7 @@ function Header() {
               <span className={styles.languageText}>Français</span>
             </label>
           </div>
-        </div>
+        </div> */}
       </div>
       <div
         className={`${styles.red} ${!active ? styles.active : ""}`}

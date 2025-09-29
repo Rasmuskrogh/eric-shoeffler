@@ -3,6 +3,7 @@
 import styles from "./Hero.module.css";
 import { useActive } from "../app/context/ActiveContext";
 import Image from "next/image";
+import ContactForm from "./ContactForm";
 
 const Hero: React.FC = () => {
   const { active } = useActive();
@@ -27,21 +28,9 @@ const Hero: React.FC = () => {
         </figure>
       </div>
       <div className={`${styles.redArea} ${!active ? styles.active : ""}`}>
-        <article className={styles.tagline}>
-          <h1 className={styles.taglineTitle}>Stockholm Music&nbsp;Group</h1>
-          <p className={styles.taglineSubtitle}>
-            Din partner för levande musikupplevelser.
-          </p>
-        </article>
-        <figure className={styles.profileImageWrapper}>
-          <Image
-            className={styles.profileImage}
-            src="/stockholmMusicGroup.jpg"
-            alt="Stockholm Music Group"
-            width={400}
-            height={400}
-          />
-        </figure>
+        <div className={styles.formContainer}>
+          <ContactForm />
+        </div>
       </div>
     </section>
   );

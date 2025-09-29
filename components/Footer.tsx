@@ -8,7 +8,7 @@ function Footer() {
     <footer className={styles.footer}>
       <section className={styles.linksSection}>
         <div className={styles.contactSection}>
-          <h3>Kontakt</h3>
+          <h3>Contact</h3>
           <div className={styles.contactLinks}>
             <a href="mailto:email@server.com" className={styles.contactLink}>
               email@server.com
@@ -17,35 +17,35 @@ function Footer() {
               070-1234567
             </a>
             <Link href="/kontakt" className={styles.contactLink}>
-              → Kontakta mig
+              → Contact me
             </Link>
           </div>
         </div>
         <div className={styles.menuSection}>
-          <h3>Snabbmeny</h3>
+          <h3>Shortcuts</h3>
           <div className={styles.menuItems}>
             <Link href="/" className={styles.menuLink}>
-              Hem
+              Home
             </Link>
             <Link href="/about" className={styles.menuLink}>
-              Om
-            </Link>
-            <Link href="/repertoire" className={styles.menuLink}>
-              Repertoar
-            </Link>
-            <Link href="/listen" className={styles.menuLink}>
-              Lyssna
+              About me
             </Link>
             <Link href="/agenda" className={styles.menuLink}>
               Agenda
             </Link>
+            <Link href="/listen" className={styles.menuLink}>
+              Listen & watch
+            </Link>
+            <Link href="/repertoire" className={styles.menuLink}>
+              Press
+            </Link>
             <Link href="/kontakt" className={styles.menuLink}>
-              Kontakt
+              Contact & booking
             </Link>
           </div>
         </div>
         <div className={styles.socialMediaSection}>
-          <h3>Sociala medier</h3>
+          <h3>Social media</h3>
           <div className={styles.socialIcons}>
             <Link
               href="https://facebook.com"

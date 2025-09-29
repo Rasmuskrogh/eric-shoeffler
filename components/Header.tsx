@@ -27,9 +27,10 @@ function Header() {
   ];
 
   const redNavItems: NavItem[] = [
-    { label: "Band", href: "/band" },
-    { label: "Musik", href: "/music" },
-    { label: "Konserter", href: "/concerts" },
+    { label: "Wedding", href: "#wedding" },
+    { label: "Funeral", href: "#funeral" },
+    { label: "Concert", href: "#concert" },
+    { label: "Contact", href: "#contact" },
   ];
 
   useEffect(() => {
@@ -63,7 +64,8 @@ function Header() {
     setBlueNavbarOpacity(0);
     setTimeout(() => {
       setShowBlueNavbar(false);
-      setCenterBlueLogo(true);
+      // Ta bort centreringen av Eric-logon när BOOK-sidan är aktiv
+      // setCenterBlueLogo(true);
     }, 300);
     setTimeout(() => {
       setShowRedNavbar(true);
@@ -115,8 +117,8 @@ function Header() {
           )}
         </div>
       </div>
-      <div className={styles.white}>
-        {/*         <div className={styles.languageSelector}>
+      {/* <div className={styles.white}>
+                 <div className={styles.languageSelector}>
           <div className={styles.language}>
             <input type="radio" name="language" id="swedish" defaultChecked />
             <label htmlFor="swedish">
@@ -159,8 +161,8 @@ function Header() {
               <span className={styles.languageText}>Français</span>
             </label>
           </div>
-        </div> */}
-      </div>
+        </div> 
+      </div> */}
       <div
         className={`${styles.red} ${!active ? styles.active : ""}`}
         onClick={!active ? undefined : handleRedClick}

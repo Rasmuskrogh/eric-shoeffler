@@ -14,40 +14,44 @@ export default function PressPage() {
           <div className={styles.pressItem}>
             <div className={styles.pressHeader}>
               <h3 className={styles.pressTitle}>
-                "En mästerlig tolkning av klassisk sång"
+                &quot;En mästerlig tolkning av klassisk sång&quot;
               </h3>
               <span className={styles.pressSource}>Dagens Nyheter</span>
             </div>
             <p className={styles.pressQuote}>
-              "Eric Schoeffler levererar en exceptionell prestation som visar
-              både tekniskt mästerskap och djup emotionell förståelse. Hans
-              tolkning av Schubert-romanser är helt enkelt magisk."
+              &quot;Eric Schoeffler levererar en exceptionell prestation som
+              visar både tekniskt mästerskap och djup emotionell förståelse.
+              Hans tolkning av Schubert-romanser är helt enkelt magisk.&quot;
             </p>
             <div className={styles.pressDate}>15 februari 2024</div>
           </div>
 
           <div className={styles.pressItem}>
             <div className={styles.pressHeader}>
-              <h3 className={styles.pressTitle}>"Opera på högsta nivå"</h3>
+              <h3 className={styles.pressTitle}>
+                &quot;Opera på högsta nivå&quot;
+              </h3>
               <span className={styles.pressSource}>Svenska Dagbladet</span>
             </div>
             <p className={styles.pressQuote}>
-              "I rollen som Figaro visar Schoeffler en sällsynt kombination av
-              komisk timing och vokal precision. En föreställning som kommer att
-              bli ihågkommen länge."
+              &quot;I rollen som Figaro visar Schoeffler en sällsynt kombination
+              av komisk timing och vokal precision. En föreställning som kommer
+              att bli ihågkommen länge.&quot;
             </p>
             <div className={styles.pressDate}>8 mars 2024</div>
           </div>
 
           <div className={styles.pressItem}>
             <div className={styles.pressHeader}>
-              <h3 className={styles.pressTitle}>"En röst som berör"</h3>
+              <h3 className={styles.pressTitle}>
+                &quot;En röst som berör&quot;
+              </h3>
               <span className={styles.pressSource}>Göteborgs-Posten</span>
             </div>
             <p className={styles.pressQuote}>
-              "Schoefflers baryton har en unik färg och kraft som får publiken
-              att lyssna med andan i halsen. Hans förmåga att förmedla känslor
-              genom sång är helt enkelt imponerande."
+              &quot;Schoefflers baryton har en unik färg och kraft som får
+              publiken att lyssna med andan i halsen. Hans förmåga att förmedla
+              känslor genom sång är helt enkelt imponerande.&quot;
             </p>
             <div className={styles.pressDate}>22 januari 2024</div>
           </div>
@@ -55,14 +59,14 @@ export default function PressPage() {
           <div className={styles.pressItem}>
             <div className={styles.pressHeader}>
               <h3 className={styles.pressTitle}>
-                "Konsertrecension: Romansprogram"
+                &quot;Konsertrecension: Romansprogram&quot;
               </h3>
               <span className={styles.pressSource}>Kulturmagasinet</span>
             </div>
             <p className={styles.pressQuote}>
-              "En intim kväll med romantiska sånger som visar Schoefflers breda
-              repertoar. Från svenska visor till franska chansons - allt
-              framförs med samma passion och precision."
+              &quot;En intim kväll med romantiska sånger som visar Schoefflers
+              breda repertoar. Från svenska visor till franska chansons - allt
+              framförs med samma passion och precision.&quot;
             </p>
             <div className={styles.pressDate}>5 december 2023</div>
           </div>

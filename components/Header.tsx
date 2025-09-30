@@ -27,10 +27,10 @@ function Header() {
   ];
 
   const redNavItems: NavItem[] = [
-    { label: "Wedding", href: "#wedding" },
+    /*  { label: "Wedding", href: "#wedding" },
     { label: "Funeral", href: "#funeral" },
     { label: "Concert", href: "#concert" },
-    { label: "Contact", href: "#contact" },
+    { label: "Contact", href: "#contact" }, */
   ];
 
   useEffect(() => {

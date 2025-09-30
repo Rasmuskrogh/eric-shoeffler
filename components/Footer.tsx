@@ -11,10 +11,10 @@ function Footer() {
           <h3>Contact</h3>
           <div className={styles.contactLinks}>
             <a href="mailto:email@server.com" className={styles.contactLink}>
-              email@server.com
+              eric_schoeffler@hotmail.com
             </a>
-            <a href="tel:070-1234567" className={styles.contactLink}>
-              070-1234567
+            <a href="tel:+46735362254" className={styles.contactLink}>
+              +46735362254
             </a>
             <Link href="/kontakt" className={styles.contactLink}>
               → Contact me
@@ -36,10 +36,10 @@ function Footer() {
             <Link href="/listen" className={styles.menuLink}>
               Listen & watch
             </Link>
-            <Link href="/repertoire" className={styles.menuLink}>
+            <Link href="/press" className={styles.menuLink}>
               Press
             </Link>
-            <Link href="/kontakt" className={styles.menuLink}>
+            <Link href="/contact" className={styles.menuLink}>
               Contact & booking
             </Link>
           </div>

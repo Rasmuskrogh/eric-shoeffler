@@ -12,7 +12,7 @@ const Hero: React.FC = () => {
     <section className={styles.hero}>
       <div className={`${styles.blueArea} ${active ? styles.active : ""}`}>
         <article className={styles.tagline}>
-          <h1 className={styles.taglineTitle}>Eric Shoeffler</h1>
+          <h1 className={styles.taglineTitle}>Eric Schoeffler</h1>
           <p className={styles.taglineSubtitle}>
             Upplev klassisk musik med passion och precision.
           </p>

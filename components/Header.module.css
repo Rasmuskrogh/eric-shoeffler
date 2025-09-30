@@ -19,14 +19,6 @@
   z-index: 20;
 }
 
-.SMGLogo {
-  width: auto;
-  height: 100%;
-  object-fit: contain;
-  position: relative;
-  z-index: 20;
-}
-
 .header.scrolled {
   opacity: 0.8;
   backdrop-filter: blur(10px);
@@ -165,7 +157,7 @@
 }
 
 .bookButton {
-  width: 80%;
+  width: 60%;
   height: auto;
-  min-width: 215px;
+  min-width: 180px;
 }

@@ -7,6 +7,7 @@ export default function ContactForm() {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
+    tel: "",
     message: "",
   });
   const [status, setStatus] = useState<
@@ -26,7 +27,7 @@ export default function ContactForm() {
     try {
       // await sendEmail(formData);
       console.log("Form data:", formData);
-      setFormData({ name: "", email: "", message: "" });
+      setFormData({ name: "", email: "", tel: "", message: "" });
       setStatus("success");
     } catch {
       setStatus("error");
@@ -34,9 +35,6 @@ export default function ContactForm() {
   };
 
   return (
-    /*  <section id="contact" className={styles.contactSection} data-color="dark">
-      <div className={styles.container}>
-        <h2 className={styles.title}>Kontakta Eric</h2> */
     <div className={styles.formWrapper}>
       <form onSubmit={handleSubmit} className={styles.form}>
         <label className={styles.label}>
@@ -64,7 +62,18 @@ export default function ContactForm() {
             placeholder="Your email"
           />
         </label>
-
+        <label className={styles.label}>
+          <span className={styles.labelText}>Phone number</span>
+          <input
+            type="tel"
+            name="tel"
+            value={formData.tel}
+            onChange={handleChange}
+            required
+            className={styles.input}
+            placeholder="Your phone number"
+          />
+        </label>
         <label className={styles.label}>
           <span className={styles.labelText}>Message</span>
           <textarea
@@ -86,7 +95,5 @@ export default function ContactForm() {
         </button>
       </form>
     </div>
-    /*   </div>
-    </section> */
   );
 }

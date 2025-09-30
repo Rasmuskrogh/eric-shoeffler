@@ -55,7 +55,6 @@
 .menuLink {
   color: #e2e8f0;
   text-decoration: none;
-  transition: all 0.3s ease;
   font-family: var(--font-merriweather), serif;
   font-size: 0.95rem;
   padding: 0.5rem 1rem;
@@ -63,13 +62,13 @@
   position: relative;
   background: rgba(30, 41, 59, 0.3);
   border: 1px solid transparent;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .menuLink:hover {
-  color: #60a5fa;
-  background: rgba(0, 0, 139, 0.1);
-  border-color: darkblue;
-  transform: translateY(-2px);
+  background-color: rgb(0, 0, 88);
+  transform: translateY(-4px) scale(1.05);
 }
 
 .contactLinks {
@@ -82,33 +81,20 @@
 .contactLink {
   color: #cbd5e1;
   text-decoration: none;
-  transition: all 0.3s ease;
   font-family: var(--font-merriweather), serif;
   font-size: 0.95rem;
   display: inline-block;
   padding: 0.25rem 0;
   position: relative;
+  cursor: pointer;
+  background: none;
+  border: none;
+  transition: all 0.3s ease;
 }
 
 .contactLink:hover {
-  color: #60a5fa;
-  transform: translateX(4px);
-}
-
-.contactLink::before {
-  content: "";
-  position: absolute;
-  left: -8px;
-  top: 50%;
-  transform: translateY(-50%);
-  width: 0;
-  height: 1px;
-  background: darkblue;
-  transition: width 0.3s ease;
-}
-
-.contactLink:hover::before {
-  width: 6px;
+  color: rgb(109, 109, 255);
+  transform: translateY(-4px) scale(1.05);
 }
 
 .socialIcons {

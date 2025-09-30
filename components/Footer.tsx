@@ -1,9 +1,22 @@
+"use client";
+
 import React from "react";
 import styles from "./Footer.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { useActive } from "../app/context/ActiveContext";
+import { useRouter } from "next/navigation";
 
 function Footer() {
+  const { setActive } = useActive();
+  const router = useRouter();
+
+  const handleContactClick = () => {
+    router.push("/");
+    setActive(false); // Gå till formulärssidan
+    // Navbar försvinner automatiskt när active blir false
+  };
+
   return (
     <footer className={styles.footer}>
       <section className={styles.linksSection}>
@@ -16,9 +29,9 @@ function Footer() {
             <a href="tel:+46735362254" className={styles.contactLink}>
               +46735362254
             </a>
-            <Link href="/kontakt" className={styles.contactLink}>
+            <button onClick={handleContactClick} className={styles.contactLink}>
               → Contact me
-            </Link>
+            </button>
           </div>
         </div>
         <div className={styles.menuSection}>
@@ -39,9 +52,9 @@ function Footer() {
             <Link href="/press" className={styles.menuLink}>
               Press
             </Link>
-            <Link href="/contact" className={styles.menuLink}>
+            <button onClick={handleContactClick} className={styles.menuLink}>
               Contact & booking
-            </Link>
+            </button>
           </div>
         </div>
         <div className={styles.socialMediaSection}>

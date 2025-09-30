@@ -1,7 +1,7 @@
 .spacer {
   width: 100%;
   min-height: 5rem;
-  background-color: rgb(30, 31, 31); /* Samma färg som redArea/header */
+  background-color: rgb(30, 31, 31);
 }
 
 .text {

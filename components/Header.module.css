@@ -160,4 +160,14 @@
   width: 60%;
   height: auto;
   min-width: 180px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.bookButton:hover rect {
+  fill: white !important;
+}
+
+.bookButton:hover text {
+  fill: black !important;
 }

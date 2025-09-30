@@ -1,0 +1,157 @@
+.container {
+  min-height: 100vh;
+  padding-top: 8rem;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+}
+
+.content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.title {
+  font-family: var(--font-playfair), serif;
+  font-size: 3rem;
+  font-weight: 600;
+  color: #1e293b;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  font-family: var(--font-merriweather), serif;
+  font-size: 1.2rem;
+  color: #64748b;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+.events {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.event {
+  display: flex;
+  background: white;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.event:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.eventDate {
+  background: #1e293b;
+  color: white;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-width: 100px;
+}
+
+.day {
+  font-size: 2rem;
+  font-weight: bold;
+  line-height: 1;
+}
+
+.month {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.eventDetails {
+  padding: 1.5rem;
+  flex: 1;
+}
+
+.eventTitle {
+  font-family: var(--font-playfair), serif;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 0.5rem;
+}
+
+.eventLocation {
+  font-size: 1rem;
+  color: #64748b;
+  margin-bottom: 0.25rem;
+}
+
+.eventTime {
+  font-size: 1rem;
+  color: #64748b;
+  margin-bottom: 1rem;
+}
+
+.eventDescription {
+  font-family: var(--font-merriweather), serif;
+  line-height: 1.6;
+  color: #475569;
+}
+
+.contactInfo {
+  background: white;
+  padding: 2rem;
+  border-radius: 1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+.contactInfo h2 {
+  font-family: var(--font-playfair), serif;
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1e293b;
+  margin-bottom: 1rem;
+}
+
+.contactInfo p {
+  font-family: var(--font-merriweather), serif;
+  color: #64748b;
+  margin-bottom: 1.5rem;
+}
+
+.contactDetails {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.contactDetails p {
+  margin: 0;
+  font-size: 1rem;
+  color: #1e293b;
+}
+
+@media (max-width: 768px) {
+  .event {
+    flex-direction: column;
+  }
+
+  .eventDate {
+    flex-direction: row;
+    gap: 1rem;
+    min-width: auto;
+  }
+
+  .day {
+    font-size: 1.5rem;
+  }
+
+  .title {
+    font-size: 2rem;
+  }
+}

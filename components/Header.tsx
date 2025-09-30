@@ -7,9 +7,12 @@ import Navbar from "./Navbar";
 import { NavItem } from "../types/interfaces";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter, usePathname } from "next/navigation";
 
 function Header() {
   const { active, setActive } = useActive();
+  const router = useRouter();
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [showBlueNavbar, setShowBlueNavbar] = useState(true);
   const [blueNavbarOpacity, setBlueNavbarOpacity] = useState(1);
@@ -23,7 +26,7 @@ function Header() {
     { label: "Agenda", href: "/agenda" },
     { label: "Listen & watch", href: "/listen" },
     { label: "Press", href: "/press" },
-    { label: "Contact & bookning", href: "/contact" },
+    { label: "Contact & bookning", href: "#contact" },
   ];
 
   const redNavItems: NavItem[] = [
@@ -57,7 +60,31 @@ function Header() {
     }, 500);
   };
 
+  // Handle when active state changes from external sources (like contact buttons)
+  useEffect(() => {
+    if (!active) {
+      // Hide blue navbar when going to contact form
+      setBlueNavbarOpacity(0);
+      setCenterBlueLogo(false);
+      setCenterRedLogo(false);
+      setTimeout(() => {
+        setShowBlueNavbar(false);
+        // Ta bort centreringen av Eric-logon när BOOK-sidan är aktiv
+        // setCenterBlueLogo(true);
+      }, 300);
+      setTimeout(() => {
+        setShowRedNavbar(true);
+        setRedNavbarOpacity(1);
+      }, 500);
+    }
+  }, [active]);
+
   const handleRedClick = () => {
+    // Navigate to home page if not already there
+    if (pathname !== "/") {
+      router.push("/");
+    }
+
     setActive(false);
     setCenterBlueLogo(false);
     setCenterRedLogo(false);
@@ -175,22 +202,72 @@ function Header() {
           <figure>
             {!active ? (
               <Link href="/">
-                <Image
-                  className={styles.bookButton}
-                  src="/bookButton.svg"
-                  alt="Book button"
-                  width={100}
-                  height={100}
-                />
+                <div className={styles.bookButton}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    viewBox="0 0 120 50"
+                    width="100%"
+                    height="100%"
+                  >
+                    <rect
+                      x="2"
+                      y="2"
+                      width="116"
+                      height="46"
+                      rx="8"
+                      ry="8"
+                      fill="transparent"
+                      stroke="white"
+                      strokeWidth="2"
+                    />
+                    <text
+                      x="50%"
+                      y="52%"
+                      dominantBaseline="middle"
+                      textAnchor="middle"
+                      fill="white"
+                      fontFamily="Arial, sans-serif"
+                      fontSize="20"
+                      fontWeight="bold"
+                    >
+                      BOOK
+                    </text>
+                  </svg>
+                </div>
               </Link>
             ) : (
-              <Image
-                className={styles.bookButton}
-                src="/bookButton.svg"
-                alt="Book button"
-                width={100}
-                height={100}
-              />
+              <div className={styles.bookButton}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 120 50"
+                  width="100%"
+                  height="100%"
+                >
+                  <rect
+                    x="2"
+                    y="2"
+                    width="116"
+                    height="46"
+                    rx="8"
+                    ry="8"
+                    fill="transparent"
+                    stroke="white"
+                    strokeWidth="2"
+                  />
+                  <text
+                    x="50%"
+                    y="52%"
+                    dominantBaseline="middle"
+                    textAnchor="middle"
+                    fill="white"
+                    fontFamily="Arial, sans-serif"
+                    fontSize="20"
+                    fontWeight="bold"
+                  >
+                    BOOK
+                  </text>
+                </svg>
+              </div>
             )}
           </figure>
           {showRedNavbar && (

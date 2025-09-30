@@ -19,8 +19,14 @@
   gap: 0;
 }
 
-.listenAndRepertoirSection > * {
-  flex: 1 1 50%;
+.listenAndRepertoirSection > *:first-child {
+  flex: 1 1 47%;
+  min-width: 0;
+  box-sizing: border-box;
+}
+
+.listenAndRepertoirSection > *:last-child {
+  flex: 1 1 53%;
   min-width: 0;
   box-sizing: border-box;
 }

@@ -80,7 +80,7 @@ export default function ListenPage() {
                     width="100%"
                     height="352"
                     frameBorder="0"
-                    allowtransparency="true"
+                    allowTransparency={true}
                     allow="encrypted-media"
                   ></iframe>
                 </div>
@@ -94,7 +94,7 @@ export default function ListenPage() {
                     width="100%"
                     height="352"
                     frameBorder="0"
-                    allowtransparency="true"
+                    allowTransparency={true}
                     allow="encrypted-media"
                   ></iframe>
                 </div>

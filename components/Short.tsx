@@ -22,6 +22,7 @@ function Short() {
               alt="Eric Shoeffler"
               width={400}
               height={500}
+              /* fill */
               className={styles.image}
               quality={95}
               priority

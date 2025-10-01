@@ -1,17 +1,28 @@
 .repertoirSection {
-  width: 100%;
-  height: 100%;
+  flex: 1 1 47%;
+  min-width: 0;
   display: flex;
-  align-items: center;
+  align-items: stretch;
   justify-content: center;
   overflow: hidden;
   background-color: black;
   box-sizing: border-box;
+  position: relative;
+}
+
+.repertoirSection figure {
+  position: relative;
+  flex: 1;
+  margin: 0;
 }
 
 .quartetImage {
-  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
   height: 100%;
-  object-fit: contain;
-  object-position: center center;
+  width: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  object-position: center;
 }

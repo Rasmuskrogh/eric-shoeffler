@@ -20,6 +20,7 @@ function Header() {
   const [redNavbarOpacity, setRedNavbarOpacity] = useState(0);
   const [centerBlueLogo, setCenterBlueLogo] = useState(false);
   const [centerRedLogo, setCenterRedLogo] = useState(true);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const blueNavItems: NavItem[] = [
     { label: "About me", href: "/about" },
@@ -80,6 +81,14 @@ function Header() {
   }, [active]);
 
   const handleRedClick = () => {
+    console.log(
+      "handleRedClick called - current pathname:",
+      pathname,
+      "current active:",
+      active
+    );
+    console.trace("handleRedClick called from:");
+
     // Navigate to home page if not already there
     if (pathname !== "/") {
       router.push("/");
@@ -98,6 +107,11 @@ function Header() {
       setShowRedNavbar(true);
       setRedNavbarOpacity(1);
     }, 500);
+  };
+
+  const handleMobileMenuToggle = (e: React.MouseEvent) => {
+    e.stopPropagation(); // Stoppa event från att bubbla upp
+    setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   return (
@@ -281,6 +295,49 @@ function Header() {
             </div>
           )}
         </div>
+
+        {/* Mobile hamburger menu */}
+        <div className={styles.mobileMenuButton}>
+          <button
+            className={styles.hamburgerButton}
+            onClick={handleMobileMenuToggle}
+            aria-label="Toggle mobile menu"
+          >
+            <span
+              className={`${styles.hamburgerLine} ${
+                isMobileMenuOpen ? styles.open : ""
+              }`}
+            ></span>
+            <span
+              className={`${styles.hamburgerLine} ${
+                isMobileMenuOpen ? styles.open : ""
+              }`}
+            ></span>
+            <span
+              className={`${styles.hamburgerLine} ${
+                isMobileMenuOpen ? styles.open : ""
+              }`}
+            ></span>
+          </button>
+        </div>
+
+        {/* Mobile menu overlay */}
+        {isMobileMenuOpen && (
+          <>
+            <div
+              className={styles.mobileMenuOverlay}
+              onClick={handleMobileMenuToggle}
+            ></div>
+            <div className={styles.mobileMenu}>
+              <Navbar
+                type="blue"
+                items={blueNavItems}
+                show={true}
+                onItemClick={() => setIsMobileMenuOpen(false)}
+              />
+            </div>
+          </>
+        )}
       </div>
     </header>
   );

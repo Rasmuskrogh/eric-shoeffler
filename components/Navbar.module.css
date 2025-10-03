@@ -78,3 +78,17 @@
 .navbar.white .navLink {
   color: #374151;
 }
+
+@media (width < 875px) {
+  .navList {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  .navbar.blue {
+    padding-left: 0rem;
+  }
+  .navLink {
+    font-size: 1.9rem;
+    border: none;
+  }
+}

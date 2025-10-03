@@ -7,4 +7,5 @@ export interface NavbarProps {
   type: "blue" | "red" | "white";
   items: NavItem[];
   show: boolean;
+  onItemClick?: () => void;
 }

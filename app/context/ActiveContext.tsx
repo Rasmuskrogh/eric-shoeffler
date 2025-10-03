@@ -10,7 +10,13 @@ interface ActiveContextType {
 const ActiveContext = createContext<ActiveContextType | undefined>(undefined);
 
 export function ActiveProvider({ children }: { children: ReactNode }) {
-  const [active, setActive] = useState(true);
+  const [active, setActiveState] = useState(true);
+
+  const setActive = (value: boolean) => {
+    console.log("setActive called with:", value);
+    console.trace("Stack trace:");
+    setActiveState(value);
+  };
 
   return (
     <ActiveContext.Provider value={{ active, setActive }}>

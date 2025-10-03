@@ -6,15 +6,28 @@ import { NavbarProps } from "../types/interfaces";
 import { useActive } from "../app/context/ActiveContext";
 import { useRouter } from "next/navigation";
 
-const Navbar: React.FC<NavbarProps> = ({ type, items, show }) => {
+const Navbar: React.FC<NavbarProps> = ({ type, items, show, onItemClick }) => {
   const { setActive } = useActive();
   const router = useRouter();
 
   const handleContactClick = (e: React.MouseEvent) => {
     e.preventDefault();
+    e.stopPropagation(); // Stoppa event bubbling
+    if (onItemClick) {
+      onItemClick(); // Stäng hamburgermeny
+    }
     router.push("/");
     setActive(false); // Gå till formulärssidan
     // Navbar försvinner automatiskt när active blir false
+  };
+
+  const handleItemClick = (e: React.MouseEvent, href: string) => {
+    e.preventDefault();
+    e.stopPropagation(); // Stoppa event bubbling
+    if (onItemClick) {
+      onItemClick();
+    }
+    router.push(href);
   };
 
   return (
@@ -31,9 +44,12 @@ const Navbar: React.FC<NavbarProps> = ({ type, items, show }) => {
                 {item.label}
               </button>
             ) : (
-              <a href={item.href} className={styles.navLink}>
+              <button
+                className={styles.navLink}
+                onClick={(e) => handleItemClick(e, item.href)}
+              >
                 {item.label}
-              </a>
+              </button>
             )}
           </li>
         ))}

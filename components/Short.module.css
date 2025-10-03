@@ -86,3 +86,32 @@
   background: rgb(0, 0, 88);
   color: white;
 }
+
+@media (width < 745px) {
+  .short {
+    flex-direction: column;
+  }
+  .presentationShort {
+    width: 100%;
+  }
+  .shortImage {
+    width: 100%;
+    height: auto;
+    align-items: flex-start;
+  }
+
+  .shortImage figure {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .shortImage .image {
+    position: relative;
+    width: 100%;
+    height: auto;
+    top: auto;
+    left: auto;
+    transform: none;
+  }
+}

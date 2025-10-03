@@ -26,3 +26,14 @@
   object-fit: cover;
   object-position: center;
 }
+
+@media (width < 850px) {
+  .quartetImage {
+    position: relative;
+    width: 100%;
+    height: auto;
+    top: auto;
+    left: auto;
+    transform: none;
+  }
+}

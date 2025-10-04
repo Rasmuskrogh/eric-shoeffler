@@ -7,7 +7,7 @@
 html,
 body {
   height: 100%;
-  font-family: var(--font-merriweather), serif;
+  font-family: "Inter", sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -19,7 +19,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: var(--font-playfair), serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
 }
 

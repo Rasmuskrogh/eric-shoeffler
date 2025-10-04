@@ -34,15 +34,17 @@
   padding: 0.25rem 0.5rem;
   border-radius: 50px;
   font-size: 0.875rem;
-  border: 2px white solid;
+  border: none; /* 2px white solid */
   white-space: nowrap;
   cursor: pointer;
   background: none;
 }
 
 .navLink:hover {
-  background-color: white;
-  color: black;
+  /* background-color: white;
+  color: black; */
+  /* font-weight: 600; */
+  transform: translateY(-2px) scale(1.1);
 }
 
 /* Type-specific styles */
@@ -57,7 +59,7 @@
 }
 
 .navbar.blue .navLink:hover {
-  color: black;
+  color: white;
 }
 
 .navbar.red {

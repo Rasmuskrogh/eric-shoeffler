@@ -1,8 +1,29 @@
+"use client";
+
+import { useState, useEffect } from "react";
 import styles from "./FormSpacer.module.css";
 
 export default function FormSpacer() {
+  const [isVisible, setIsVisible] = useState(true);
+
+  useEffect(() => {
+    const checkWidth = () => {
+      setIsVisible(window.innerWidth >= 1200);
+    };
+
+    checkWidth();
+    window.addEventListener("resize", checkWidth);
+
+    return () => window.removeEventListener("resize", checkWidth);
+  }, []);
+
+  if (!isVisible) {
+    return null;
+  }
+
   return (
     <div className={styles.spacer}>
+      <div className={styles.emptySpace}></div>
       <p className={styles.text}>
         With a solid vocal education, extensive experience across both classical
         and contemporary genres, and a wide network of musicians, pianists, DJs,

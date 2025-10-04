@@ -23,11 +23,12 @@ function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const blueNavItems: NavItem[] = [
+    { label: "News", href: "/news" },
+    /* { label: "Agenda", href: "/agenda" }, */
+    /* { label: "Press", href: "/press" }, */
+    { label: "Schedule", href: "#contact" },
+    { label: "Media", href: "/listen" },
     { label: "About me", href: "/about" },
-    { label: "Agenda", href: "/agenda" },
-    { label: "Listen & watch", href: "/listen" },
-    { label: "Press", href: "/press" },
-    { label: "Contact & bookning", href: "#contact" },
   ];
 
   const redNavItems: NavItem[] = [
@@ -244,7 +245,7 @@ function Header() {
                       fontSize="20"
                       fontWeight="bold"
                     >
-                      BOOK
+                      REQUEST
                     </text>
                   </svg>
                 </div>
@@ -278,7 +279,7 @@ function Header() {
                     fontSize="20"
                     fontWeight="bold"
                   >
-                    BOOK
+                    REQUEST
                   </text>
                 </svg>
               </div>

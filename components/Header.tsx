@@ -23,20 +23,14 @@ function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const blueNavItems: NavItem[] = [
+    { label: "Home", href: "/" },
     { label: "News", href: "/news" },
-    /* { label: "Agenda", href: "/agenda" }, */
-    /* { label: "Press", href: "/press" }, */
-    { label: "Schedule", href: "#contact" },
+    { label: "Schedule", href: "/agenda" },
     { label: "Media", href: "/listen" },
     { label: "About me", href: "/about" },
   ];
 
-  const redNavItems: NavItem[] = [
-    /*  { label: "Wedding", href: "#wedding" },
-    { label: "Funeral", href: "#funeral" },
-    { label: "Concert", href: "#concert" },
-    { label: "Contact", href: "#contact" }, */
-  ];
+  const redNavItems: NavItem[] = [];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -237,7 +231,7 @@ function Header() {
                     />
                     <text
                       x="50%"
-                      y="52%"
+                      y="54%"
                       dominantBaseline="middle"
                       textAnchor="middle"
                       fill="white"
@@ -271,7 +265,7 @@ function Header() {
                   />
                   <text
                     x="50%"
-                    y="52%"
+                    y="54%"
                     dominantBaseline="middle"
                     textAnchor="middle"
                     fill="white"

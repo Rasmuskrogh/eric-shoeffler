@@ -20,7 +20,7 @@ function Footer() {
   return (
     <footer className={styles.footer}>
       <section className={styles.linksSection}>
-        <div className={styles.contactSection}>
+        <section className={styles.contactSection}>
           <h3>Contact</h3>
           <div className={styles.contactLinks}>
             <a href="mailto:email@server.com" className={styles.contactLink}>
@@ -30,11 +30,11 @@ function Footer() {
               +46735362254
             </a>
             <button onClick={handleContactClick} className={styles.contactLink}>
-              → Contact me
+              → Schedule
             </button>
           </div>
-        </div>
-        <div className={styles.menuSection}>
+        </section>
+        <section className={styles.menuSection}>
           {/* <h3>Shortcuts</h3> */}
           <div className={styles.menuItems}>
             <Link href="/" className={styles.menuLink}>
@@ -44,20 +44,14 @@ function Footer() {
               About me
             </Link>
             <Link href="/agenda" className={styles.menuLink}>
-              Agenda
+              Schedule
             </Link>
             <Link href="/listen" className={styles.menuLink}>
-              Listen & watch
+              Media
             </Link>
-            <Link href="/press" className={styles.menuLink}>
-              Press
-            </Link>
-            <button onClick={handleContactClick} className={styles.menuLink}>
-              Contact & booking
-            </button>
           </div>
-        </div>
-        <div className={styles.socialMediaSection}>
+        </section>
+        <section className={styles.socialMediaSection}>
           <h3>Social media</h3>
           <div className={styles.socialIcons}>
             <Link
@@ -113,7 +107,7 @@ function Footer() {
               />
             </Link>
           </div>
-        </div>
+        </section>
       </section>
       <section className={styles.copyrightSection}>
         <p>Copyright 2025</p>

@@ -159,7 +159,7 @@
 .bookButton {
   width: 60%;
   height: auto;
-  min-width: 180px;
+  min-width: 150px;
   transition: all 0.3s ease;
   cursor: pointer;
 }
@@ -304,5 +304,11 @@
   /* Hide regular navbar on mobile */
   .textWrapper > div {
     display: none !important;
+  }
+}
+
+@media (width < 440px) {
+  .bookButton {
+    min-width: 106px;
   }
 }

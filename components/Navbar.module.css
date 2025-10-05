@@ -4,7 +4,7 @@
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
   transition: opacity 0.3s ease-in-out;
   display: flex;
-  justify-content: flex-start;
+  justify-content: center;
   align-items: center;
   position: absolute;
   top: 0;
@@ -33,7 +33,7 @@
   font-weight: 500;
   padding: 0.25rem 0.5rem;
   border-radius: 50px;
-  font-size: 0.875rem;
+  font-size: 1rem;
   border: none; /* 2px white solid */
   white-space: nowrap;
   cursor: pointer;

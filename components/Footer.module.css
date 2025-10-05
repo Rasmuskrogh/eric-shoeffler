@@ -12,8 +12,8 @@
 }
 
 .linksSection {
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  display: flex;
+  justify-content: space-between;
   gap: 2rem;
   margin-bottom: 2rem;
   padding: 0 2rem;
@@ -21,6 +21,7 @@
   margin-left: auto;
   margin-right: auto;
   transform: translateX(-2rem);
+  flex-wrap: wrap;
 }
 
 .socialMediaSection,
@@ -30,6 +31,8 @@
   flex-direction: column;
   align-items: center;
   text-align: center;
+  flex: 1;
+  min-width: 155px;
 }
 
 .socialMediaSection h3,
@@ -146,4 +149,65 @@
   transform: translateX(-50%);
   width: 60px;
   height: 1px;
+}
+
+@media (max-width: 841px) {
+  .linksSection {
+    justify-content: center;
+    transform: translateX(0);
+  }
+
+  .contactSection,
+  .menuSection {
+    flex: 0 0 auto;
+    flex-basis: 45%;
+  }
+
+  .socialMediaSection {
+    flex: 0 0 100%;
+    order: 3;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 561px) {
+  .linksSection {
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .socialMediaSection,
+  .contactSection,
+  .menuSection {
+    flex: none;
+    width: 100%;
+    max-width: 400px;
+  }
+
+  .contactSection {
+    order: 1;
+  }
+
+  .menuSection {
+    order: 2;
+  }
+
+  .socialMediaSection {
+    order: 3;
+    margin-top: 0;
+  }
+}
+
+@media (width < 410px) {
+  .linksSection {
+    padding: 0 1rem;
+  }
+}
+
+@media (width < 367px) {
+  .footer {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
 }

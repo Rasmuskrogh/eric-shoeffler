@@ -28,9 +28,11 @@ const Hero: React.FC = () => {
         </figure>
       </div>
       <div className={`${styles.redArea} ${!active ? styles.active : ""}`}>
-        <div className={styles.formContainer}>
-          <ContactForm />
-        </div>
+        {!active && (
+          <div className={styles.formContainer}>
+            <ContactForm />
+          </div>
+        )}
       </div>
     </section>
   );

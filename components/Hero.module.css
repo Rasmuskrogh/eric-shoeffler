@@ -127,8 +127,19 @@
   transform: translate(-50%, -50%);
   width: 80%;
   max-width: 600px;
-  transition: all 0.5s ease-in-out;
   z-index: 5;
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+  }
 }
 
 .formPlaceholder {

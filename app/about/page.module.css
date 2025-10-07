@@ -76,6 +76,7 @@
   height: auto;
   border-radius: 1rem;
   object-fit: cover;
+  object-position: center 20%;
   aspect-ratio: 1/1;
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
 }

@@ -44,12 +44,12 @@
   left: calc(2rem + 1vw); /* Responsiv marginal baserat på skärmstorlek */
   top: 50%;
   transform: translateY(-50%);
-  width: 40%;
+  width: 32%;
   transition: all 0.5s ease-in-out;
 }
 
 .blueArea:not(.active) .tagline {
-  left: calc(-240px - 1vw); /* Responsiv utflyttning */
+  left: calc(-242px - 1vw); /* Responsiv utflyttning */
 }
 
 .redArea .tagline {
@@ -101,7 +101,7 @@
 .redArea .profileImage {
   width: 89%;
   object-fit: cover;
-  object-position: center;
+  object-position: center center;
 }
 
 .redArea .profileImageWrapper {
@@ -123,7 +123,7 @@
 .formContainer {
   position: absolute;
   left: 50%;
-  top: 50%;
+  top: 18rem;
   transform: translate(-50%, -50%);
   width: 80%;
   max-width: 600px;
@@ -161,11 +161,27 @@
 
   .tagline {
     z-index: 9;
-    top: 80%;
+    top: auto;
+    bottom: -2rem;
     color: white;
     background-color: rgba(0, 0, 0, 0.5);
     padding: 0.5rem 1rem 1rem 1rem;
     border-radius: 1rem;
+    transition: all 0.5s ease-in-out;
+    width: 40%;
+  }
+
+  .blueArea .tagline {
+    right: 2rem;
+    left: auto;
+    opacity: 1;
+    transition: all 0.5s ease-in-out;
+  }
+
+  .blueArea:not(.active) .tagline {
+    right: calc(2rem + 100vw);
+    left: auto;
+    opacity: 0;
   }
 }
 

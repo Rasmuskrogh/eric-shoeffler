@@ -18,7 +18,9 @@ function Short() {
         <section className={styles.shortImage}>
           <figure>
             <Image
-              src="/ProfilePicture Eric Shoeffler.png"
+              /* src="/ProfilePicture Eric Shoeffler.png" */
+              /* src="/eric-short.JPG" */
+              src="/eric-no-background.png"
               alt="Eric Shoeffler"
               width={400}
               height={500}

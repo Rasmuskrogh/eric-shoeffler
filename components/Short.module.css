@@ -20,11 +20,10 @@
 
 .shortImage {
   width: 50%;
-  background-color: #b17965;
+  background: linear-gradient(0.25turn, #000000, #1d104e, #000000);
   overflow: hidden;
   position: relative;
   display: flex;
-  /* justify-content: center; */
   align-items: stretch;
 }
 
@@ -43,11 +42,9 @@
   height: 100%;
   width: auto;
   transform: translate(-50%, -50%);
-  min-width: none;
   object-fit: cover;
   object-position: center;
   display: block;
-  /*  margin-bottom: -4px; */
 }
 
 .title {

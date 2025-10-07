@@ -20,7 +20,7 @@ const Hero: React.FC = () => {
         <figure className={styles.profileImageWrapper}>
           <Image
             className={styles.profileImage}
-            src="/Eric with Piano.jpg"
+            src="/eric-hero.jpg"
             alt="Erik Shoeffler"
             width={400}
             height={400}

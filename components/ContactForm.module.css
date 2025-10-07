@@ -51,12 +51,6 @@
   margin: 5rem auto 0 auto;
 }
 
-@media (width < 1350px) {
-  .formWrapper {
-    margin: 8rem auto 0 auto;
-  }
-}
-
 .form {
   max-width: 28rem;
   margin: 0 auto;

@@ -7,13 +7,13 @@ export default function ListenPage() {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <h1 className={styles.title}>Listen & Watch</h1>
-        <p className={styles.subtitle}>Upptäck Eric Schoefflers musik</p>
+        <h1 className={styles.title}>Media</h1>
+        <p className={styles.subtitle}>Discover Eric Schoeffler’s music</p>
 
         <div className={styles.sections}>
           {/* YouTube Videos Section */}
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Videor</h2>
+            <h2 className={styles.sectionTitle}>Videos</h2>
             <div className={styles.videoGrid}>
               <div className={styles.videoItem}>
                 <div className={styles.videoWrapper}>
@@ -70,13 +70,13 @@ export default function ListenPage() {
 
           {/* Spotify Section */}
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Musik</h2>
+            <h2 className={styles.sectionTitle}>Music</h2>
             <div className={styles.spotifyGrid}>
               <div className={styles.spotifyItem}>
-                <h3 className={styles.spotifyTitle}>Favoritlåtar</h3>
+                <h3 className={styles.spotifyTitle}>Eric Schoeffler - Album</h3>
                 <div className={styles.spotifyEmbed}>
                   <iframe
-                    src="https://open.spotify.com/embed/playlist/37i9dQZF1DXcBWIGoYBM5M"
+                    src="https://open.spotify.com/embed/artist/PLACEHOLDER_ERIC_SCHOEFFLER_ARTIST_ID"
                     width="100%"
                     height="352"
                     frameBorder="0"
@@ -87,10 +87,10 @@ export default function ListenPage() {
               </div>
 
               <div className={styles.spotifyItem}>
-                <h3 className={styles.spotifyTitle}>Klassisk musik</h3>
+                <h3 className={styles.spotifyTitle}>Konsertinspelningar</h3>
                 <div className={styles.spotifyEmbed}>
                   <iframe
-                    src="https://open.spotify.com/embed/playlist/37i9dQZF1DX4sWSpwq3QOo"
+                    src="https://open.spotify.com/embed/playlist/PLACEHOLDER_CONCERT_RECORDINGS_PLAYLIST_ID"
                     width="100%"
                     height="352"
                     frameBorder="0"
@@ -102,66 +102,83 @@ export default function ListenPage() {
             </div>
           </section>
 
-          {/* Audio Files Section */}
+          {/* Gallery Section */}
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Ljudfiler</h2>
-            <div className={styles.audioGrid}>
-              <div className={styles.audioItem}>
-                <div className={styles.audioPlayer}>
-                  <div className={styles.audioInfo}>
-                    <h4>Schubert - Der Erlkönig</h4>
-                    <p>Eric Schoeffler, baryton</p>
-                  </div>
-                  <audio controls className={styles.audio}>
-                    <source src="/audio/der-erlkonig.mp3" type="audio/mpeg" />
-                    Din webbläsare stöder inte ljuduppspelning.
-                  </audio>
+            <h2 className={styles.sectionTitle}>Gallery</h2>
+            <div className={styles.galleryGrid}>
+              <div className={styles.galleryItem}>
+                <img
+                  src="/Eric with Piano.jpg"
+                  alt="Eric Schoeffler med piano"
+                  className={styles.galleryImage}
+                />
+                <div className={styles.galleryOverlay}>
+                  <p className={styles.galleryCaption}>
+                    Eric Schoeffler med piano
+                  </p>
                 </div>
               </div>
 
-              <div className={styles.audioItem}>
-                <div className={styles.audioPlayer}>
-                  <div className={styles.audioInfo}>
-                    <h4>Mozart - Non più andrai</h4>
-                    <p>Eric Schoeffler, baryton</p>
-                  </div>
-                  <audio controls className={styles.audio}>
-                    <source src="/audio/non-piu-andrai.mp3" type="audio/mpeg" />
-                    Din webbläsare stöder inte ljuduppspelning.
-                  </audio>
+              <div className={styles.galleryItem}>
+                <img
+                  src="/ProfilePicture Eric Shoeffler.png"
+                  alt="Eric Schoeffler porträtt"
+                  className={styles.galleryImage}
+                />
+                <div className={styles.galleryOverlay}>
+                  <p className={styles.galleryCaption}>
+                    Porträtt av Eric Schoeffler
+                  </p>
                 </div>
               </div>
 
-              <div className={styles.audioItem}>
-                <div className={styles.audioPlayer}>
-                  <div className={styles.audioInfo}>
-                    <h4>Schumann - Dichterliebe</h4>
-                    <p>Eric Schoeffler, baryton</p>
-                  </div>
-                  <audio controls className={styles.audio}>
-                    <source src="/audio/dichterliebe.mp3" type="audio/mpeg" />
-                    Din webbläsare stöder inte ljuduppspelning.
-                  </audio>
+              <div className={styles.galleryItem}>
+                <img
+                  src="/la-boheme-quartet-large.avif"
+                  alt="La Bohème kvartett"
+                  className={styles.galleryImage}
+                />
+                <div className={styles.galleryOverlay}>
+                  <p className={styles.galleryCaption}>La Bohème kvartett</p>
+                </div>
+              </div>
+
+              <div className={styles.galleryItem}>
+                <img
+                  src="/Eric with Piano.jpg"
+                  alt="Konsertframträdande"
+                  className={styles.galleryImage}
+                />
+                <div className={styles.galleryOverlay}>
+                  <p className={styles.galleryCaption}>Konsertframträdande</p>
+                </div>
+              </div>
+
+              <div className={styles.galleryItem}>
+                <img
+                  src="/ProfilePicture Eric Shoeffler.png"
+                  alt="Eric Schoeffler i studio"
+                  className={styles.galleryImage}
+                />
+                <div className={styles.galleryOverlay}>
+                  <p className={styles.galleryCaption}>
+                    Eric Schoeffler i studio
+                  </p>
+                </div>
+              </div>
+
+              <div className={styles.galleryItem}>
+                <img
+                  src="/la-boheme-quartet-large.avif"
+                  alt="Opera framträdande"
+                  className={styles.galleryImage}
+                />
+                <div className={styles.galleryOverlay}>
+                  <p className={styles.galleryCaption}>Opera framträdande</p>
                 </div>
               </div>
             </div>
           </section>
-        </div>
-
-        <div className={styles.contactInfo}>
-          <h2>Vill du höra mer?</h2>
-          <p>
-            Kontakta Eric för att boka en konsert eller få mer information om
-            hans musik.
-          </p>
-          <div className={styles.contactDetails}>
-            <p>
-              <strong>Email:</strong> eric_schoeffler@hotmail.com
-            </p>
-            <p>
-              <strong>Telefon:</strong> +46735362254
-            </p>
-          </div>
         </div>
       </div>
     </div>

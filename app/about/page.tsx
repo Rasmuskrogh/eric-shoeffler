@@ -46,7 +46,8 @@ export default function AboutPage() {
           <div className={styles.imageSection}>
             <div className={styles.imageContainer}>
               <Image
-                src="/ProfilePicture Eric Shoeffler.png"
+                /* src="/ProfilePicture Eric Shoeffler.png" */
+                src="/eric-about.jpg"
                 alt="Eric Shoeffler"
                 className={styles.profileImage}
                 width={300}

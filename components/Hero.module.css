@@ -179,7 +179,7 @@
     padding: 0.5rem 1rem 1rem 1rem;
     border-radius: 1rem;
     transition: all 0.5s ease-in-out;
-    width: 40%;
+    width: 60%;
   }
 
   .blueArea .tagline {
@@ -196,8 +196,45 @@
   }
 }
 
-@media (width < 894px) {
+@media (width < 800px) {
+  .hero {
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  .profileImageWrapper {
+    margin: 0;
+    width: 100vw;
+  }
+
+  .profileImage {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+}
+
+@media (width <650px) {
   .tagline {
-    width: 60%;
+    width: 50%;
+  }
+  .taglineTitle {
+    font-size: 2rem;
+  }
+  .taglineSubtitle {
+    font-size: 1.3rem;
+  }
+}
+
+@media (width < 564px) {
+  .tagline {
+    width: 50%;
+  }
+  .taglineTitle {
+    font-size: 1.8rem;
+  }
+  .taglineSubtitle {
+    font-size: 1em;
   }
 }

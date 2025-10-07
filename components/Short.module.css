@@ -112,3 +112,42 @@
     transform: none;
   }
 }
+
+@media (width <650px) {
+  .presentationShort {
+    gap: 1rem;
+    padding: 1.2rem;
+  }
+  .title {
+    font-size: 2rem;
+    margin: 0;
+  }
+  .description {
+    font-size: 1.2rem;
+    line-height: 1.3;
+  }
+  .button {
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+  }
+}
+
+/* @media (width <500px) {
+  .presentationShort {
+    gap: 0.5rem;
+    padding: 1rem;
+  }
+  .title {
+    font-size: 1.8rem;
+  }
+  .description {
+    font-size: 1.1rem;
+    line-height: 1.1;
+  }
+  .button {
+    font-size: 0.8rem;
+    padding: 0.6rem 1.3rem;
+    margin-top: 0.3rem;
+  }
+}
+ */

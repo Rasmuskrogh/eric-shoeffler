@@ -30,7 +30,7 @@ function Footer() {
               +46735362254
             </a>
             <button onClick={handleContactClick} className={styles.contactLink}>
-              → Schedule
+              → Request
             </button>
           </div>
         </section>

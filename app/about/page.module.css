@@ -7,9 +7,8 @@
 .aboutTitle {
   font-size: 3rem;
   text-align: center;
-  margin-bottom: 2rem;
-  margin-top: 2rem;
-  font-family: var(--font-playfair), serif;
+  padding: 2rem;
+  font-family: "Poppins", sans-serif;
   font-weight: 800;
   color: darkblue;
 }
@@ -36,7 +35,7 @@
 }
 
 .sectionTitle {
-  font-family: var(--font-playfair), serif;
+  font-family: "Poppins", sans-serif;
   font-size: 2.2rem;
   font-weight: 600;
   color: darkblue;
@@ -49,7 +48,7 @@
 }
 
 .paragraph {
-  font-family: var(--font-merriweather), serif;
+  font-family: "Inter", sans-serif;
   font-size: 1.1rem;
   line-height: 1.8;
   color: #374151;
@@ -95,14 +94,14 @@
 }
 
 .ctaTitle {
-  font-family: var(--font-playfair), serif;
+  font-family: "Poppins", sans-serif;
   font-size: 2.5rem;
   font-weight: 600;
   margin-bottom: 1rem;
 }
 
 .ctaText {
-  font-family: var(--font-merriweather), serif;
+  font-family: "Inter", sans-serif;
   font-size: 1.2rem;
   margin-bottom: 2.5rem;
   opacity: 0.95;
@@ -120,7 +119,7 @@
   padding: 1rem 2.5rem;
   border-radius: 50px;
   text-decoration: none;
-  font-family: var(--font-playfair), serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 600;
   font-size: 1.1rem;
   transition: all 0.3s ease;
@@ -186,5 +185,14 @@
   .secondaryButton {
     width: 100%;
     max-width: 300px;
+  }
+}
+
+@media (width < 440px) {
+  .aboutTitle {
+    font-size: 2.5rem;
+  }
+  .contentSection {
+    padding-top: 0;
   }
 }

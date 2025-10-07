@@ -2,6 +2,7 @@
   width: 100%;
   min-height: 5rem;
   background-color: rgb(30, 31, 31);
+  padding: 0 0 2rem 0;
 }
 
 .emptySpace {
@@ -10,8 +11,14 @@
 
 .text {
   color: white;
-  padding: 2rem 20rem;
-  font-size: 1.2rem;
+  font-family: "Inter", sans-serif;
+  font-size: 1.1rem;
+  text-align: center;
+  margin: 0;
+  padding: 1rem;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 0.5rem;
+  margin: 2rem 10% 0 10%;
 }
 
 @media (width < 1350px) {
@@ -19,3 +26,28 @@
     height: 7rem;
   }
 }
+
+@media (width < 1250px) {
+  .emptySpace {
+    height: 9rem;
+  }
+}
+
+@media (width < 935px) {
+  .spacer {
+    height: 20rem;
+  }
+}
+
+@media (width < 500px) {
+  .spacer {
+    height: 30rem;
+  }
+}
+
+/* @media (width < 360px) {
+  .spacer {
+    height: 35rem;
+  }
+}
+ */

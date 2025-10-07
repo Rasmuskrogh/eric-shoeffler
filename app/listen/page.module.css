@@ -11,7 +11,7 @@
 }
 
 .title {
-  font-family: var(--font-playfair), serif;
+  font-family: "Poppins", sans-serif;
   font-size: 3rem;
   font-weight: 600;
   color: #1e293b;
@@ -20,7 +20,7 @@
 }
 
 .subtitle {
-  font-family: var(--font-merriweather), serif;
+  font-family: "Inter", sans-serif;
   font-size: 1.2rem;
   color: #64748b;
   text-align: center;
@@ -41,7 +41,7 @@
 }
 
 .sectionTitle {
-  font-family: var(--font-playfair), serif;
+  font-family: "Poppins", sans-serif;
   font-size: 2rem;
   font-weight: 600;
   color: #1e293b;
@@ -85,7 +85,7 @@
 }
 
 .videoTitle {
-  font-family: var(--font-playfair), serif;
+  font-family: "Poppins", sans-serif;
   font-size: 1.3rem;
   font-weight: 600;
   color: #1e293b;
@@ -93,7 +93,7 @@
 }
 
 .videoDescription {
-  font-family: var(--font-merriweather), serif;
+  font-family: "Inter", sans-serif;
   color: #64748b;
   margin: 0 1rem 1rem 1rem;
   line-height: 1.5;
@@ -113,7 +113,7 @@
 }
 
 .spotifyTitle {
-  font-family: var(--font-playfair), serif;
+  font-family: "Poppins", sans-serif;
   font-size: 1.3rem;
   font-weight: 600;
   color: #1e293b;
@@ -157,7 +157,7 @@
 }
 
 .audioInfo h4 {
-  font-family: var(--font-playfair), serif;
+  font-family: "Poppins", sans-serif;
   font-size: 1.2rem;
   font-weight: 600;
   color: #1e293b;
@@ -165,7 +165,7 @@
 }
 
 .audioInfo p {
-  font-family: var(--font-merriweather), serif;
+  font-family: "Inter", sans-serif;
   color: #64748b;
   margin: 0;
   font-size: 0.9rem;
@@ -247,7 +247,7 @@
 }
 
 .contactInfo h2 {
-  font-family: var(--font-playfair), serif;
+  font-family: "Poppins", sans-serif;
   font-size: 2rem;
   font-weight: 600;
   color: #1e293b;
@@ -255,7 +255,7 @@
 }
 
 .contactInfo p {
-  font-family: var(--font-merriweather), serif;
+  font-family: "Inter", sans-serif;
   color: #64748b;
   margin-bottom: 1.5rem;
 }

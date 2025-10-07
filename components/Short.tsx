@@ -13,7 +13,7 @@ function Short() {
             Med en bred repertoar och lång erfarenhet på scen skapar jag
             musikaliska ögonblick som stannar kvar.
           </p>
-          <button className={styles.button}>Läs mer om mig</button>
+          <button className={styles.button}>Read more</button>
         </section>
         <section className={styles.shortImage}>
           <figure>

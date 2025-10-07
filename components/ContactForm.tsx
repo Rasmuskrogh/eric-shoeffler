@@ -25,11 +25,22 @@ export default function ContactForm() {
     setStatus("submitting");
 
     try {
-      // await sendEmail(formData);
-      console.log("Form data:", formData);
-      setFormData({ name: "", email: "", tel: "", message: "" });
-      setStatus("success");
-    } catch {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (response.ok) {
+        setFormData({ name: "", email: "", tel: "", message: "" });
+        setStatus("success");
+      } else {
+        setStatus("error");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
       setStatus("error");
     }
   };
@@ -93,6 +104,18 @@ export default function ContactForm() {
         >
           {status === "submitting" ? "Sending..." : "Send message"}
         </button>
+
+        {status === "success" && (
+          <div className={styles.successMessage}>
+            Thank you! Your message has been sent successfully.
+          </div>
+        )}
+
+        {status === "error" && (
+          <div className={styles.errorMessage}>
+            Sorry, there was an error sending your message. Please try again.
+          </div>
+        )}
       </form>
     </div>
   );

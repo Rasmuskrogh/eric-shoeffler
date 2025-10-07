@@ -7,8 +7,8 @@ export default function AgendaPage() {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <h1 className={styles.title}>Agenda</h1>
-        <p className={styles.subtitle}>Kommande konserter och evenemang</p>
+        <h1 className={styles.title}>Schedule</h1>
+        <p className={styles.subtitle}>Upcoming concerts and events</p>
 
         <div className={styles.events}>
           <div className={styles.event}>

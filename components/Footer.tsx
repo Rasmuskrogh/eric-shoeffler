@@ -35,7 +35,7 @@ function Footer() {
           </div>
         </section>
         <section className={styles.menuSection}>
-          {/* <h3>Shortcuts</h3> */}
+          <h3>Quick Links</h3>
           <div className={styles.menuItems}>
             <Link href="/" className={styles.menuLink}>
               Home

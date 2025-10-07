@@ -11,7 +11,7 @@
 }
 
 .title {
-  font-family: var(--font-playfair), serif;
+  font-family: "Poppins", sans-serif;
   font-size: 3rem;
   font-weight: 600;
   color: #1e293b;
@@ -20,7 +20,7 @@
 }
 
 .subtitle {
-  font-family: var(--font-merriweather), serif;
+  font-family: "Inter", sans-serif;
   font-size: 1.2rem;
   color: #64748b;
   text-align: center;
@@ -77,7 +77,7 @@
 }
 
 .eventTitle {
-  font-family: var(--font-playfair), serif;
+  font-family: "Poppins", sans-serif;
   font-size: 1.5rem;
   font-weight: 600;
   color: #1e293b;
@@ -97,7 +97,7 @@
 }
 
 .eventDescription {
-  font-family: var(--font-merriweather), serif;
+  font-family: "Inter", sans-serif;
   line-height: 1.6;
   color: #475569;
 }
@@ -111,7 +111,7 @@
 }
 
 .contactInfo h2 {
-  font-family: var(--font-playfair), serif;
+  font-family: "Poppins", sans-serif;
   font-size: 2rem;
   font-weight: 600;
   color: #1e293b;
@@ -119,7 +119,7 @@
 }
 
 .contactInfo p {
-  font-family: var(--font-merriweather), serif;
+  font-family: "Inter", sans-serif;
   color: #64748b;
   margin-bottom: 1.5rem;
 }

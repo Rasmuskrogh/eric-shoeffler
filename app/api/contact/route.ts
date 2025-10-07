@@ -23,7 +23,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Konfigurera email transporter
-    const transporter = nodemailer.createTransporter({
+    const transporter = nodemailer.createTransport({
       service: "gmail", // eller din email provider
       auth: {
         user: process.env.EMAIL_USER,

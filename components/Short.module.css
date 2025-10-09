@@ -7,7 +7,7 @@
 
 .presentationShort {
   width: 50%;
-
+  order: 2;
   background-color: rgb(55, 55, 55);
   align-self: stretch;
   display: flex;
@@ -25,6 +25,7 @@
   position: relative;
   display: flex;
   align-items: stretch;
+  order: 1;
 }
 
 .shortImage figure {

@@ -10,8 +10,8 @@ export default function FormSpacer() {
   useEffect(() => {
     const checkWidth = () => {
       const width = window.innerWidth;
-      setIsVisible(width >= 1200 || width < 1050);
-      setIsBelow(width >= 1050);
+      setIsVisible(true); // Alltid synlig
+      setIsBelow(width >= 1200); // Text bara över 1200px
     };
 
     checkWidth();

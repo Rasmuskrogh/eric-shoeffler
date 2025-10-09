@@ -35,19 +35,24 @@
 
 @media (width < 935px) {
   .spacer {
-    height: 20rem;
+    height: 10rem;
+  }
+}
+
+@media (width < 621px) {
+  .spacer {
+    height: 16rem;
   }
 }
 
 @media (width < 500px) {
   .spacer {
-    height: 30rem;
+    height: 23rem;
   }
 }
 
-/* @media (width < 360px) {
+@media (width < 375px) {
   .spacer {
-    height: 35rem;
+    height: 27rem;
   }
 }
- */

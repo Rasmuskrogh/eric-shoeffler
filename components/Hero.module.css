@@ -187,9 +187,10 @@
   color: #64748b;
 }
 
-@media (width < 1201px) {
+@media (width < 1200px) {
   .hero {
-    aspect-ratio: 1/1;
+    height: 100vh;
+    overflow: visible;
   }
 
   .tagline {
@@ -222,7 +223,7 @@
   }
 }
 
-@media (min-width: 1201px) {
+@media (min-width: 1200px) {
   .contactText {
     display: none;
   }
@@ -247,7 +248,7 @@
   }
 
   .contactText {
-    top: 100vh;
+    top: 85vh;
   }
 }
 
@@ -260,6 +261,12 @@
   }
   .taglineSubtitle {
     font-size: 1.3rem;
+  }
+}
+
+@media (width < 621px) {
+  .contactText {
+    top: 90vh;
   }
 }
 
@@ -277,12 +284,16 @@
 
 @media (width < 500px) {
   .contactText {
-    top: 110vh;
+    top: 95vh;
   }
 }
-
-@media (width < 360px) {
+@media (width < 393px) {
   .contactText {
-    top: 105vh;
+    top: 97vh;
+  }
+}
+@media (width < 373px) {
+  .contactText {
+    top: 100vh;
   }
 }

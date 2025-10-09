@@ -91,11 +91,13 @@
   }
   .presentationShort {
     width: 100%;
+    order: 1;
   }
   .shortImage {
     width: 100%;
     height: auto;
     align-items: flex-start;
+    order: 2;
   }
 
   .shortImage figure {

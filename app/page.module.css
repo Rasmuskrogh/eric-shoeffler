@@ -23,12 +23,14 @@
   flex: 1 1 47%;
   min-width: 0;
   box-sizing: border-box;
+  order: 2;
 }
 
 .listenAndRepertoirSection > *:last-child {
   flex: 1 1 53%;
   min-width: 0;
   box-sizing: border-box;
+  order: 1;
 }
 
 /* FADE TRANSITION STYLING */
@@ -50,12 +52,12 @@
     flex: 1 1 100%;
     width: 100%;
     height: auto;
-    order: 2;
+    /*  order: 2; */
   }
   .listenAndRepertoirSection > *:last-child {
     flex: 1 1 100%;
     width: 100%;
     height: auto;
-    order: 1;
+    /*    order: 1; */
   }
 }

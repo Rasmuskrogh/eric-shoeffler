@@ -110,7 +110,16 @@ function Footer() {
         </section>
       </section>
       <section className={styles.copyrightSection}>
-        <p>Copyright 2025</p>
+        <p>&copy; Eric Schoeffler 2025</p>
+        <p>
+          Made by:{" "}
+          <Link
+            className={styles.creatorLink}
+            href="https://portfolio-page-next-js.vercel.app/"
+          >
+            Rasmus Krogh-Andersen
+          </Link>
+        </p>
       </section>
     </footer>
   );

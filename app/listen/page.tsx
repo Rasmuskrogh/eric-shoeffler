@@ -18,8 +18,8 @@ export default function ListenPage() {
               <div className={styles.videoItem}>
                 <div className={styles.videoWrapper}>
                   <iframe
-                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                    title="Eric Schoeffler - Konsertvideo"
+                    src="https://www.youtube.com/embed/R60gOl6xHy0"
+                    title="Erik Shoeffler - Klassisk sång"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
@@ -35,10 +35,11 @@ export default function ListenPage() {
               <div className={styles.videoItem}>
                 <div className={styles.videoWrapper}>
                   <iframe
-                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                    title="Eric Schoeffler - Intervju"
+                    src="https://www.youtube.com/embed/8hWd6sFgq7c?si=dTl06n0WdJvWoqjk"
+                    title="YouTube video player"
                     frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
                     allowFullScreen
                   ></iframe>
                 </div>
@@ -52,10 +53,11 @@ export default function ListenPage() {
               <div className={styles.videoItem}>
                 <div className={styles.videoWrapper}>
                   <iframe
-                    src="https://www.youtube.com/embed/dQw4w9WgXcQ"
-                    title="Eric Schoeffler - Bakom kulisserna"
+                    src="https://www.youtube.com/embed/jJaEdbr-ZrY?si=1jMrK-9DUqi9K84J"
+                    title="YouTube video player"
                     frameBorder="0"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
                     allowFullScreen
                   ></iframe>
                 </div>
@@ -63,6 +65,23 @@ export default function ListenPage() {
                 <p className={styles.videoDescription}>
                   Följ med Eric under en dag i studion och se hur han förbereder
                   sig för konserter.
+                </p>
+              </div>
+              <div className={styles.videoItem}>
+                <div className={styles.videoWrapper}>
+                  <iframe
+                    src="https://www.youtube.com/embed/_x1brW-4cXU?si=XZUFgYV5zEI7l84_"
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+                <h3 className={styles.videoTitle}>Intervju med Eric</h3>
+                <p className={styles.videoDescription}>
+                  Eric berättar om sin musikaliska resa och sina
+                  favoritkompositörer.
                 </p>
               </div>
             </div>
@@ -73,29 +92,35 @@ export default function ListenPage() {
             <h2 className={styles.sectionTitle}>Music</h2>
             <div className={styles.spotifyGrid}>
               <div className={styles.spotifyItem}>
-                <h3 className={styles.spotifyTitle}>Eric Schoeffler - Album</h3>
+                {/*  <h3 className={styles.spotifyTitle}>Eric Schoeffler - Album</h3> */}
                 <div className={styles.spotifyEmbed}>
                   <iframe
-                    src="https://open.spotify.com/embed/artist/PLACEHOLDER_ERIC_SCHOEFFLER_ARTIST_ID"
+                    data-testid="embed-iframe"
+                    style={{ borderRadius: "12px" }}
+                    src="https://open.spotify.com/embed/track/3W9NQIIENxpOTRNEbmFYPG?utm_source=generator"
                     width="100%"
                     height="352"
                     frameBorder="0"
-                    allowTransparency={true}
-                    allow="encrypted-media"
+                    allowFullScreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
                   ></iframe>
                 </div>
               </div>
 
               <div className={styles.spotifyItem}>
-                <h3 className={styles.spotifyTitle}>Konsertinspelningar</h3>
+                {/*  <h3 className={styles.spotifyTitle}>Konsertinspelningar</h3> */}
                 <div className={styles.spotifyEmbed}>
                   <iframe
-                    src="https://open.spotify.com/embed/playlist/PLACEHOLDER_CONCERT_RECORDINGS_PLAYLIST_ID"
+                    data-testid="embed-iframe"
+                    style={{ borderRadius: "12px" }}
+                    src="https://open.spotify.com/embed/track/5QsNHtONgxoLFO1GGUlZQd?utm_source=generator"
                     width="100%"
                     height="352"
                     frameBorder="0"
-                    allowTransparency={true}
-                    allow="encrypted-media"
+                    allowFullScreen
+                    allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+                    loading="lazy"
                   ></iframe>
                 </div>
               </div>

@@ -27,7 +27,7 @@ const Hero: React.FC = () => {
         <article className={styles.tagline}>
           <h1 className={styles.taglineTitle}>Eric Schoeffler</h1>
           <p className={styles.taglineSubtitle}>
-            Upplev klassisk musik med passion och precision.
+            The Franco-Swedish Bass Baritone
           </p>
         </article>
         <figure className={styles.profileImageWrapper}>

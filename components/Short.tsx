@@ -6,20 +6,18 @@ function Short() {
     <>
       <section className={styles.short}>
         <section className={styles.presentationShort}>
-          <h2 className={styles.title}>Om mig</h2>
+          <h2 className={styles.title}>About me</h2>
           <p className={styles.description}>
-            Jag är Eric Schoeffler, frilansande klassisk sångare med en passion
-            för att beröra publiken genom opera, konserter och romansprogram.
-            Med en bred repertoar och lång erfarenhet på scen skapar jag
-            musikaliska ögonblick som stannar kvar.
+            Eric Schoeffler blends lyrical warmth with dramatic intensity,
+            bringing depth and presence to every performance. With a voice that
+            bridges elegance and power, he captivates audiences across a wide
+            range of repertoire.
           </p>
           <button className={styles.button}>Read more</button>
         </section>
         <section className={styles.shortImage}>
           <figure>
             <Image
-              /* src="/ProfilePicture Eric Shoeffler.png" */
-              /* src="/eric-short.JPG" */
               src="/eric-no-background.png"
               alt="Eric Shoeffler"
               width={400}

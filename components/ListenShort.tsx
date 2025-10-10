@@ -15,7 +15,7 @@ function ListenShort() {
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy"
       ></iframe>
-      <button className={styles.listenButton}>Want to hear more?</button>
+      <button className={styles.listenButton}>More</button>
     </section>
   );
 }

@@ -55,7 +55,7 @@ function Footer() {
           <h3>Social media</h3>
           <div className={styles.socialIcons}>
             <Link
-              href="https://facebook.com"
+              href="https://www.facebook.com/share/19vyQZ59Ph/"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.socialLink}
@@ -69,7 +69,7 @@ function Footer() {
               />
             </Link>
             <Link
-              href="https://instagram.com"
+              href="https://www.instagram.com/schoefflereric?igsh=MXRqY2VmMWZlMmQxbw=="
               target="_blank"
               rel="noopener noreferrer"
               className={styles.socialLink}
@@ -83,7 +83,7 @@ function Footer() {
               />
             </Link>
             <Link
-              href="https://youtube.com"
+              href="https://youtube.com/@ericbassbaritone?si=EjpUdkLskf-3JFac"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.socialLink}
@@ -92,7 +92,7 @@ function Footer() {
               <Image src="/youtube.svg" alt="YouTube" width={24} height={24} />
             </Link>
             <Link
-              href="https://spotify.com"
+              href="https://open.spotify.com/artist/5KJNl0z1yLbyG9HK5pqQkI?si=oMFVdb-4Q_-YGrppD0uAAw"
               target="_blank"
               rel="noopener noreferrer"
               className={styles.socialLink}

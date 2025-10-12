@@ -29,30 +29,42 @@
 
 @media (width < 1250px) {
   .emptySpace {
-    height: 9rem;
+    height: 10rem;
+  }
+}
+
+@media (width < 1200px) {
+  .emptySpace {
+    height: 18rem;
   }
 }
 
 @media (width < 935px) {
   .spacer {
-    height: 10rem;
+    height: 18rem;
   }
 }
 
 @media (width < 621px) {
   .spacer {
-    height: 16rem;
+    height: 20rem;
   }
 }
 
 @media (width < 500px) {
   .spacer {
-    height: 23rem;
+    height: 26rem;
   }
 }
 
-@media (width < 375px) {
+@media (width < 405px) {
   .spacer {
-    height: 27rem;
+    height: 30rem;
+  }
+}
+
+@media (width < 360px) {
+  .spacer {
+    height: 33rem;
   }
 }

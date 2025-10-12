@@ -187,6 +187,19 @@
   color: #64748b;
 }
 
+@media (min-width: 1024px) and (max-width: 1199px) {
+  .blueArea .profileImage {
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .blueArea .profileImageWrapper {
+    right: 0;
+    width: 100%;
+  }
+}
+
 @media (width < 1200px) {
   .hero {
     height: 100vh;
@@ -248,7 +261,7 @@
   }
 
   .contactText {
-    top: 85vh;
+    top: 97vh;
   }
 }
 
@@ -266,7 +279,7 @@
 
 @media (width < 621px) {
   .contactText {
-    top: 90vh;
+    top: 100vh;
   }
 }
 
@@ -284,16 +297,17 @@
 
 @media (width < 500px) {
   .contactText {
-    top: 95vh;
+    top: 105vh;
   }
 }
-@media (width < 393px) {
+
+@media (width < 405px) {
   .contactText {
-    top: 97vh;
+    top: 110vh;
   }
 }
-@media (width < 373px) {
+@media (width < 358px) {
   .contactText {
-    top: 100vh;
+    top: 113vh;
   }
 }

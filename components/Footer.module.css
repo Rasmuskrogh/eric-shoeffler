@@ -222,3 +222,17 @@
     padding-right: 1rem;
   }
 }
+
+/* Fix quicklinks layout - 2 och 2 mellan specifika bredder */
+@media (min-width: 259px) and (max-width: 366px),
+  (min-width: 391px) and (max-width: 409px),
+  (min-width: 423px) and (max-width: 510px),
+  (min-width: 784px) and (max-width: 841px) {
+  .menuItems {
+    max-width: 300px;
+  }
+
+  .menuLink {
+    flex: 0 0 calc(50% - 0.5rem);
+  }
+}

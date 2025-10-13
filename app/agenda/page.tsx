@@ -60,7 +60,7 @@ export default function AgendaPage() {
               <p className={styles.eventLocation}>Brännkyrka kyrka</p>
               <p className={styles.eventTime}>16:00</p>
               <p className={styles.eventDescription}>
-                Bass soloist in "Fauré's requiem
+                Bass soloist in Fauré&apos;s requiem
               </p>
             </div>
           </div>

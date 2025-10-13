@@ -5,14 +5,13 @@ export default function NewsPage() {
   const newsItems = [
     {
       id: 1,
-      title: "Ny operaproduktion på Kungliga Operan",
-      excerpt:
-        "Eric Schoeffler debuterar i huvudrollen som Don Giovanni i Mozarts klassiska opera. Premiären äger rum den 15 mars 2024.",
+      title: "Coming soon...",
+      excerpt: "",
       image: "/Eric with Piano.jpg",
-      date: "2024-02-28",
-      category: "Opera",
+      /*  date: "",
+      category: "", */
     },
-    {
+    /* {
       id: 2,
       title: "Konsertserie i Stockholm",
       excerpt:
@@ -47,7 +46,7 @@ export default function NewsPage() {
       image: "/ProfilePicture Eric Shoeffler.png",
       date: "2024-02-05",
       category: "Inspelning",
-    },
+    }, */
   ];
 
   return (
@@ -71,10 +70,10 @@ export default function NewsPage() {
             </div>
             <div className={styles.contentContainer}>
               <div className={styles.meta}>
-                <span className={styles.category}>{item.category}</span>
+                {/* <span className={styles.category}>{item.category}</span>
                 <span className={styles.date}>
                   {new Date(item.date).toLocaleDateString("sv-SE")}
-                </span>
+                </span> */}
               </div>
               <h2 className={styles.newsTitle}>{item.title}</h2>
               <p className={styles.newsExcerpt}>{item.excerpt}</p>

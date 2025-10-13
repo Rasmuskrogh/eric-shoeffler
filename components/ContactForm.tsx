@@ -1,7 +1,6 @@
 "use client";
 import { useState } from "react";
 import styles from "./ContactForm.module.css";
-//import { sendEmail } from "@/lib/email";
 
 export default function ContactForm() {
   const [formData, setFormData] = useState({

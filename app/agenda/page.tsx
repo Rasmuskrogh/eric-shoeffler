@@ -13,78 +13,68 @@ export default function AgendaPage() {
         <div className={styles.events}>
           <div className={styles.event}>
             <div className={styles.eventDate}>
-              <span className={styles.day}>15</span>
-              <span className={styles.month}>Mars</span>
+              <span className={styles.day}>16</span>
+              <span className={styles.month}>October</span>
+              <span className={styles.day}>-</span>
+              <span className={styles.day}>14</span>
+              <span className={styles.month}>December</span>
             </div>
             <div className={styles.eventDetails}>
-              <h3 className={styles.eventTitle}>Konsert i Stockholm</h3>
-              <p className={styles.eventLocation}>Konserthuset, Stockholm</p>
-              <p className={styles.eventTime}>19:00</p>
-              <p className={styles.eventDescription}>
+              <h3 className={styles.eventTitle}>Lohengrin</h3>
+              <p className={styles.eventLocation}>Malmö Opera</p>
+              <p className={styles.eventTime}>16:00 or 17:00</p>
+              {/*  <p className={styles.eventDescription}>
                 Klassisk konsert med fokus på romantisk repertoar. Medverkande:
                 Eric Schoeffler (baryton) och Maria Svensson (piano).
-              </p>
+              </p> */}
             </div>
           </div>
 
           <div className={styles.event}>
             <div className={styles.eventDate}>
-              <span className={styles.day}>22</span>
-              <span className={styles.month}>Mars</span>
+              <span className={styles.day}>17</span>
+              <span className={styles.month}>January</span>
+              <span className={styles.day}>-</span>
+              <span className={styles.day}>21</span>
+              <span className={styles.month}>March</span>
             </div>
             <div className={styles.eventDetails}>
-              <h3 className={styles.eventTitle}>Opera Gala</h3>
-              <p className={styles.eventLocation}>Operan, Göteborg</p>
-              <p className={styles.eventTime}>18:30</p>
+              <h3 className={styles.eventTitle}>Carmen</h3>
+              <p className={styles.eventLocation}>Malmö Opera</p>
+              <p className={styles.eventTime}>16:00, 18:00 or 19:00</p>
+              {/*  
               <p className={styles.eventDescription}>
                 Spektakulär opera gala med världsberömda arior och duetter. En
                 kväll fylld av passion och drama.
-              </p>
+              </p> */}
             </div>
           </div>
 
           <div className={styles.event}>
             <div className={styles.eventDate}>
-              <span className={styles.day}>5</span>
-              <span className={styles.month}>April</span>
+              <span className={styles.day}>2</span>
+              <span className={styles.month}>November</span>
             </div>
             <div className={styles.eventDetails}>
-              <h3 className={styles.eventTitle}>Romansprogram</h3>
-              <p className={styles.eventLocation}>Kulturhuset, Malmö</p>
-              <p className={styles.eventTime}>20:00</p>
+              <h3 className={styles.eventTitle}>Faurés Requiem</h3>
+              <p className={styles.eventLocation}>Brännkyrka kyrka</p>
+              <p className={styles.eventTime}>16:00</p>
               <p className={styles.eventDescription}>
-                Intima romansprogram med svenska och internationella sånger. En
-                kväll för kärlek och musik.
-              </p>
-            </div>
-          </div>
-
-          <div className={styles.event}>
-            <div className={styles.eventDate}>
-              <span className={styles.day}>18</span>
-              <span className={styles.month}>April</span>
-            </div>
-            <div className={styles.eventDetails}>
-              <h3 className={styles.eventTitle}>Jazz & Klassik</h3>
-              <p className={styles.eventLocation}>Jazzklubben, Uppsala</p>
-              <p className={styles.eventTime}>21:00</p>
-              <p className={styles.eventDescription}>
-                Unik blandning av jazz och klassisk musik. Experimentell och
-                innovativ kväll med nya tolkningar.
+                Bass soloist in "Fauré's requiem
               </p>
             </div>
           </div>
         </div>
 
         <div className={styles.contactInfo}>
-          <h2>Boka konsert</h2>
+          <h2>Book a concert</h2>
           <p>
-            Vill du boka Eric för ett evenemang? Kontakta oss för mer
-            information om priser och tillgänglighet.
+            Do you want to book Eric for an event? Contact us for more
+            information about prices and availability.
           </p>
           <div className={styles.contactDetails}>
             <p>
-              <strong>Email:</strong> eric_schoeffler@hotmail.com
+              <strong>Email:</strong> ecm.schoeffler@gmail.com
             </p>
             <p>
               <strong>Telefon:</strong> +46735362254

@@ -24,7 +24,7 @@ function Footer() {
           <h3>Contact</h3>
           <div className={styles.contactLinks}>
             <a href="mailto:email@server.com" className={styles.contactLink}>
-              eric_schoeffler@hotmail.com
+              ecm.schoeffler@gmail.com
             </a>
             <a href="tel:+46735362254" className={styles.contactLink}>
               +46735362254

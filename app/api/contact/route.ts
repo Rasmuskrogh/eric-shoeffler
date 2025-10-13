@@ -24,10 +24,15 @@ export async function POST(request: NextRequest) {
 
     // Konfigurera email transporter
     const transporter = nodemailer.createTransport({
-      service: "gmail", // eller din email provider
+      host: "smtp.gmail.com",
+      port: 587,
+      secure: false, // true for 465, false for other ports
       auth: {
         user: process.env.EMAIL_USER,
         pass: process.env.EMAIL_PASS,
+      },
+      tls: {
+        rejectUnauthorized: false,
       },
     });
 

@@ -1,5 +1,3 @@
-"use client";
-
 import React from "react";
 import styles from "./page.module.css";
 
@@ -19,16 +17,17 @@ export default function ListenPage() {
                 <div className={styles.videoWrapper}>
                   <iframe
                     src="https://www.youtube.com/embed/R60gOl6xHy0"
-                    title="Erik Shoeffler - Klassisk sång"
+                    title="Eric Schoeffler - Klassisk sång"
                     frameBorder="0"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                     allowFullScreen
                   ></iframe>
                 </div>
-                <h3 className={styles.videoTitle}>Konsertvideo 2024</h3>
+                <h3 className={styles.videoTitle}>
+                  Vous qui faites l’endormie
+                </h3>
                 <p className={styles.videoDescription}>
-                  En sammanfattning av Eric Schoefflers senaste konsert med
-                  klassiska arior och romanser.
+                  The Devil’s seductive serenade from Gounod’s Faust.
                 </p>
               </div>
 
@@ -43,10 +42,9 @@ export default function ListenPage() {
                     allowFullScreen
                   ></iframe>
                 </div>
-                <h3 className={styles.videoTitle}>Intervju med Eric</h3>
+                <h3 className={styles.videoTitle}>Stars</h3>
                 <p className={styles.videoDescription}>
-                  Eric berättar om sin musikaliska resa och sina
-                  favoritkompositörer.
+                  The Inspector’s solemn vow from Les Misérables.
                 </p>
               </div>
 
@@ -61,10 +59,9 @@ export default function ListenPage() {
                     allowFullScreen
                   ></iframe>
                 </div>
-                <h3 className={styles.videoTitle}>Bakom kulisserna</h3>
+                <h3 className={styles.videoTitle}>Le couteau</h3>
                 <p className={styles.videoDescription}>
-                  Följ med Eric under en dag i studion och se hur han förbereder
-                  sig för konserter.
+                  Nadia Boulanger’s haunting song of love and pain.
                 </p>
               </div>
               <div className={styles.videoItem}>
@@ -78,10 +75,12 @@ export default function ListenPage() {
                     allowFullScreen
                   ></iframe>
                 </div>
-                <h3 className={styles.videoTitle}>Intervju med Eric</h3>
+                <h3 className={styles.videoTitle}>
+                  En visa till Karin när hon hade dansat
+                </h3>
                 <p className={styles.videoDescription}>
-                  Eric berättar om sin musikaliska resa och sina
-                  favoritkompositörer.
+                  The mad King Erik XIV’s song to his beloved, by Swedish
+                  composer Ture Rangström.
                 </p>
               </div>
             </div>
@@ -138,9 +137,7 @@ export default function ListenPage() {
                   className={styles.galleryImage}
                 />
                 <div className={styles.galleryOverlay}>
-                  <p className={styles.galleryCaption}>
-                    Eric Schoeffler med piano
-                  </p>
+                  <p className={styles.galleryCaption}>Concert</p>
                 </div>
               </div>
 
@@ -151,9 +148,7 @@ export default function ListenPage() {
                   className={styles.galleryImage}
                 />
                 <div className={styles.galleryOverlay}>
-                  <p className={styles.galleryCaption}>
-                    Porträtt av Eric Schoeffler
-                  </p>
+                  <p className={styles.galleryCaption}>Portrait</p>
                 </div>
               </div>
 
@@ -164,42 +159,40 @@ export default function ListenPage() {
                   className={styles.galleryImage}
                 />
                 <div className={styles.galleryOverlay}>
-                  <p className={styles.galleryCaption}>La Bohème kvartett</p>
+                  <p className={styles.galleryCaption}>La Bohème quartet</p>
                 </div>
               </div>
 
               <div className={styles.galleryItem}>
                 <img
-                  src="/Eric with Piano.jpg"
+                  src="/eric-short.JPG"
                   alt="Konsertframträdande"
                   className={styles.galleryImage}
                 />
                 <div className={styles.galleryOverlay}>
-                  <p className={styles.galleryCaption}>Konsertframträdande</p>
+                  <p className={styles.galleryCaption}>Portrait</p>
                 </div>
               </div>
 
               <div className={styles.galleryItem}>
                 <img
-                  src="/ProfilePicture Eric Shoeffler.png"
+                  src="/eric-5.JPG"
                   alt="Eric Schoeffler i studio"
                   className={styles.galleryImage}
                 />
                 <div className={styles.galleryOverlay}>
-                  <p className={styles.galleryCaption}>
-                    Eric Schoeffler i studio
-                  </p>
+                  <p className={styles.galleryCaption}>Gianni Schicchi</p>
                 </div>
               </div>
 
               <div className={styles.galleryItem}>
                 <img
-                  src="/la-boheme-quartet-large.avif"
+                  src="/eric-6.jpeg"
                   alt="Opera framträdande"
                   className={styles.galleryImage}
                 />
                 <div className={styles.galleryOverlay}>
-                  <p className={styles.galleryCaption}>Opera framträdande</p>
+                  <p className={styles.galleryCaption}>Hansel und Gretel</p>
                 </div>
               </div>
             </div>

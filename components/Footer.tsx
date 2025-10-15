@@ -23,8 +23,13 @@ function Footer() {
         <section className={styles.contactSection}>
           <h3>Contact</h3>
           <div className={styles.contactLinks}>
-            <a href="mailto:email@server.com" className={styles.contactLink}>
-              ecm.schoeffler@gmail.com
+            <a
+              href={`mailto:${
+                process.env.EMAIL_USER || "ecm.schoeffler@gmail.com"
+              }`}
+              className={styles.contactLink}
+            >
+              {process.env.EMAIL_USER || "ecm.schoeffler@gmail.com"}
             </a>
             <a href="tel:+46735362254" className={styles.contactLink}>
               +46735362254

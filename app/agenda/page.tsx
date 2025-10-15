@@ -355,7 +355,8 @@ export default function AgendaPage() {
           </p>
           <div className={styles.contactDetails}>
             <p>
-              <strong>Email:</strong> ecm.schoeffler@gmail.com
+              <strong>Email:</strong>{" "}
+              {process.env.EMAIL_USER || "ecm.schoeffler@gmail.com"}
             </p>
             <p>
               <strong>Telefon:</strong> +46735362254

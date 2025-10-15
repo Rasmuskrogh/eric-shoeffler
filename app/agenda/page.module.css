@@ -74,7 +74,8 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  min-width: 100px;
+  min-width: 140px;
+  width: 140px;
 }
 
 .day {

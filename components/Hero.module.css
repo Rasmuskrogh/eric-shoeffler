@@ -1,6 +1,6 @@
 .hero {
   width: 100%;
-  aspect-ratio: 2/1;
+  height: 100vh;
   display: flex;
   padding-top: 8rem;
   position: relative;
@@ -20,7 +20,7 @@
 }
 
 .blueArea {
-  background: white;
+  background: transparent;
   transition: flex 0.5s ease-in-out;
   display: flex;
   align-items: center;
@@ -41,15 +41,25 @@
 
 .tagline {
   position: absolute;
-  left: calc(2rem + 1vw); /* Responsiv marginal baserat på skärmstorlek */
-  top: 50%;
+  top: auto;
+  bottom: -2rem;
+  right: 2rem;
+  left: auto;
   transform: translateY(-50%);
-  width: 32%;
+  width: 45%;
   transition: all 0.5s ease-in-out;
+  z-index: 9;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 1rem;
+  border-radius: 0.5rem;
+  color: white;
+  opacity: 1;
 }
 
 .blueArea:not(.active) .tagline {
-  left: calc(-242px - 1vw); /* Responsiv utflyttning */
+  right: calc(2rem + 100vw);
+  left: auto;
+  opacity: 0;
 }
 
 .redArea .tagline {
@@ -82,20 +92,20 @@
 
 .profileImageWrapper {
   position: absolute;
-  right: 0; /* Responsiv marginal baserat på skärmstorlek */
-  top: 50%;
-  transform: translateY(-50%);
-  width: auto;
-  height: calc(100% + 1px);
+  right: 0;
+  top: 0;
+  transform: none;
+  width: 100%;
+  height: 100%;
   transition: all 0.5s ease-in-out;
-  margin-left: 3rem; /* Ökar marginalen mellan tagline och bild */
-  margin-right: 0rem;
+  margin: 0;
 }
 
 .profileImage {
-  object-fit: contain;
-  width: auto;
+  object-fit: cover;
+  width: 100%;
   height: 100%;
+  object-position: center center;
 }
 
 .redArea .profileImage {
@@ -215,7 +225,7 @@
     padding: 0.5rem 1rem 1rem 1rem;
     border-radius: 1rem;
     transition: all 0.5s ease-in-out;
-    width: 60%;
+    width: 45%;
   }
 
   .blueArea .tagline {
@@ -242,6 +252,12 @@
   }
 }
 
+@media (width < 910px) {
+  .tagline {
+    width: 52%;
+  }
+}
+
 @media (width < 800px) {
   .hero {
     height: 100vh;
@@ -263,11 +279,24 @@
   .contactText {
     top: 97vh;
   }
+  .tagline {
+    width: 64%;
+    left: 50%;
+    right: auto;
+    transform: translate(-50%, -50%);
+    text-align: center;
+  }
+
+  .blueArea .tagline {
+    left: 50%;
+    right: auto;
+    transform: translate(-50%, -50%);
+  }
 }
 
 @media (width <650px) {
   .tagline {
-    width: 50%;
+    width: 95%;
   }
   .taglineTitle {
     font-size: 2rem;
@@ -284,9 +313,6 @@
 }
 
 @media (width < 564px) {
-  .tagline {
-    width: 50%;
-  }
   .taglineTitle {
     font-size: 1.8rem;
   }

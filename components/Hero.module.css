@@ -248,7 +248,7 @@
 
 @media (min-width: 1200px) {
   .contactText {
-    display: none;
+    display: block;
   }
 }
 

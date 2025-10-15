@@ -34,6 +34,24 @@
   margin-bottom: 4rem;
 }
 
+.events > div {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.yearHeader {
+  font-family: "Poppins", sans-serif;
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1e293b;
+  text-align: center;
+  margin: 3rem 0 2rem 0;
+  padding: 1rem;
+  background: linear-gradient(135deg, #f1f5f9 0%, #e2e8f0 100%);
+  border-radius: 0.5rem;
+}
+
 .event {
   display: flex;
   background: white;
@@ -153,5 +171,10 @@
 
   .title {
     font-size: 2rem;
+  }
+
+  .yearHeader {
+    font-size: 2rem;
+    margin: 2rem 0 1.5rem 0;
   }
 }

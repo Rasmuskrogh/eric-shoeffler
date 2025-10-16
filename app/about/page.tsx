@@ -6,7 +6,9 @@ export default function AboutPage() {
   return (
     <div className={styles.aboutPage}>
       <section>
-        <h1 className={styles.aboutTitle}>Eric Shoeffler &mdash; Basbaryton</h1>
+        <h1 className={styles.aboutTitle}>
+          Eric Schoeffler &mdash; Bass baritone
+        </h1>
       </section>
       <section className={styles.contentSection}>
         <div className={styles.container}>

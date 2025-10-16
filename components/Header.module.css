@@ -34,7 +34,6 @@
 
 .active {
   flex: 20;
-  cursor: unset;
 }
 
 .blue {
@@ -164,11 +163,11 @@
 }
 
 .bookButton:hover rect {
-  fill: white !important;
+  fill: white;
 }
 
 .bookButton:hover text {
-  fill: black !important;
+  fill: black;
 }
 
 /* Mobile hamburger menu */

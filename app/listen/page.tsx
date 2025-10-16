@@ -83,6 +83,24 @@ export default function ListenPage() {
                   composer Ture Rangström.
                 </p>
               </div>
+              <div className={styles.videoItem}>
+                <div className={styles.videoWrapper}>
+                  <iframe
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/ntgveY_yZAA?si=sCbixb5-Q_41YOMn"
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+                <h3 className={styles.videoTitle}>
+                  &quot;Jag ger dig min morgon&quot; – Fred Åkerström cover
+                </h3>
+                <p className={styles.videoDescription}></p>
+              </div>
             </div>
           </section>
 

@@ -11,7 +11,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: 10;
+  z-index: 11;
 }
 
 .navList {
@@ -33,7 +33,7 @@
   font-weight: 500;
   padding: 0.25rem 0.5rem;
   border-radius: 50px;
-  font-size: 1rem;
+  font-size: 1.3rem;
   border: none; /* 2px white solid */
   white-space: nowrap;
   cursor: pointer;

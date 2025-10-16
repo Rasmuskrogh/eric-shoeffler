@@ -72,6 +72,18 @@ function Header() {
         setShowRedNavbar(true);
         setRedNavbarOpacity(1);
       }, 500);
+    } else {
+      // Show blue navbar when going back to hero view
+      setRedNavbarOpacity(0);
+      setCenterRedLogo(false);
+      setCenterBlueLogo(false);
+      setTimeout(() => {
+        setShowRedNavbar(false);
+      }, 300);
+      setTimeout(() => {
+        setShowBlueNavbar(true);
+        setBlueNavbarOpacity(1);
+      }, 500);
     }
   }, [active]);
 
@@ -83,6 +95,12 @@ function Header() {
       active
     );
     console.trace("handleRedClick called from:");
+
+    // Don't do anything if we're on home page and already in contact mode
+    if (pathname === "/" && !active) {
+      console.log("Already on home page in contact mode, ignoring click");
+      return;
+    }
 
     // Navigate to home page if not already there
     if (pathname !== "/") {
@@ -210,8 +228,19 @@ function Header() {
         >
           <figure>
             {!active ? (
-              <Link href="/">
-                <div className={styles.bookButton}>
+              pathname === "/" ? (
+                <div
+                  className={styles.bookButton}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActive(true);
+                  }}
+                  style={{
+                    cursor: "pointer",
+                    position: "relative",
+                    zIndex: 15,
+                  }}
+                >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     viewBox="0 0 120 50"
@@ -239,11 +268,46 @@ function Header() {
                       fontSize="20"
                       fontWeight="bold"
                     >
-                      REQUEST
+                      BACK
                     </text>
                   </svg>
                 </div>
-              </Link>
+              ) : (
+                <Link href="/">
+                  <div className={styles.bookButton}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      viewBox="0 0 120 50"
+                      width="100%"
+                      height="100%"
+                    >
+                      <rect
+                        x="2"
+                        y="2"
+                        width="116"
+                        height="46"
+                        rx="8"
+                        ry="8"
+                        fill="transparent"
+                        stroke="white"
+                        strokeWidth="2"
+                      />
+                      <text
+                        x="50%"
+                        y="54%"
+                        dominantBaseline="middle"
+                        textAnchor="middle"
+                        fill="white"
+                        fontFamily="Arial, sans-serif"
+                        fontSize="20"
+                        fontWeight="bold"
+                      >
+                        BACK
+                      </text>
+                    </svg>
+                  </div>
+                </Link>
+              )
             ) : (
               <div className={styles.bookButton}>
                 <svg

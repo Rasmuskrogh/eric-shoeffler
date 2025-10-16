@@ -219,7 +219,7 @@ const events: Event[] = [
     time: "19:00",
     description:
       "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 4, month: "Mars", year: 2026 },
+    startDate: { day: 4, month: "March", year: 2026 },
   },
   {
     id: "23",
@@ -228,7 +228,7 @@ const events: Event[] = [
     time: "16:00",
     description:
       "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 8, month: "Mars", year: 2026 },
+    startDate: { day: 8, month: "March", year: 2026 },
   },
   {
     id: "24",
@@ -237,7 +237,7 @@ const events: Event[] = [
     time: "19:00",
     description:
       "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 10, month: "Mars", year: 2026 },
+    startDate: { day: 10, month: "March", year: 2026 },
   },
   {
     id: "25",
@@ -246,7 +246,7 @@ const events: Event[] = [
     time: "19:00",
     description:
       "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 13, month: "Mars", year: 2026 },
+    startDate: { day: 13, month: "March", year: 2026 },
   },
   {
     id: "26",
@@ -255,7 +255,7 @@ const events: Event[] = [
     time: "16:00",
     description:
       "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 15, month: "Mars", year: 2026 },
+    startDate: { day: 15, month: "March", year: 2026 },
   },
 ];
 

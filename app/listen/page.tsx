@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./page.module.css";
+import Gallery from "../../components/Gallery";
 
 export default function ListenPage() {
   return (
@@ -145,76 +146,7 @@ export default function ListenPage() {
           </section>
 
           {/* Gallery Section */}
-          <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Gallery</h2>
-            <div className={styles.galleryGrid}>
-              <div className={styles.galleryItem}>
-                <img
-                  src="/Eric with Piano.jpg"
-                  alt="Eric Schoeffler med piano"
-                  className={styles.galleryImage}
-                />
-                <div className={styles.galleryOverlay}>
-                  <p className={styles.galleryCaption}>Concert</p>
-                </div>
-              </div>
-
-              <div className={styles.galleryItem}>
-                <img
-                  src="/ProfilePicture Eric Shoeffler.png"
-                  alt="Eric Schoeffler porträtt"
-                  className={styles.galleryImage}
-                />
-                <div className={styles.galleryOverlay}>
-                  <p className={styles.galleryCaption}>Portrait</p>
-                </div>
-              </div>
-
-              <div className={styles.galleryItem}>
-                <img
-                  src="/la-boheme-quartet-large.avif"
-                  alt="La Bohème kvartett"
-                  className={styles.galleryImage}
-                />
-                <div className={styles.galleryOverlay}>
-                  <p className={styles.galleryCaption}>La Bohème quartet</p>
-                </div>
-              </div>
-
-              <div className={styles.galleryItem}>
-                <img
-                  src="/eric-short.JPG"
-                  alt="Konsertframträdande"
-                  className={styles.galleryImage}
-                />
-                <div className={styles.galleryOverlay}>
-                  <p className={styles.galleryCaption}>Portrait</p>
-                </div>
-              </div>
-
-              <div className={styles.galleryItem}>
-                <img
-                  src="/eric-5.JPG"
-                  alt="Eric Schoeffler i studio"
-                  className={styles.galleryImage}
-                />
-                <div className={styles.galleryOverlay}>
-                  <p className={styles.galleryCaption}>Gianni Schicchi</p>
-                </div>
-              </div>
-
-              <div className={styles.galleryItem}>
-                <img
-                  src="/eric-6.jpeg"
-                  alt="Opera framträdande"
-                  className={styles.galleryImage}
-                />
-                <div className={styles.galleryOverlay}>
-                  <p className={styles.galleryCaption}>Hansel und Gretel</p>
-                </div>
-              </div>
-            </div>
-          </section>
+          <Gallery />
         </div>
       </div>
     </div>

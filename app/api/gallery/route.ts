@@ -1,6 +1,17 @@
 import { NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
 
+interface CloudinaryResource {
+  public_id: string;
+  secure_url: string;
+  bytes: number;
+  width: number;
+  height: number;
+  context?: {
+    alt?: string;
+  };
+}
+
 // Configure Cloudinary
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
@@ -37,15 +48,18 @@ export async function GET() {
     console.log("Cloudinary search result:", {
       total_count: result.total_count,
       resources_count: result.resources?.length || 0,
-      resources: result.resources?.map((r: any) => r.public_id) || [],
+      resources:
+        result.resources?.map((r: CloudinaryResource) => r.public_id) || [],
     });
 
     // Log large images that will be optimized
-    const largeImages = result.resources.filter((r: any) => r.bytes > 2000000);
+    const largeImages = result.resources.filter(
+      (r: CloudinaryResource) => r.bytes > 2000000
+    );
     if (largeImages.length > 0) {
       console.log(
         "Large images that will be optimized:",
-        largeImages.map((img: any) => ({
+        largeImages.map((img: CloudinaryResource) => ({
           id: img.public_id,
           size: `${(img.bytes / 1000000).toFixed(2)}MB`,
         }))
@@ -53,30 +67,32 @@ export async function GET() {
     }
 
     // Transform the results to include only what we need
-    const galleryImages = result.resources.map((resource: any) => {
-      // Check if image is larger than 2MB (2,000,000 bytes)
-      const isLargeImage = resource.bytes > 2000000;
+    const galleryImages = result.resources.map(
+      (resource: CloudinaryResource) => {
+        // Check if image is larger than 2MB (2,000,000 bytes)
+        const isLargeImage = resource.bytes > 2000000;
 
-      // Create optimized URL for large images
-      let optimizedUrl = resource.secure_url;
-      if (isLargeImage) {
-        // For large images, add quality parameter to reduce file size
-        optimizedUrl = cloudinary.url(resource.public_id, {
-          quality: "auto:low",
-          fetch_format: "auto",
-        });
+        // Create optimized URL for large images
+        let optimizedUrl = resource.secure_url;
+        if (isLargeImage) {
+          // For large images, add quality parameter to reduce file size
+          optimizedUrl = cloudinary.url(resource.public_id, {
+            quality: "auto:low",
+            fetch_format: "auto",
+          });
+        }
+
+        return {
+          id: resource.public_id,
+          url: optimizedUrl,
+          alt: resource.context?.alt || resource.public_id.split("/").pop(),
+          width: Math.min(resource.width, 800),
+          height: Math.min(resource.height, 600),
+          originalSize: resource.bytes,
+          isOptimized: isLargeImage,
+        };
       }
-
-      return {
-        id: resource.public_id,
-        url: optimizedUrl,
-        alt: resource.context?.alt || resource.public_id.split("/").pop(),
-        width: Math.min(resource.width, 800),
-        height: Math.min(resource.height, 600),
-        originalSize: resource.bytes,
-        isOptimized: isLargeImage,
-      };
-    });
+    );
 
     return NextResponse.json(galleryImages);
   } catch (error) {

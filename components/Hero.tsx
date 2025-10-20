@@ -9,10 +9,12 @@ import { useState, useEffect } from "react";
 const Hero: React.FC = () => {
   const { active } = useActive();
   const [isSmallScreen, setIsSmallScreen] = useState(false);
+  const [isRetina, setIsRetina] = useState(false);
 
   useEffect(() => {
     const checkScreenSize = () => {
       setIsSmallScreen(window.innerWidth < 800);
+      setIsRetina(window.devicePixelRatio > 1);
     };
 
     checkScreenSize();
@@ -35,8 +37,12 @@ const Hero: React.FC = () => {
             className={styles.profileImage}
             src={isSmallScreen ? "/eric-standing.JPG" : "/eric-hero.jpg"}
             alt="Erik Shoeffler"
-            width={400}
-            height={400}
+            width={isRetina ? 2400 : 1200}
+            height={isRetina ? 1600 : 800}
+            priority
+            quality={95}
+            sizes="(max-width: 800px) 100vw, (max-width: 1200px) 50vw, (max-width: 1920px) 40vw, 30vw"
+            unoptimized={false}
           />
         </figure>
       </div>

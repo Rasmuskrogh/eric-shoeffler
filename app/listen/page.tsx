@@ -102,6 +102,24 @@ export default function ListenPage() {
                 </h3>
                 <p className={styles.videoDescription}></p>
               </div>
+              <div className={styles.videoItem}>
+                <div className={styles.videoWrapper}>
+                  <iframe
+                    width="560"
+                    height="315"
+                    src="https://www.youtube.com/embed/gWM82gyJuqM?si=57CLGsFxV523QPG5"
+                    title="YouTube video player"
+                    frameBorder="0"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    referrerPolicy="strict-origin-when-cross-origin"
+                    allowFullScreen
+                  ></iframe>
+                </div>
+                <h3 className={styles.videoTitle}>
+                  &quot;Hallelujah&quot; – as a Duo
+                </h3>
+                <p className={styles.videoDescription}></p>
+              </div>
             </div>
           </section>
 

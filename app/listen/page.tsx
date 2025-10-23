@@ -100,7 +100,7 @@ export default function ListenPage() {
                 <h3 className={styles.videoTitle}>
                   &quot;Jag ger dig min morgon&quot; – Fred Åkerström cover
                 </h3>
-                <p className={styles.videoDescription}></p>
+                <p className={styles.videoDescription}>Stockholm Music Group</p>
               </div>
               <div className={styles.videoItem}>
                 <div className={styles.videoWrapper}>
@@ -118,7 +118,7 @@ export default function ListenPage() {
                 <h3 className={styles.videoTitle}>
                   &quot;Hallelujah&quot; – as a Duo
                 </h3>
-                <p className={styles.videoDescription}></p>
+                <p className={styles.videoDescription}>Stockholm Music Group</p>
               </div>
             </div>
           </section>

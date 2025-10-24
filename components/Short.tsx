@@ -1,5 +1,6 @@
 import styles from "./Short.module.css";
 import Image from "next/image";
+import Link from "next/link";
 
 function Short() {
   return (
@@ -13,7 +14,9 @@ function Short() {
             bridges elegance and power, he captivates audiences across a wide
             range of repertoire.
           </p>
-          <button className={styles.button}>Read more</button>
+          <Link href="/about">
+            <button className={styles.button}>Read more</button>
+          </Link>
         </section>
         <section className={styles.shortImage}>
           <figure>

@@ -1,5 +1,6 @@
 import React from "react";
 import styles from "./ListenShort.module.css";
+import Link from "next/link";
 
 function ListenShort() {
   return (
@@ -15,7 +16,9 @@ function ListenShort() {
         allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
         loading="lazy"
       ></iframe>
-      <button className={styles.listenButton}>More</button>
+      <Link href="/listen">
+        <button className={styles.listenButton}>More</button>
+      </Link>
     </section>
   );
 }

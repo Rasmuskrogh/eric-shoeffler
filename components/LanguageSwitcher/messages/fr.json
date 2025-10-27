@@ -1,0 +1,16 @@
+{
+  "LanguageSwitch": {
+    "selectLanguage": "Sélectionner la langue",
+    "currentLanguage": "Langue actuelle"
+  },
+  "Common": {
+    "loading": "Chargement...",
+    "error": "Une erreur s'est produite",
+    "success": "Succès",
+    "cancel": "Annuler",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "close": "Fermer"
+  }
+}

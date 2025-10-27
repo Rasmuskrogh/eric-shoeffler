@@ -4,6 +4,8 @@ import Footer from "@/components/Footer";
 import { ActiveProvider } from "./context/ActiveContext";
 import { Playfair_Display, Merriweather } from "next/font/google";
 import type { Metadata } from "next";
+import { NextIntlClientProvider } from "next-intl";
+import { getMessages } from "next-intl/server";
 
 const playfair = Playfair_Display({
   subsets: ["latin"],
@@ -24,22 +26,25 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const messages = await getMessages();
   return (
     <html lang="en">
       <body
         className={`${playfair.variable} ${merriweather.variable}`}
         suppressHydrationWarning={true}
       >
-        <ActiveProvider>
-          <Header />
-          {children}
-          <Footer />
-        </ActiveProvider>
+        <NextIntlClientProvider messages={messages}>
+          <ActiveProvider>
+            <Header />
+            {children}
+            <Footer />
+          </ActiveProvider>
+        </NextIntlClientProvider>
       </body>
     </html>
   );

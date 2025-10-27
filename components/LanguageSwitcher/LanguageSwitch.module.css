@@ -1,0 +1,245 @@
+/* LanguageSwitch Container */
+.languageSwitch {
+  position: relative;
+  display: inline-block;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* Trigger Button */
+.trigger {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 8px 12px;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 14px;
+  font-weight: 500;
+  color: white;
+}
+
+/* .trigger:hover {
+  border-color: #d1d5db;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+   transform: translateY(-1px); 
+} */
+
+.trigger:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.trigger:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+}
+
+/* Flag in trigger */
+.flag {
+  font-size: 18px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Arrow */
+.arrow {
+  font-size: 12px;
+  color: white;
+  transition: transform 0.2s ease;
+  line-height: 1;
+  padding-top: 2px;
+}
+
+.arrowOpen {
+  transform: rotate(180deg);
+  padding-bottom: 4px;
+}
+
+/* Dropdown */
+.dropdown {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 135px; /* Minimum bredd för dropdown */
+  width: 150px; /* Anpassar sig till innehållet */
+  margin-top: 2px;
+  background: #ffffff;
+  border: 1px solid #e1e5e9;
+  border-radius: 3px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  overflow: hidden;
+  animation: dropdownFadeIn 0.15s ease-out;
+}
+
+@keyframes dropdownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Dropdown Options */
+.option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-width: 180px; /* Minimum bredd för varje option */
+  padding: 8px 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.15s ease;
+  font-size: 14px;
+  color: black;
+  text-align: left;
+  white-space: nowrap; /* Förhindrar text-wrap */
+}
+
+.option:hover {
+  background-color: #f9fafb;
+}
+
+.option:focus {
+  outline: none;
+  background-color: #f3f4f6;
+}
+
+.optionSelected {
+  background-color: #eff6ff;
+  color: black;
+  font-weight: 500;
+}
+
+.optionSelected:hover {
+  background-color: #dbeafe;
+}
+
+/* Option Flag */
+.optionFlag {
+  font-size: 16px;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 20px;
+}
+
+/* Option Name */
+.optionName {
+  flex: 1;
+  font-weight: inherit;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+  .trigger {
+    background: #1f2937;
+    border-color: #374151;
+    color: #f9fafb;
+  }
+
+  .trigger:hover {
+    border-color: #4b5563;
+    background: #374151;
+  }
+
+  .trigger:focus {
+    border-color: #60a5fa;
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.1);
+  }
+
+  .arrow {
+    color: #9ca3af;
+  }
+
+  .dropdown {
+    background: #1f2937;
+    border-color: #374151;
+  }
+
+  .option {
+    color: #f9fafb;
+  }
+
+  .option:hover {
+    background-color: #374151;
+  }
+
+  .option:focus {
+    background-color: #4b5563;
+  }
+
+  .optionSelected {
+    background-color: #1e3a8a;
+    color: #93c5fd;
+  }
+
+  .optionSelected:hover {
+    background-color: #1e40af;
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 640px) {
+  .trigger {
+    padding: 6px 10px;
+    font-size: 13px;
+  }
+
+  .flag {
+    font-size: 16px;
+  }
+
+  .arrow {
+    font-size: 9px;
+  }
+
+  .option {
+    padding: 10px 14px;
+    font-size: 13px;
+  }
+
+  .optionFlag {
+    font-size: 14px;
+  }
+}
+
+/* Accessibility Improvements */
+@media (prefers-reduced-motion: reduce) {
+  .trigger,
+  .arrow,
+  .option,
+  .dropdown {
+    transition: none;
+  }
+
+  .dropdown {
+    animation: none;
+  }
+}
+
+/* High Contrast Mode */
+@media (prefers-contrast: high) {
+  .trigger {
+    border-width: 2px;
+  }
+
+  .trigger:focus {
+    border-width: 3px;
+  }
+
+  .dropdown {
+    border-width: 2px;
+  }
+}

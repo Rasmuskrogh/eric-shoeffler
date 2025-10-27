@@ -310,3 +310,15 @@
     min-width: 106px;
   }
 }
+
+@media (width < 400px) {
+  .textWrapper {
+    padding-right: 0rem;
+  }
+}
+
+@media (width < 365px) {
+  .mobileMenuButton {
+    right: 0.9rem;
+  }
+}

@@ -8,6 +8,7 @@ import { NavItem } from "../types/interfaces";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
+import LanguageSwitcher from "./LanguageSwitcher/LanguageSwitcher";
 
 function Header() {
   const { active, setActive } = useActive();
@@ -171,56 +172,11 @@ function Header() {
           )}
         </div>
       </div>
-      {/* <div className={styles.white}>
-                 <div className={styles.languageSelector}>
-          <div className={styles.language}>
-            <input type="radio" name="language" id="swedish" defaultChecked />
-            <label htmlFor="swedish">
-              <span className={styles.flag}>
-                <Image
-                  src="/swedishFlag.svg"
-                  alt="Swedish Flag"
-                  width={20}
-                  height={15}
-                />
-              </span>
-              <span className={styles.languageText}>Svenska</span>
-            </label>
-          </div>
-          <div className={styles.language}>
-            <input type="radio" name="language" id="english" />
-            <label htmlFor="english">
-              <span className={styles.flag}>
-                <Image
-                  src="/englishFlag.svg"
-                  alt="English Flag"
-                  width={20}
-                  height={15}
-                />
-              </span>
-              <span className={styles.languageText}>English</span>
-            </label>
-          </div>
-          <div className={styles.language}>
-            <input type="radio" name="language" id="french" />
-            <label htmlFor="french">
-              <span className={styles.flag}>
-                <Image
-                  src="/frenchFlag.svg"
-                  alt="French Flag"
-                  width={20}
-                  height={15}
-                />
-              </span>
-              <span className={styles.languageText}>Français</span>
-            </label>
-          </div>
-        </div> 
-      </div> */}
       <div
         className={`${styles.red} ${!active ? styles.active : ""}`}
         onClick={!active ? undefined : handleRedClick}
       >
+        <LanguageSwitcher />
         <div
           className={`${styles.textWrapper} ${
             centerRedLogo ? styles.centerLogo : ""

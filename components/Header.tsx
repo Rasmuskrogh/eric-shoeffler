@@ -9,6 +9,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import LanguageSwitcher from "./LanguageSwitcher/LanguageSwitcher";
+import { useTranslations } from "next-intl";
 
 function Header() {
   const { active, setActive } = useActive();
@@ -23,12 +24,14 @@ function Header() {
   const [centerRedLogo, setCenterRedLogo] = useState(true);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  const t = useTranslations("Header");
+
   const blueNavItems: NavItem[] = [
-    { label: "Home", href: "/" },
+    { label: t("home"), href: "/" },
     /* { label: "News", href: "/news" }, */
-    { label: "Schedule", href: "/agenda" },
-    { label: "Media", href: "/listen" },
-    { label: "About me", href: "/about" },
+    { label: t("schedule"), href: "/agenda" },
+    { label: t("media"), href: "/listen" },
+    { label: t("aboutMe"), href: "/about" },
   ];
 
   const redNavItems: NavItem[] = [];
@@ -224,7 +227,7 @@ function Header() {
                       fontSize="20"
                       fontWeight="bold"
                     >
-                      BACK
+                      {t("buttonInactive")}
                     </text>
                   </svg>
                 </div>
@@ -258,7 +261,7 @@ function Header() {
                         fontSize="20"
                         fontWeight="bold"
                       >
-                        BACK
+                        {t("buttonInactive")}
                       </text>
                     </svg>
                   </div>
@@ -293,7 +296,7 @@ function Header() {
                     fontSize="20"
                     fontWeight="bold"
                   >
-                    REQUEST
+                    {t("buttonActive")}
                   </text>
                 </svg>
               </div>

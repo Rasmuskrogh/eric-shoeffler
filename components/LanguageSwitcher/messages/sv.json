@@ -3,14 +3,12 @@
     "selectLanguage": "Välj språk",
     "currentLanguage": "Aktuellt språk"
   },
-  "Common": {
-    "loading": "Laddar...",
-    "error": "Ett fel uppstod",
-    "success": "Lyckades",
-    "cancel": "Avbryt",
-    "save": "Spara",
-    "delete": "Ta bort",
-    "edit": "Redigera",
-    "close": "Stäng"
+  "Header": {
+    "home": "Hem",
+    "schedule": "Schema",
+    "media": "Media",
+    "aboutMe": "Om mig",
+    "buttonActive": "BOKA",
+    "buttonInactive": "BACKA"
   }
 }

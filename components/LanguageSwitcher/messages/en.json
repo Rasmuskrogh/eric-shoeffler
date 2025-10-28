@@ -3,14 +3,12 @@
     "selectLanguage": "Select language",
     "currentLanguage": "Current language"
   },
-  "Common": {
-    "loading": "Loading...",
-    "error": "An error occurred",
-    "success": "Success",
-    "cancel": "Cancel",
-    "save": "Save",
-    "delete": "Delete",
-    "edit": "Edit",
-    "close": "Close"
+  "Header": {
+    "home": "Home",
+    "schedule": "Schedule",
+    "media": "Media",
+    "aboutMe": "About me",
+    "buttonActive": "REQUEST",
+    "buttonInactive": "BACK"
   }
 }

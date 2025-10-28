@@ -10,11 +10,37 @@ const Hero: React.FC = () => {
   const { active } = useActive();
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const [isRetina, setIsRetina] = useState(false);
+  const [heroImageUrl, setHeroImageUrl] = useState<string>("");
 
   useEffect(() => {
     const checkScreenSize = () => {
-      setIsSmallScreen(window.innerWidth < 800);
-      setIsRetina(window.devicePixelRatio > 1);
+      const newIsSmallScreen = window.innerWidth < 800;
+      const newIsRetina = window.devicePixelRatio > 1;
+
+      setIsSmallScreen(newIsSmallScreen);
+      setIsRetina(newIsRetina);
+
+      // Fetch appropriate image based on screen size
+      const fetchHeroImage = async () => {
+        try {
+          const imageName = newIsSmallScreen ? "eric-standing" : "eric-hero";
+          const response = await fetch(
+            `/api/hero-image?image=${imageName}&small=${newIsSmallScreen}`
+          );
+          const data = await response.json();
+          if (data.url) {
+            setHeroImageUrl(data.url);
+          }
+        } catch (error) {
+          console.error("Error fetching hero image:", error);
+          // Fallback to local images if API fails
+          setHeroImageUrl(
+            newIsSmallScreen ? "/eric-standing.JPG" : "/eric-hero.jpg"
+          );
+        }
+      };
+
+      fetchHeroImage();
     };
 
     checkScreenSize();
@@ -35,13 +61,14 @@ const Hero: React.FC = () => {
         <figure className={styles.profileImageWrapper}>
           <Image
             className={styles.profileImage}
-            src={isSmallScreen ? "/eric-standing.JPG" : "/eric-hero.jpg"}
+            src={
+              heroImageUrl ||
+              (isSmallScreen ? "/eric-standing.JPG" : "/eric-hero.jpg")
+            }
             alt="Erik Shoeffler"
-            width={isRetina ? 2400 : 1200}
-            height={isRetina ? 1600 : 800}
+            fill
             priority
             quality={95}
-            sizes="(max-width: 800px) 100vw, (max-width: 1200px) 50vw, (max-width: 1920px) 40vw, 30vw"
             unoptimized={false}
           />
         </figure>

@@ -81,7 +81,7 @@
   color: #374151;
 }
 
-@media (width < 875px) {
+@media (width < 876px) {
   .navList {
     flex-direction: column;
     gap: 1rem;

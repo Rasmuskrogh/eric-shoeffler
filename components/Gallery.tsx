@@ -3,14 +3,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./Gallery.module.css";
-
-interface GalleryImage {
-  id: string;
-  url: string;
-  alt: string;
-  width: number;
-  height: number;
-}
+import { GalleryImage } from "../types/interfaces";
 
 export default function Gallery() {
   const [images, setImages] = useState<GalleryImage[]>([]);

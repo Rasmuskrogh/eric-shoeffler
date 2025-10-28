@@ -1,11 +1,7 @@
 "use client";
 
 import React, { createContext, useContext, useState, ReactNode } from "react";
-
-interface ActiveContextType {
-  active: boolean;
-  setActive: (active: boolean) => void;
-}
+import { ActiveContextType } from "../../types/interfaces";
 
 const ActiveContext = createContext<ActiveContextType | undefined>(undefined);
 

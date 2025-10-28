@@ -1,16 +1,6 @@
 import { NextResponse } from "next/server";
 import { v2 as cloudinary } from "cloudinary";
-
-interface CloudinaryResource {
-  public_id: string;
-  secure_url: string;
-  bytes: number;
-  width: number;
-  height: number;
-  context?: {
-    alt?: string;
-  };
-}
+import { CloudinaryResource } from "../../../types/interfaces";
 
 // Configure Cloudinary
 cloudinary.config({

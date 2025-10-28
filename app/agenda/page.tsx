@@ -2,25 +2,7 @@
 
 import React from "react";
 import styles from "./page.module.css";
-
-// Events data structure
-interface Event {
-  id: string;
-  title: string;
-  location: string;
-  time: string;
-  description?: string;
-  startDate: {
-    day: number;
-    month: string;
-    year: number;
-  };
-  endDate?: {
-    day: number;
-    month: string;
-    year: number;
-  };
-}
+import { Event } from "../../types/interfaces";
 
 const events: Event[] = [
   {

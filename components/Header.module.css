@@ -19,6 +19,16 @@
   z-index: 20;
 }
 
+.ericLogoLink {
+  pointer-events: auto;
+  cursor: pointer;
+}
+
+.ericLogoLink.inactive {
+  pointer-events: none;
+  cursor: default;
+}
+
 .header.scrolled {
   opacity: 0.8;
   backdrop-filter: blur(10px);
@@ -316,7 +326,6 @@
     padding-right: 0rem;
   }
 }
-
 @media (width < 365px) {
   .mobileMenuButton {
     right: 0.9rem;

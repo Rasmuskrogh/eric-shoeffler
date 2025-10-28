@@ -3,289 +3,266 @@
 import React from "react";
 import styles from "./page.module.css";
 import { Event } from "../../types/interfaces";
-
-const events: Event[] = [
-  {
-    id: "1",
-    title: "Lohengrin",
-    location: "Malmö Opera",
-    time: "16:00",
-    description:
-      "A mysterious knight saves a princess but forbids her to ask his name — a romantic and fateful tale of faith and doubt. Composer: Richard Wagner.",
-    startDate: { day: 16, month: "October", year: 2025 },
-  },
-  {
-    id: "2",
-    title: "Lohengrin",
-    location: "Malmö Opera",
-    time: "16:00",
-    description:
-      "A mysterious knight saves a princess but forbids her to ask his name — a romantic and fateful tale of faith and doubt. Composer: Richard Wagner.",
-    startDate: { day: 1, month: "November", year: 2025 },
-  },
-  {
-    id: "3",
-    title: "Lohengrin",
-    location: "Malmö Opera",
-    time: "17:00",
-    description:
-      "A mysterious knight saves a princess but forbids her to ask his name — a romantic and fateful tale of faith and doubt. Composer: Richard Wagner.",
-    startDate: { day: 6, month: "November", year: 2025 },
-  },
-  {
-    id: "4",
-    title: "Lohengrin",
-    location: "Malmö Opera",
-    time: "16:00",
-    description:
-      "A mysterious knight saves a princess but forbids her to ask his name — a romantic and fateful tale of faith and doubt. Composer: Richard Wagner.",
-    startDate: { day: 9, month: "November", year: 2025 },
-  },
-  {
-    id: "5",
-    title: "Lohengrin",
-    location: "Malmö Opera",
-    time: "16:00",
-    description:
-      "A mysterious knight saves a princess but forbids her to ask his name — a romantic and fateful tale of faith and doubt. Composer: Richard Wagner.",
-    startDate: { day: 15, month: "November", year: 2025 },
-  },
-  {
-    id: "6",
-    title: "Lohengrin",
-    location: "Malmö Opera",
-    time: "16:00",
-    description:
-      "A mysterious knight saves a princess but forbids her to ask his name — a romantic and fateful tale of faith and doubt. Composer: Richard Wagner.",
-    startDate: { day: 23, month: "November", year: 2025 },
-  },
-  {
-    id: "7",
-    title: "Lohengrin",
-    location: "Malmö Opera",
-    time: "16:00",
-    description:
-      "A mysterious knight saves a princess but forbids her to ask his name — a romantic and fateful tale of faith and doubt. Composer: Richard Wagner.",
-    startDate: { day: 30, month: "November", year: 2025 },
-  },
-  {
-    id: "8",
-    title: "Lohengrin",
-    location: "Malmö Opera",
-    time: "16:00",
-    description:
-      "A mysterious knight saves a princess but forbids her to ask his name — a romantic and fateful tale of faith and doubt. Composer: Richard Wagner.",
-    startDate: { day: 16, month: "December", year: 2025 },
-  },
-  {
-    id: "9",
-    title: "Lohengrin",
-    location: "Malmö Opera",
-    time: "16:00",
-    description:
-      "A mysterious knight saves a princess but forbids her to ask his name — a romantic and fateful tale of faith and doubt. Composer: Richard Wagner.",
-    startDate: { day: 16, month: "December", year: 2025 },
-  },
-  {
-    id: "10",
-    title: "Faurés Requiem",
-    location: "Brännkyrka kyrka",
-    time: "16:00",
-    description:
-      "Featuring the serene and introspective bass solos in Fauré's beloved Requiem. Composer: Gabriel Fauré.",
-    startDate: { day: 2, month: "November", year: 2025 },
-  },
-  {
-    id: "11",
-    title: "Carmen",
-    location: "Malmö Opera",
-    time: "19:00",
-    description:
-      "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 21, month: "January", year: 2026 },
-  },
-  {
-    id: "12",
-    title: "Carmen",
-    location: "Malmö Opera",
-    time: "19:00",
-    description:
-      "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 23, month: "January", year: 2026 },
-  },
-  {
-    id: "13",
-    title: "Carmen",
-    location: "Malmö Opera",
-    time: "16:00",
-    description:
-      "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 25, month: "January", year: 2026 },
-  },
-  {
-    id: "14",
-    title: "Carmen",
-    location: "Malmö Opera",
-    time: "19:00",
-    description:
-      "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 27, month: "January", year: 2026 },
-  },
-  {
-    id: "15",
-    title: "Carmen",
-    location: "Malmö Opera",
-    time: "19:00",
-    description:
-      "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 29, month: "January", year: 2026 },
-  },
-  {
-    id: "16",
-    title: "Carmen",
-    location: "Malmö Opera",
-    time: "18:00",
-    description:
-      "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 31, month: "January", year: 2026 },
-  },
-  {
-    id: "17",
-    title: "Carmen",
-    location: "Malmö Opera",
-    time: "19:00",
-    description:
-      "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 3, month: "February", year: 2026 },
-  },
-  {
-    id: "18",
-    title: "Carmen",
-    location: "Malmö Opera",
-    time: "16:00",
-    description:
-      "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 8, month: "February", year: 2026 },
-  },
-  {
-    id: "19",
-    title: "Carmen",
-    location: "Malmö Opera",
-    time: "18:00",
-    description:
-      "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 14, month: "February", year: 2026 },
-  },
-  {
-    id: "20",
-    title: "Carmen",
-    location: "Malmö Opera",
-    time: "16:00",
-    description:
-      "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 22, month: "February", year: 2026 },
-  },
-  {
-    id: "21",
-    title: "Carmen",
-    location: "Malmö Opera",
-    time: "18:00",
-    description:
-      "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 28, month: "February", year: 2026 },
-  },
-  {
-    id: "22",
-    title: "Carmen",
-    location: "Malmö Opera",
-    time: "19:00",
-    description:
-      "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 4, month: "March", year: 2026 },
-  },
-  {
-    id: "23",
-    title: "Carmen",
-    location: "Malmö Opera",
-    time: "16:00",
-    description:
-      "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 8, month: "March", year: 2026 },
-  },
-  {
-    id: "24",
-    title: "Carmen",
-    location: "Malmö Opera",
-    time: "19:00",
-    description:
-      "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 10, month: "March", year: 2026 },
-  },
-  {
-    id: "25",
-    title: "Carmen",
-    location: "Malmö Opera",
-    time: "19:00",
-    description:
-      "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 13, month: "March", year: 2026 },
-  },
-  {
-    id: "26",
-    title: "Carmen",
-    location: "Malmö Opera",
-    time: "16:00",
-    description:
-      "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
-    startDate: { day: 15, month: "March", year: 2026 },
-  },
-];
-
-// Sort events chronologically
-const sortedEvents = events.sort((a, b) => {
-  const dateA = new Date(
-    a.startDate.year,
-    getMonthIndex(a.startDate.month),
-    a.startDate.day
-  );
-  const dateB = new Date(
-    b.startDate.year,
-    getMonthIndex(b.startDate.month),
-    b.startDate.day
-  );
-  return dateA.getTime() - dateB.getTime();
-});
-
-// Helper function to convert month name to index
-function getMonthIndex(month: string): number {
-  const months = [
-    "January",
-    "February",
-    "March",
-    "April",
-    "May",
-    "June",
-    "July",
-    "August",
-    "September",
-    "October",
-    "November",
-    "December",
-  ];
-  return months.indexOf(month);
-}
-
-// Group events by year
-const eventsByYear = sortedEvents.reduce((acc, event) => {
-  const year = event.startDate.year;
-  if (!acc[year]) {
-    acc[year] = [];
-  }
-  acc[year].push(event);
-  return acc;
-}, {} as Record<number, Event[]>);
+import { useTranslations } from "next-intl";
 
 export default function AgendaPage() {
+  const t = useTranslations("Schedule");
+
+  const events: Event[] = [
+    {
+      id: "1",
+      title: "Lohengrin",
+      location: "Malmö Opera",
+      time: "16:00",
+      description: t("lohengrinDesc"),
+      startDate: { day: 16, month: t("october"), year: 2025 },
+    },
+    {
+      id: "2",
+      title: "Lohengrin",
+      location: "Malmö Opera",
+      time: "16:00",
+      description: t("lohengrinDesc"),
+      startDate: { day: 1, month: t("november"), year: 2025 },
+    },
+    {
+      id: "3",
+      title: "Lohengrin",
+      location: "Malmö Opera",
+      time: "17:00",
+      description: t("lohengrinDesc"),
+      startDate: { day: 6, month: t("november"), year: 2025 },
+    },
+    {
+      id: "4",
+      title: "Lohengrin",
+      location: "Malmö Opera",
+      time: "16:00",
+      description: t("lohengrinDesc"),
+      startDate: { day: 9, month: t("november"), year: 2025 },
+    },
+    {
+      id: "5",
+      title: "Lohengrin",
+      location: "Malmö Opera",
+      time: "16:00",
+      description: t("lohengrinDesc"),
+      startDate: { day: 15, month: t("november"), year: 2025 },
+    },
+    {
+      id: "6",
+      title: "Lohengrin",
+      location: "Malmö Opera",
+      time: "16:00",
+      description: t("lohengrinDesc"),
+      startDate: { day: 23, month: t("november"), year: 2025 },
+    },
+    {
+      id: "7",
+      title: "Lohengrin",
+      location: "Malmö Opera",
+      time: "16:00",
+      description: t("lohengrinDesc"),
+      startDate: { day: 30, month: t("november"), year: 2025 },
+    },
+    {
+      id: "8",
+      title: "Lohengrin",
+      location: "Malmö Opera",
+      time: "16:00",
+      description: t("lohengrinDesc"),
+      startDate: { day: 16, month: t("december"), year: 2025 },
+    },
+    {
+      id: "9",
+      title: "Lohengrin",
+      location: "Malmö Opera",
+      time: "16:00",
+      description: t("lohengrinDesc"),
+      startDate: { day: 16, month: t("december"), year: 2025 },
+    },
+    {
+      id: "10",
+      title: "Faurés Requiem",
+      location: "Brännkyrka kyrka",
+      time: "16:00",
+      description: t("faureDesc"),
+      startDate: { day: 2, month: t("november"), year: 2025 },
+    },
+    {
+      id: "11",
+      title: "Carmen",
+      location: "Malmö Opera",
+      time: "19:00",
+      description: t("carmenDesc"),
+      startDate: { day: 21, month: t("january"), year: 2026 },
+    },
+    {
+      id: "12",
+      title: "Carmen",
+      location: "Malmö Opera",
+      time: "19:00",
+      description: t("carmenDesc"),
+      startDate: { day: 23, month: t("january"), year: 2026 },
+    },
+    {
+      id: "13",
+      title: "Carmen",
+      location: "Malmö Opera",
+      time: "16:00",
+      description: t("carmenDesc"),
+      startDate: { day: 25, month: t("january"), year: 2026 },
+    },
+    {
+      id: "14",
+      title: "Carmen",
+      location: "Malmö Opera",
+      time: "19:00",
+      description: t("carmenDesc"),
+      startDate: { day: 27, month: t("january"), year: 2026 },
+    },
+    {
+      id: "15",
+      title: "Carmen",
+      location: "Malmö Opera",
+      time: "19:00",
+      description: t("carmenDesc"),
+      startDate: { day: 29, month: t("january"), year: 2026 },
+    },
+    {
+      id: "16",
+      title: "Carmen",
+      location: "Malmö Opera",
+      time: "18:00",
+      description: t("carmenDesc"),
+      startDate: { day: 31, month: t("january"), year: 2026 },
+    },
+    {
+      id: "17",
+      title: "Carmen",
+      location: "Malmö Opera",
+      time: "19:00",
+      description: t("carmenDesc"),
+      startDate: { day: 3, month: t("february"), year: 2026 },
+    },
+    {
+      id: "18",
+      title: "Carmen",
+      location: "Malmö Opera",
+      time: "16:00",
+      description: t("carmenDesc"),
+      startDate: { day: 8, month: t("february"), year: 2026 },
+    },
+    {
+      id: "19",
+      title: "Carmen",
+      location: "Malmö Opera",
+      time: "18:00",
+      description: t("carmenDesc"),
+      startDate: { day: 14, month: t("february"), year: 2026 },
+    },
+    {
+      id: "20",
+      title: "Carmen",
+      location: "Malmö Opera",
+      time: "16:00",
+      description: t("carmenDesc"),
+      startDate: { day: 22, month: t("february"), year: 2026 },
+    },
+    {
+      id: "21",
+      title: "Carmen",
+      location: "Malmö Opera",
+      time: "18:00",
+      description: t("carmenDesc"),
+      startDate: { day: 28, month: t("february"), year: 2026 },
+    },
+    {
+      id: "22",
+      title: "Carmen",
+      location: "Malmö Opera",
+      time: "19:00",
+      description: t("carmenDesc"),
+      startDate: { day: 4, month: t("march"), year: 2026 },
+    },
+    {
+      id: "23",
+      title: "Carmen",
+      location: "Malmö Opera",
+      time: "16:00",
+      description: t("carmenDesc"),
+      startDate: { day: 8, month: t("march"), year: 2026 },
+    },
+    {
+      id: "24",
+      title: "Carmen",
+      location: "Malmö Opera",
+      time: "19:00",
+      description: t("carmenDesc"),
+      startDate: { day: 10, month: t("march"), year: 2026 },
+    },
+    {
+      id: "25",
+      title: "Carmen",
+      location: "Malmö Opera",
+      time: "19:00",
+      description: t("carmenDesc"),
+      startDate: { day: 13, month: t("march"), year: 2026 },
+    },
+    {
+      id: "26",
+      title: "Carmen",
+      location: "Malmö Opera",
+      time: "16:00",
+      description: t("carmenDesc"),
+      startDate: { day: 15, month: t("march"), year: 2026 },
+    },
+  ];
+
+  // Sort events chronologically
+  const sortedEvents = events.sort((a, b) => {
+    const dateA = new Date(
+      a.startDate.year,
+      getMonthIndex(a.startDate.month),
+      a.startDate.day
+    );
+    const dateB = new Date(
+      b.startDate.year,
+      getMonthIndex(b.startDate.month),
+      b.startDate.day
+    );
+    return dateA.getTime() - dateB.getTime();
+  });
+
+  // Helper function to convert month name to index
+  function getMonthIndex(month: string): number {
+    const months = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    return months.indexOf(month);
+  }
+
+  // Group events by year
+  const eventsByYear = sortedEvents.reduce((acc, event) => {
+    const year = event.startDate.year;
+    if (!acc[year]) {
+      acc[year] = [];
+    }
+    acc[year].push(event);
+    return acc;
+  }, {} as Record<number, Event[]>);
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
@@ -330,11 +307,8 @@ export default function AgendaPage() {
         </div>
 
         <div className={styles.contactInfo}>
-          <h2>Book a concert</h2>
-          <p>
-            Do you want to book Eric for an event? Contact us for more
-            information about prices and availability.
-          </p>
+          <h2>{t("bookTitle")}</h2>
+          <p>{t("bookDesc")}</p>
           <div className={styles.contactDetails}>
             <p>
               <strong>Email:</strong>{" "}

@@ -4,8 +4,11 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import styles from "./Gallery.module.css";
 import { GalleryImage } from "../types/interfaces";
+import { useTranslations } from "next-intl";
 
 export default function Gallery() {
+  const t = useTranslations("Gallery");
+
   const [images, setImages] = useState<GalleryImage[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -65,14 +68,14 @@ export default function Gallery() {
 
   return (
     <section className={styles.section}>
-      <h2 className={styles.sectionTitle}>Gallery</h2>
+      <h2 className={styles.sectionTitle}>{t("title")}</h2>
       <div className={styles.galleryGrid}>
         {images.map((image) => (
           <div key={image.id} className={styles.galleryItem}>
             {failedImages.has(image.id) ? (
               <div className={styles.imagePlaceholder}>
                 <div className={styles.placeholderContent}>
-                  <p>Bild kunde inte laddas</p>
+                  <p>{t("imageLoadingError")}</p>
                   <small>{image.alt}</small>
                 </div>
               </div>

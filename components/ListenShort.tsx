@@ -1,11 +1,14 @@
 import React from "react";
 import styles from "./ListenShort.module.css";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 function ListenShort() {
+  const t = useTranslations("ListenShort");
+
   return (
     <section className={styles.listenSection}>
-      <h2 className={styles.listenTitle}>Listen</h2>
+      <h2 className={styles.listenTitle}>{t("title")}</h2>
       <iframe
         className={styles.listenIframe}
         src="https://open.spotify.com/embed/track/3W9NQIIENxpOTRNEbmFYPG?utm_source=generator"
@@ -17,7 +20,7 @@ function ListenShort() {
         loading="lazy"
       ></iframe>
       <Link href="/listen">
-        <button className={styles.listenButton}>More</button>
+        <button className={styles.listenButton}>{t("button")}</button>
       </Link>
     </section>
   );

@@ -5,20 +5,22 @@ import { useActive } from "../app/context/ActiveContext";
 import Image from "next/image";
 import ContactForm from "./ContactForm";
 import { useState, useEffect } from "react";
+import { useTranslations } from "next-intl";
 
 const Hero: React.FC = () => {
   const { active } = useActive();
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const [isRetina, setIsRetina] = useState(false);
   const [heroImageUrl, setHeroImageUrl] = useState<string>("");
+
+  const t = useTranslations("Hero");
 
   useEffect(() => {
     const checkScreenSize = () => {
       const newIsSmallScreen = window.innerWidth < 800;
       const newIsRetina = window.devicePixelRatio > 1;
 
+      console.log(newIsRetina);
       setIsSmallScreen(newIsSmallScreen);
-      setIsRetina(newIsRetina);
 
       // Fetch appropriate image based on screen size
       const fetchHeroImage = async () => {
@@ -53,10 +55,8 @@ const Hero: React.FC = () => {
     <section className={styles.hero}>
       <div className={`${styles.blueArea} ${active ? styles.active : ""}`}>
         <article className={styles.tagline}>
-          <h1 className={styles.taglineTitle}>Eric Schoeffler</h1>
-          <p className={styles.taglineSubtitle}>
-            The Franco-Swedish Bass Baritone
-          </p>
+          <h1 className={styles.taglineTitle}>{t("name")}</h1>
+          <p className={styles.taglineSubtitle}>{t("tagline")}</p>
         </article>
         <figure className={styles.profileImageWrapper}>
           <Image
@@ -80,19 +80,7 @@ const Hero: React.FC = () => {
               <ContactForm />
             </div>
             <div className={styles.contactText}>
-              <p>
-                With a solid vocal education, extensive experience across both
-                classical and contemporary genres, and a wide network of
-                musicians, pianists, DJs, and event organizers, Eric Schoeffler
-                is the natural choice when booking a singer and live music for
-                weddings, christenings, funerals, corporate events, or private
-                celebrations. Based in Stockholm but performing internationally,
-                Eric tailors his music to each occasion and regularly
-                collaborates with the Stockholm Music Group in addition to his
-                opera and concert performances. Contact us for a free quote,
-                consultation, or advice when booking live music and vocals for
-                weddings, events, parties, or studio recordings.
-              </p>
+              <p>{t("description")}</p>
             </div>
           </>
         )}

@@ -1,21 +1,19 @@
 import styles from "./Short.module.css";
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 
 function Short() {
+  const t = useTranslations("Short");
+
   return (
     <>
       <section className={styles.short}>
         <section className={styles.presentationShort}>
-          <h2 className={styles.title}>About me</h2>
-          <p className={styles.description}>
-            Eric Schoeffler blends lyrical warmth with dramatic intensity,
-            bringing depth and presence to every performance. With a voice that
-            bridges elegance and power, he captivates audiences across a wide
-            range of repertoire.
-          </p>
+          <h2 className={styles.title}>{t("title")}</h2>
+          <p className={styles.description}>{t("description")}</p>
           <Link href="/about">
-            <button className={styles.button}>Read more</button>
+            <button className={styles.button}>{t("button")}</button>
           </Link>
         </section>
         <section className={styles.shortImage}>

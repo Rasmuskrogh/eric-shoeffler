@@ -6,8 +6,11 @@ import Image from "next/image";
 import Link from "next/link";
 import { useActive } from "../app/context/ActiveContext";
 import { useRouter } from "next/navigation";
+import { useTranslations } from "next-intl";
 
 function Footer() {
+  const t = useTranslations("Footer");
+
   const { setActive } = useActive();
   const router = useRouter();
 
@@ -21,7 +24,7 @@ function Footer() {
     <footer className={styles.footer}>
       <section className={styles.linksSection}>
         <section className={styles.contactSection}>
-          <h3>Contact</h3>
+          <h3>{t("contact")}</h3>
           <div className={styles.contactLinks}>
             <a
               href={`mailto:${
@@ -35,29 +38,29 @@ function Footer() {
               +46735362254
             </a>
             <button onClick={handleContactClick} className={styles.contactLink}>
-              → Request
+              → {t("request")}
             </button>
           </div>
         </section>
         <section className={styles.menuSection}>
-          <h3>Quick Links</h3>
+          <h3>{t("quickLinks")}</h3>
           <div className={styles.menuItems}>
             <Link href="/" className={styles.menuLink}>
-              Home
+              {t("home")}
             </Link>
             <Link href="/about" className={styles.menuLink}>
-              About me
+              {t("aboutMe")}
             </Link>
             <Link href="/agenda" className={styles.menuLink}>
-              Schedule
+              {t("schedule")}
             </Link>
             <Link href="/listen" className={styles.menuLink}>
-              Media
+              {t("media")}
             </Link>
           </div>
         </section>
         <section className={styles.socialMediaSection}>
-          <h3>Social media</h3>
+          <h3>{t("socialMedia")}</h3>
           <div className={styles.socialIcons}>
             <Link
               href="https://www.facebook.com/share/19vyQZ59Ph/"
@@ -117,7 +120,7 @@ function Footer() {
       <section className={styles.copyrightSection}>
         <p>&copy; Eric Schoeffler 2025</p>
         <p>
-          Made by:{" "}
+          {t("creator")}:{" "}
           <Link
             className={styles.creatorLink}
             href="https://portfolio-page-next-js.vercel.app/"

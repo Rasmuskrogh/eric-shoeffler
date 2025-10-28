@@ -1,18 +1,21 @@
 import React from "react";
 import styles from "./page.module.css";
 import Gallery from "../../components/Gallery";
+import { useTranslations } from "next-intl";
 
 export default function ListenPage() {
+  const t = useTranslations("Media");
+
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <h1 className={styles.title}>Media</h1>
-        <p className={styles.subtitle}>Discover Eric Schoeffler’s music</p>
+          <h1 className={styles.title}>Media</h1>
+        <p className={styles.subtitle}>{t("undertitle")}</p>
 
         <div className={styles.sections}>
           {/* YouTube Videos Section */}
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Videos</h2>
+            <h2 className={styles.sectionTitle}>{t("videosTitle")}</h2>
             <div className={styles.videoGrid}>
               <div className={styles.videoItem}>
                 <div className={styles.videoWrapper}>
@@ -28,7 +31,7 @@ export default function ListenPage() {
                   Vous qui faites l’endormie
                 </h3>
                 <p className={styles.videoDescription}>
-                  The Devil’s seductive serenade from Gounod’s Faust.
+                  {t("vousQuiFaitesL’endormieDesc")}
                 </p>
               </div>
 
@@ -45,7 +48,7 @@ export default function ListenPage() {
                 </div>
                 <h3 className={styles.videoTitle}>Stars</h3>
                 <p className={styles.videoDescription}>
-                  The Inspector’s solemn vow from Les Misérables.
+                  {t("starsDesc")}
                 </p>
               </div>
 
@@ -62,7 +65,7 @@ export default function ListenPage() {
                 </div>
                 <h3 className={styles.videoTitle}>Le couteau</h3>
                 <p className={styles.videoDescription}>
-                  Nadia Boulanger’s haunting song of love and pain.
+                  {t("leCouteauDesc")}
                 </p>
               </div>
               <div className={styles.videoItem}>
@@ -80,8 +83,7 @@ export default function ListenPage() {
                   En visa till Karin när hon hade dansat
                 </h3>
                 <p className={styles.videoDescription}>
-                  The mad King Erik XIV’s song to his beloved, by Swedish
-                  composer Ture Rangström.
+                  {t("enVisaTillKarinDesc")}
                 </p>
               </div>
               <div className={styles.videoItem}>
@@ -125,7 +127,7 @@ export default function ListenPage() {
 
           {/* Spotify Section */}
           <section className={styles.section}>
-            <h2 className={styles.sectionTitle}>Music</h2>
+            <h2 className={styles.sectionTitle}>{t("musicTitle")}</h2>
             <div className={styles.spotifyGrid}>
               <div className={styles.spotifyItem}>
                 {/*  <h3 className={styles.spotifyTitle}>Eric Schoeffler - Album</h3> */}

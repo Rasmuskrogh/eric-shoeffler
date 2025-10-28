@@ -1,16 +1,96 @@
 {
   "LanguageSwitch": {
-    "selectLanguage": "Sélectionner la langue",
+    "selectLanguage": "Choisir la langue",
     "currentLanguage": "Langue actuelle"
   },
-  "Common": {
-    "loading": "Chargement...",
-    "error": "Une erreur s'est produite",
-    "success": "Succès",
-    "cancel": "Annuler",
-    "save": "Enregistrer",
-    "delete": "Supprimer",
-    "edit": "Modifier",
-    "close": "Fermer"
+  "Header": {
+    "home": "Accueil",
+    "schedule": "Calendrier",
+    "media": "Médias",
+    "aboutMe": "À propos de moi",
+    "buttonActive": "DEMANDE",
+    "buttonInactive": "RETOUR"
+  },
+  "Hero": {
+    "name": "Eric Schoeffler",
+    "tagline": "Le baryton-basse franco-suédois",
+    "description": "Grâce à une solide formation vocale, une vaste expérience dans les genres classiques et contemporains, et un large réseau de musiciens, pianistes, DJ et organisateurs d’événements, Eric Schoeffler est le choix naturel pour l’organisation de concerts et de prestations de chant en direct lors de mariages, baptêmes, funérailles, événements d’entreprise ou célébrations privées. Basé à Stockholm mais se produisant à l’international, Eric adapte sa musique à chaque occasion et collabore régulièrement avec le Stockholm Music Group, en parallèle de ses représentations d’opéra et de concert. Contactez-nous pour un devis gratuit, une consultation ou des conseils pour réserver de la musique et du chant en direct pour vos mariages, événements, fêtes ou enregistrements en studio."
+  },
+  "Short": {
+    "title": "À propos de moi",
+    "description": "Eric Schoeffler allie chaleur lyrique et intensité dramatique, apportant profondeur et présence à chacune de ses prestations. Avec une voix qui marie élégance et puissance, il captive le public à travers un vaste répertoire.",
+    "button": "En savoir plus"
+  },
+  "ListenShort": {
+    "title": "Écouter",
+    "button": "Plus"
+  },
+  "Schedule": {
+    "title": "Calendrier",
+    "undertitle": "Concerts et événements à venir",
+    "lohengrinDesc": "Un chevalier mystérieux sauve une princesse mais lui interdit de demander son nom — une histoire romantique et fatale de foi et de doute. Compositeur : Richard Wagner.",
+    "faureDesc": "Avec les solos de basse sereins et introspectifs du Requiem bien-aimé de Fauré. Compositeur : Gabriel Fauré.",
+    "carmenDesc": "Une histoire passionnée d’amour, de liberté et de jalousie, où la fougueuse Carmen séduit et détruit le tourmenté Don José. Compositeur : Georges Bizet.",
+    "bookTitle": "Réserver un concert",
+    "bookDesc": "Souhaitez-vous réserver Eric pour un événement ? Contactez-nous pour plus d’informations sur les tarifs et la disponibilité.",
+    "january": "Janvier",
+    "february": "Février",
+    "march": "Mars",
+    "april": "Avril",
+    "may": "Mai",
+    "june": "Juin",
+    "july": "Juillet",
+    "august": "Août",
+    "september": "Septembre",
+    "october": "Octobre",
+    "november": "Novembre",
+    "december": "Décembre"
+  },
+  "Media": {
+    "title": "Médias",
+    "undertitle": "Découvrez la musique d’Eric Schoeffler",
+    "videosTitle": "Vidéos",
+    "vousQuiFaitesL’endormieDesc": "La sérénade séduisante du Diable, tirée du Faust de Gounod.",
+    "starsDesc": "Le serment solennel de l’Inspecteur, extrait des Misérables.",
+    "leCouteauDesc": "La chanson poignante de Nadia Boulanger sur l’amour et la douleur.",
+    "enVisaTillKarinDesc": "La chanson du roi fou Éric XIV pour sa bien-aimée, du compositeur suédois Ture Rangström.",
+    "musicTitle": "Musique",
+    "galleryTitle": "Galerie"
+  },
+  "About": {
+    "title": "Eric Schoeffler — Baryton-basse",
+    "para1": "Le baryton-basse franco-suédois Eric Schoeffler est reconnu pour sa présence dramatique et sa voix riche et résonante. Parmi ses engagements à venir : Escamillo dans Carmen, Don Giovanni et Méphistophélès dans Faust.",
+    "para2": "Parmi ses récentes apparitions à l’opéra figurent le Comte Almaviva dans Le nozze di Figaro (Saluzzo 2023), Schaunard dans La Bohème (Paris 2023) et Peter dans Hänsel und Gretel (Berlin 2022). En concert, il a interprété Pilatus dans la Passion selon Saint Jean de Bach (2023–24) et a été soliste dans la Petite messe solennelle de Rossini (Berlin 2023).",
+    "para3": "Diplômé de l’Académie de musique et de théâtre de Göteborg, Schoeffler a perfectionné son art à la Stockholm Opera Studio et à l’Académie de Vadstena, après des études au Conservatoire Nadia & Lili Boulanger à Paris et un master en ingénierie à Stockholm. Maîtrisant le français, le suédois, l’allemand, l’espagnol et l’anglais, il associe la clarté nordique au lyrisme français dans son art vocal.",
+    "para4": "Il a également exploré divers univers musicaux, se produisant notamment au Stockholm Jazz Festival (2013) et au Nordic Song Festival (2024)."
+  },
+  "Contact": {
+    "name": "Nom",
+    "namePlaceholder": "Votre nom",
+    "email": "E-mail",
+    "emailPlaceholder": "Votre e-mail",
+    "tel": "Numéro de téléphone",
+    "telPlaceholder": "Votre numéro de téléphone",
+    "message": "Message",
+    "messagePlaceholder": "Votre message",
+    "submit": "Envoyer le message",
+    "loading": "Envoi en cours...",
+    "success": "Merci ! Votre message a été envoyé avec succès.",
+    "error": "Désolé, une erreur est survenue lors de l'envoi de votre message. Veuillez réessayer."
+  },
+  "Footer": {
+    "contact": "Contact",
+    "quickLinks": "Liens rapides",
+    "socialMedia": "Réseaux sociaux",
+    "request": "Demande",
+    "home": "Accueil",
+    "aboutMe": "À propos de moi",
+    "schedule": "Calendrier",
+    "media": "Médias",
+    "creator": "Créé par"
+  },
+  "Gallery": {
+    "title": "Galerie",
+    "imageLoadingError": "L'image n'a pas pu être chargée"
   }
 }

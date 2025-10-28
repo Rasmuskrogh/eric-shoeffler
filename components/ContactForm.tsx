@@ -1,8 +1,11 @@
 "use client";
 import { useState } from "react";
 import styles from "./ContactForm.module.css";
+import { useTranslations } from "next-intl";
 
 export default function ContactForm() {
+  const t = useTranslations("Contact");
+
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -48,7 +51,7 @@ export default function ContactForm() {
     <div className={styles.formWrapper}>
       <form onSubmit={handleSubmit} className={styles.form}>
         <label className={styles.label}>
-          <span className={styles.labelText}>Name</span>
+          <span className={styles.labelText}>{t("name")}</span>
           <input
             type="text"
             name="name"
@@ -56,12 +59,12 @@ export default function ContactForm() {
             onChange={handleChange}
             required
             className={styles.input}
-            placeholder="Your name"
+            placeholder={t("namePlaceholder")}
           />
         </label>
 
         <label className={styles.label}>
-          <span className={styles.labelText}>Email</span>
+          <span className={styles.labelText}>{t("email")}</span>
           <input
             type="email"
             name="email"
@@ -69,11 +72,11 @@ export default function ContactForm() {
             onChange={handleChange}
             required
             className={styles.input}
-            placeholder="Your email"
+            placeholder={t("emailPlaceholder")}
           />
         </label>
         <label className={styles.label}>
-          <span className={styles.labelText}>Phone number</span>
+          <span className={styles.labelText}>{t("tel")}</span>
           <input
             type="tel"
             name="tel"
@@ -81,18 +84,18 @@ export default function ContactForm() {
             onChange={handleChange}
             required
             className={styles.input}
-            placeholder="Your phone number"
+            placeholder={t("telPlaceholder")}
           />
         </label>
         <label className={styles.label}>
-          <span className={styles.labelText}>Message</span>
+          <span className={styles.labelText}>{t("message")}</span>
           <textarea
             name="message"
             value={formData.message}
             onChange={handleChange}
             required
             className={styles.textarea}
-            placeholder="Your message"
+            placeholder={t("messagePlaceholder")}
           ></textarea>
         </label>
 
@@ -101,19 +104,15 @@ export default function ContactForm() {
           disabled={status === "submitting"}
           className={styles.submitButton}
         >
-          {status === "submitting" ? "Sending..." : "Send message"}
+          {status === "submitting" ? t("loading") : t("submit")}
         </button>
 
         {status === "success" && (
-          <div className={styles.successMessage}>
-            Thank you! Your message has been sent successfully.
-          </div>
+          <div className={styles.successMessage}>{t("success")}</div>
         )}
 
         {status === "error" && (
-          <div className={styles.errorMessage}>
-            Sorry, there was an error sending your message. Please try again.
-          </div>
+          <div className={styles.errorMessage}>{t("error")}</div>
         )}
       </form>
     </div>

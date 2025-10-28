@@ -10,5 +10,87 @@
     "aboutMe": "About me",
     "buttonActive": "REQUEST",
     "buttonInactive": "BACK"
+  },
+  "Hero": {
+    "name": "Eric Schoeffler",
+    "tagline": "The Franco-Swedish Bass Baritone",
+    "description": "With a solid vocal education, extensive experience across both classical and contemporary genres, and a wide network of musicians, pianists, DJs, and event organizers, Eric Schoeffler is the natural choice when booking a singer and live music for weddings, christenings, funerals, corporate events, or private celebrations. Based in Stockholm but performing internationally, Eric tailors his music to each occasion and regularly collaborates with the Stockholm Music Group in addition to his opera and concert performances. Contact us for a free quote, consultation, or advice when booking live music and vocals for weddings, events, parties, or studio recordings.,"
+  },
+  "Short": {
+    "title": "About me",
+    "description": "Eric Schoeffler blends lyrical warmth with dramatic intensity, bringing depth and presence to every performance. With a voice that bridges elegance and power, he captivates audiences across a wide range of repertoire.",
+    "button": "Read more"
+  },
+  "ListenShort": {
+    "title": "Listen",
+    "button": "More"
+  },
+  "Schedule": {
+    "title": "Schedule",
+    "undertitle": "Upcoming concerts andevents",
+    "lohengrinDesc": "A mysterious knight saves a princess but forbids her to ask his name — a romantic and fateful tale of faith and doubt. Composer: Richard Wagner.",
+    "faureDesc": "Featuring the serene and introspective bass solos in Fauré's beloved Requiem. Composer: Gabriel Fauré.",
+    "carmenDesc": "A passionate story of love, freedom, and jealousy, where the free-spirited Carmen seduces and destroys the tormented Don José. Composer: Georges Bizet.",
+    "bookTitle": "Book a concert",
+    "bookDesc": "Do you want to book Eric for an event? Contact us for more information about prices and availability.",
+    "january": "January",
+    "february": "February",
+    "march": "March",
+    "april": "April",
+    "may": "May",
+    "june": "June",
+    "july": "July",
+    "august": "August",
+    "september": "September",
+    "october": "October",
+    "november": "November",
+    "december": "December"
+  },
+  "Media": {
+    "title": "Media",
+    "undertitle": "Discover Eric Schoeffler’s music",
+    "videosTitle": "Videos",
+    "vousQuiFaitesL’endormieDesc": "The Devil’s seductive serenade from Gounod’s Faust.",
+    "starsDesc": "The Inspector’s solemn vow from Les Misérables.",
+    "leCouteauDesc": "Nadia Boulanger’s haunting song of love and pain.",
+    "enVisaTillKarinDesc": "The mad King Erik XIV’s song to his beloved, by Swedish composer Ture Rangström.",
+    "musicTitle": "Music",
+    "galleryTitle": "Gallery"
+  },
+  "About": {
+    "title": "Eric Schoeffler — Bass baritone",
+    "para1": "Franco-Swedish bass-baritone Eric Schoeffler is celebrated for his dramatic presence and rich, resonant timbre. Upcoming engagements include Escamillo in Carmen, Don Giovanni, and Méphistophélès in Faust.",
+    "para2": "Recent operatic highlights feature Count Almaviva in Le nozze di Figaro (Saluzzo 2023), Schaunard in La Bohème (Paris 2023), and Peter in Hänsel und Gretel (Berlin 2022). In concert, he has performed Pilatus in Bach’s Johannespassion (2023–24) and appeared as a soloist in Rossini’s Petite messe solennelle (Berlin 2023).",
+    "para3": "A graduate of the Academy of Music and Drama in Gothenburg, Schoeffler refined his craft at the Stockholm Opera Studio and Vadstena Academy, following earlier studies at the Conservatoire Nadia & Lili Boulanger in Paris and a Master of Science in Engineering in Stockholm. Fluent in French, Swedish, German, Spanish, and English, he combines Nordic clarity with French lyricism in his vocal artistry.",
+    "para4": "He has also embraced diverse musical settings, performing at the Stockholm Jazz Festival (2013) and the Nordic Song Festival (2024)."
+  },
+  "Contact": {
+    "name": "Name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "emailPlaceholder": "Your email",
+    "tel": "Phone number",
+    "telPlaceholder": "Your phone number",
+    "message": "Message",
+    "messagePlaceholder": "Your message",
+    "submit": "Send message",
+    "loading": "Sending...",
+    "success": "Thank you! Your message has been sent successfully.",
+    "error": "Sorry, there was an error sending your message. Please try again."
+  },
+  "Footer": {
+    "contact": "Contact",
+    "quickLinks": "Quick Links",
+    "socialMedia": "Social media",
+    "request": "Request",
+    "home": "Home",
+    "aboutMe": "About me",
+    "schedule": "Schedule",
+    "media": "Media",
+    "creator": "Made by"
+  },
+  "Gallery": {
+    "title": "Gallery",
+    "imageLoadingError": "Image could not be loaded"
   }
 }

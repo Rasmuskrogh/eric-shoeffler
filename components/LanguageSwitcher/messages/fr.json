@@ -7,17 +7,17 @@
     "home": "Accueil",
     "schedule": "Calendrier",
     "media": "Médias",
-    "aboutMe": "À propos de moi",
+    "aboutMe": "À propos",
     "buttonActive": "DEMANDE",
     "buttonInactive": "RETOUR"
   },
   "Hero": {
     "name": "Eric Schoeffler",
     "tagline": "Le baryton-basse franco-suédois",
-    "description": "Grâce à une solide formation vocale, une vaste expérience dans les genres classiques et contemporains, et un large réseau de musiciens, pianistes, DJ et organisateurs d’événements, Eric Schoeffler est le choix naturel pour l’organisation de concerts et de prestations de chant en direct lors de mariages, baptêmes, funérailles, événements d’entreprise ou célébrations privées. Basé à Stockholm mais se produisant à l’international, Eric adapte sa musique à chaque occasion et collabore régulièrement avec le Stockholm Music Group, en parallèle de ses représentations d’opéra et de concert. Contactez-nous pour un devis gratuit, une consultation ou des conseils pour réserver de la musique et du chant en direct pour vos mariages, événements, fêtes ou enregistrements en studio."
+    "description": "Grâce à une solide formation vocale, une vaste expérience dans les genres classiques et contemporains, et un large réseau de musiciens, pianistes, DJ et organisateurs d’événements, Eric Schoeffler est le choix naturel pour l’organisation de concerts et de prestations de chant lors de mariages, baptêmes, funérailles, événements d’entreprise ou célébrations privées. Basé à Stockholm mais se produisant à l’international, Eric adapte sa musique à chaque occasion et collabore régulièrement avec le Stockholm Music Group, en parallèle de ses représentations d’opéra et de concert. Contactez-nous pour un devis gratuit, une demande ou pour réserver. "
   },
   "Short": {
-    "title": "À propos de moi",
+    "title": "À propos",
     "description": "Eric Schoeffler allie chaleur lyrique et intensité dramatique, apportant profondeur et présence à chacune de ses prestations. Avec une voix qui marie élégance et puissance, il captive le public à travers un vaste répertoire.",
     "button": "En savoir plus"
   },
@@ -59,8 +59,8 @@
   },
   "About": {
     "title": "Eric Schoeffler — Baryton-basse",
-    "para1": "Le baryton-basse franco-suédois Eric Schoeffler est reconnu pour sa présence dramatique et sa voix riche et résonante. Parmi ses engagements à venir : Escamillo dans Carmen, Don Giovanni et Méphistophélès dans Faust.",
-    "para2": "Parmi ses récentes apparitions à l’opéra figurent le Comte Almaviva dans Le nozze di Figaro (Saluzzo 2023), Schaunard dans La Bohème (Paris 2023) et Peter dans Hänsel und Gretel (Berlin 2022). En concert, il a interprété Pilatus dans la Passion selon Saint Jean de Bach (2023–24) et a été soliste dans la Petite messe solennelle de Rossini (Berlin 2023).",
+    "para1": " Le baryton-basse franco-suédois Eric Schoeffler est reconnu pour sa présence dramatique et sa voix riche et résonante.",
+    "para2": "Parmi ses récentes apparitions à l’opéra figurent le Comte Almaviva dans &quot;Le nozze di Figaro&quot; (Turin 2023), Schaunard dans &quot;La Bohème&quot; (Paris 2023) et Peter dans &quot;Hänsel und Gretel&quot; (Berlin 2022). En concert, il interprète Pilate dans la Passion selon Saint Jean de J.S. Bach, est baryton soliste dans le requiem de Fauré et a été soliste dans la Petite messe solennelle de G. Rossini. Ses engagements à venir incluent: Escamillo dans Carmen, Don Giovanni et Méphistophélès dans Faust. ",
     "para3": "Diplômé de l’Académie de musique et de théâtre de Göteborg, Schoeffler a perfectionné son art à la Stockholm Opera Studio et à l’Académie de Vadstena, après des études au Conservatoire Nadia & Lili Boulanger à Paris et un master en ingénierie à Stockholm. Maîtrisant le français, le suédois, l’allemand, l’espagnol et l’anglais, il associe la clarté nordique au lyrisme français dans son art vocal.",
     "para4": "Il a également exploré divers univers musicaux, se produisant notamment au Stockholm Jazz Festival (2013) et au Nordic Song Festival (2024)."
   },
@@ -84,7 +84,7 @@
     "socialMedia": "Réseaux sociaux",
     "request": "Demande",
     "home": "Accueil",
-    "aboutMe": "À propos de moi",
+    "aboutMe": "À propos",
     "schedule": "Calendrier",
     "media": "Médias",
     "creator": "Créé par"

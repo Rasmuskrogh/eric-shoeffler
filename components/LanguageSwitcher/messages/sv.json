@@ -5,19 +5,19 @@
   },
   "Header": {
     "home": "Hem",
-    "schedule": "Schema",
+    "schedule": "Kalender",
     "media": "Media",
-    "aboutMe": "Om mig",
+    "aboutMe": "Om",
     "buttonActive": "BOKA",
     "buttonInactive": "BACKA"
   },
   "Hero": {
     "name": "Eric Schoeffler",
     "tagline": "Den fransk-svenske basbarytonen",
-    "description": "Med en gedigen sångutbildning, omfattande erfarenhet inom både klassiska och moderna genrer samt ett brett nätverk av musiker, pianister, DJ:s och evenemangsarrangörer är Eric Schoeffler det naturliga valet när du vill boka sång och livemusik till bröllop, dop, begravningar, företagsevenemang eller privata tillställningar. Baserad i Stockholm men verksam internationellt anpassar Eric sin musik efter varje tillfälle och samarbetar regelbundet med Stockholm Music Group utöver sina opera- och konsertframträdanden. Kontakta oss för en kostnadsfri offert, konsultation eller rådgivning när du bokar livemusik och sång till bröllop, event, fester eller studioinspelningar."
+    "description": "Med en gedigen sångutbildning, omfattande erfarenhet inom både klassiska och moderna genrer samt ett brett nätverk av musiker, pianister, DJ:s och evenemangsarrangörer är Eric Schoeffler det naturliga valet när du vill boka sång och livemusik till bröllop, dop, begravningar, företagsevenemang eller privata tillställningar. Baserad i Stockholm men verksam internationellt anpassar Eric sin musik efter varje tillfälle och samarbetar regelbundet med Stockholm Music Group utöver sina opera- och konsertframträdanden. Kontakta oss för en kostnadsfri offert, konsultation eller bokning."
   },
   "Short": {
-    "title": "Om mig",
+    "title": "Om",
     "description": "Eric Schoeffler förenar lyrisk värme med dramatisk intensitet och skapar djup och närvaro i varje framträdande. Med en röst som förenar elegans och kraft fängslar han publiken i ett brett repertoarspann.",
     "button": "Läs mer"
   },
@@ -58,8 +58,8 @@
   },
   "About": {
     "title": "Eric Schoeffler — Basbaryton",
-    "para1": "Den fransk-svenske basbarytonen Eric Schoeffler hyllas för sin dramatiska närvaro och fylliga, klangrika röst. Kommande roller inkluderar Escamillo i Carmen, Don Giovanni och Méphistophélès i Faust.",
-    "para2": "Bland senaste operauppsättningar märks Greve Almaviva i Le nozze di Figaro (Saluzzo 2023), Schaunard i La Bohème (Paris 2023) och Peter i Hänsel und Gretel (Berlin 2022). I konsertsammanhang har han framträtt som Pilatus i Bachs Johannespassion (2023–24) och som solist i Rossinis Petite messe solennelle (Berlin 2023).",
+    "para1": "Den fransk-svenske basbarytonen Eric Schoeffler hyllad för sin dramatiska närvaro och fylliga, klangrika röst.",
+    "para2": "Bland senaste operauppsättningar märks Greve Almaviva i &quot;Le nozze di Figaro&quot; (Turin 2023), Schaunard i &quot;La Bohème&quot; (Paris 2023) och Peter i &quot;Hänsel und Gretel&quot; (Berlin 2022). I konsertsammanhang framträder han ofta som Pilatus i Bachs Johannespassion, som barytonsolist i Faures requiem och som solist i Rossinis Petite messe solennelle. Kommande roller inkluderar Escamillo i Carmen, Don Giovanni och Méphistophélès i Faust.",
     "para3": "Eric är utbildad vid Högskolan för scen och musik i Göteborg och har förfinat sin konst vid Stockholm Opera Studio och Vadstena-Akademien, efter tidigare studier vid Conservatoire Nadia & Lili Boulanger i Paris samt en civilingenjörsexamen i Stockholm. Flytande på franska, svenska, tyska, spanska och engelska förenar han nordisk klarhet med fransk lyrik i sitt konstnärskap.",
     "para4": "Han har även framträtt i olika musikaliska sammanhang, bland annat vid Stockholm Jazz Festival (2013) och Nordic Song Festival (2024)."
   },
@@ -83,7 +83,7 @@
     "socialMedia": "Sociala medier",
     "request": "Förfrågan",
     "home": "Hem",
-    "aboutMe": "Om mig",
+    "aboutMe": "Om",
     "schedule": "Kalender",
     "media": "Media",
     "creator": "Skapad av"

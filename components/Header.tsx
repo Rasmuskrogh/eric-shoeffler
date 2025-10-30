@@ -1,17 +1,20 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import styles from "./Header.module.css";
 import { useActive } from "../app/context/ActiveContext";
-import Navbar from "./Navbar";
 import { NavItem } from "../types/interfaces";
+import { useRouter, usePathname } from "next/navigation";
+import { useTranslations } from "next-intl";
+
 import Image from "next/image";
 import Link from "next/link";
-import { useRouter, usePathname } from "next/navigation";
+
+import Navbar from "./Navbar";
 import LanguageSwitcher from "./LanguageSwitcher/LanguageSwitcher";
-import { useTranslations } from "next-intl";
 import RequestButton from "./RequestButton";
 import MobileMenu from "./MobileMenu";
+
+import styles from "./Header.module.css";
 
 function Header() {
   const { active, setActive } = useActive();

@@ -12,6 +12,11 @@ export default function ContactForm() {
     tel: "",
     message: "",
   });
+  const [errors, setErrors] = useState<{
+    name?: string;
+    email?: string;
+    message?: string;
+  }>({});
   const [status, setStatus] = useState<
     "idle" | "submitting" | "success" | "error"
   >("idle");
@@ -19,11 +24,40 @@ export default function ContactForm() {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
   ) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const { name, value } = e.target;
+    setFormData({ ...formData, [name]: value });
+    if (errors[name as keyof typeof errors]) {
+      setErrors({ ...errors, [name]: undefined });
+    }
+  };
+
+  const validate = (data: typeof formData) => {
+    const nextErrors: typeof errors = {};
+    if (!data.name.trim()) {
+      nextErrors.name = "Name is required";
+    }
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!data.email.trim()) {
+      nextErrors.email = "Email is required";
+    } else if (!emailRegex.test(data.email)) {
+      nextErrors.email = "Invalid email format";
+    }
+    if (!data.message.trim()) {
+      nextErrors.message = "Message is required";
+    } else if (data.message.trim().length < 10) {
+      nextErrors.message = "Message must be at least 10 characters";
+    }
+    return nextErrors;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    const validationErrors = validate(formData);
+    if (Object.keys(validationErrors).length > 0) {
+      setErrors(validationErrors);
+      return;
+    }
+
     setStatus("submitting");
 
     try {
@@ -37,8 +71,18 @@ export default function ContactForm() {
 
       if (response.ok) {
         setFormData({ name: "", email: "", tel: "", message: "" });
+        setErrors({});
         setStatus("success");
       } else {
+        try {
+          const { error } = await response.json();
+          // Rudimentary mapping to field errors if recognizable
+          if (typeof error === "string") {
+            if (error.toLowerCase().includes("email")) {
+              setErrors((prev) => ({ ...prev, email: error }));
+            }
+          }
+        } catch {}
         setStatus("error");
       }
     } catch (error) {
@@ -49,7 +93,7 @@ export default function ContactForm() {
 
   return (
     <div className={styles.formWrapper}>
-      <form onSubmit={handleSubmit} className={styles.form}>
+      <form onSubmit={handleSubmit} className={styles.form} noValidate>
         <label className={styles.label}>
           <span className={styles.labelText}>{t("name")}</span>
           <input
@@ -58,9 +102,19 @@ export default function ContactForm() {
             value={formData.name}
             onChange={handleChange}
             required
+            aria-invalid={Boolean(errors.name)}
+            aria-describedby={errors.name ? "name-error" : undefined}
             className={styles.input}
             placeholder={t("namePlaceholder")}
           />
+          {errors.name && (
+            <div
+              id="name-error"
+              style={{ color: "#ef4444", fontSize: 14, marginTop: 4 }}
+            >
+              {errors.name}
+            </div>
+          )}
         </label>
 
         <label className={styles.label}>
@@ -71,9 +125,19 @@ export default function ContactForm() {
             value={formData.email}
             onChange={handleChange}
             required
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? "email-error" : undefined}
             className={styles.input}
             placeholder={t("emailPlaceholder")}
           />
+          {errors.email && (
+            <div
+              id="email-error"
+              style={{ color: "#ef4444", fontSize: 14, marginTop: 4 }}
+            >
+              {errors.email}
+            </div>
+          )}
         </label>
         <label className={styles.label}>
           <span className={styles.labelText}>{t("tel")}</span>
@@ -82,7 +146,6 @@ export default function ContactForm() {
             name="tel"
             value={formData.tel}
             onChange={handleChange}
-            required
             className={styles.input}
             placeholder={t("telPlaceholder")}
           />
@@ -94,9 +157,19 @@ export default function ContactForm() {
             value={formData.message}
             onChange={handleChange}
             required
+            aria-invalid={Boolean(errors.message)}
+            aria-describedby={errors.message ? "message-error" : undefined}
             className={styles.textarea}
             placeholder={t("messagePlaceholder")}
           ></textarea>
+          {errors.message && (
+            <div
+              id="message-error"
+              style={{ color: "#ef4444", fontSize: 14, marginTop: 4 }}
+            >
+              {errors.message}
+            </div>
+          )}
         </label>
 
         <button

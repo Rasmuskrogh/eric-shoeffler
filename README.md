@@ -1,36 +1,70 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+## Erik Shoeffler – Webbplats
 
-## Getting Started
+Detta är källkoden för Erik Shoefflers officiella webbplats, byggd med Next.js och internationellt stöd (flerspråk) via `next-intl`. Webbplatsen presenterar innehåll som startsida, spelplan/agenda, media/lyssna samt information om Erik.
 
-First, run the development server:
+### Teknisk översikt
+
+- Next.js (App Router)
+- React 18
+- `next-intl` för översättningar och språkbyte
+- Komponentbaserad struktur i `components/`
+
+### Huvudfunktioner
+
+- Navigation mellan sidor: `/` (hem), `/agenda`, `/listen`, `/about`
+- Språkväxling via `LanguageSwitcher`
+- Responsiv meny för mobila enheter (`MobileMenu`)
+- Kontextstyrd header-animation och tillståndshantering via `ActiveContext`
+
+### Kom igång (utveckling)
+
+1. Installera beroenden:
+
+```bash
+npm install
+```
+
+2. Starta utvecklingsservern:
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Öppna `http://localhost:3000` i webbläsaren.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+Ändringar i filer under `app/` och `components/` laddas om automatiskt.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Scripts
 
-## Learn More
+- `dev`: startar utvecklingsservern
+- `build`: bygger produktion
+- `start`: startar produktion (kräver bygg)
 
-To learn more about Next.js, take a look at the following resources:
+### Projektstruktur (utdrag)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `app/` – sidor och routing (App Router)
+- `components/` – UI-komponenter som `Header`, `Navbar`, `LanguageSwitcher`, `MobileMenu`, `RequestButton`
+- `types/` – TypeScript-typer och gränssnitt (t.ex. `NavItem`)
+- `public/` – statiska tillgångar (t.ex. logotyper och bilder)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### Översättningar
 
-## Deploy on Vercel
+Översättningar hanteras via `next-intl`. Se lokala meddelandefiler under `app/` (eller motsvarande plats) samt användningen av `useTranslations("Header")` i komponenter som `Header`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### Miljövariabler
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Om tjänster/tredjepart läggs till (t.ex. analytics, API:er) dokumentera nödvändiga variabler i `.env.example` och i denna sektion.
+
+### Bygg och driftsättning
+
+Standardprocessen för Next.js gäller. T.ex. på Vercel:
+
+```bash
+npm run build
+```
+
+Följ sedan din plattforms instruktioner för driftsättning. På Vercel autodetekteras Next.js-projekt.
+
+### Licens
+
+Om inte annat anges är innehållet upphovsrättsskyddat av projektägaren. Lägg till eller uppdatera licenstyp här vid behov.

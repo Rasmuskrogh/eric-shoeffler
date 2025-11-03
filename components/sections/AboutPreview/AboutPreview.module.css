@@ -1,0 +1,137 @@
+.short {
+  color: white;
+  display: flex;
+  align-items: stretch;
+  text-align: center;
+}
+
+.presentationShort {
+  width: 50%;
+  order: 2;
+  background-color: rgb(55, 55, 55);
+  align-self: stretch;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.5rem;
+  padding: 2rem;
+}
+
+.shortImage {
+  width: 50%;
+  background: linear-gradient(0.25turn, #000000, #1d104e, #000000);
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  order: 1;
+}
+
+.shortImage figure {
+  position: absolute;
+  /*  width: 100%;
+  height: 100%; */
+  inset: 0;
+  margin: 0;
+}
+
+.image {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  height: 100%;
+  width: auto;
+  transform: translate(-50%, -50%);
+  object-fit: cover;
+  object-position: center;
+  display: block;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.description {
+  font-size: 1.3rem;
+  line-height: 1.6;
+  max-width: 600px;
+  opacity: 0.95;
+}
+
+.button {
+  padding: 1rem 2rem;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  border: 2px solid black;
+  color: black;
+  background: white;
+
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  background: rgb(0, 0, 88);
+  color: white;
+}
+
+@media (width < 745px) {
+  .short {
+    flex-direction: column;
+  }
+  .presentationShort {
+    width: 100%;
+    order: 1;
+  }
+  .shortImage {
+    width: 100%;
+    height: auto;
+    align-items: flex-start;
+    order: 2;
+  }
+
+  .shortImage figure {
+    position: relative;
+    width: 100%;
+    height: auto;
+  }
+
+  .shortImage .image {
+    position: relative;
+    width: 100%;
+    height: auto;
+    top: auto;
+    left: auto;
+    transform: none;
+  }
+}
+
+@media (width <650px) {
+  .presentationShort {
+    gap: 1rem;
+    padding: 1.2rem;
+  }
+  .title {
+    font-size: 2rem;
+    margin: 0;
+  }
+  .description {
+    font-size: 1.2rem;
+    line-height: 1.3;
+  }
+  .button {
+    font-size: 1rem;
+    padding: 0.8rem 1.5rem;
+  }
+}
+

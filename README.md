@@ -1,6 +1,6 @@
 ## Erik Shoeffler – Webbplats
 
-Detta är källkoden för Erik Shoefflers officiella webbplats, byggd med Next.js och internationellt stöd (flerspråk) via `next-intl`. Webbplatsen presenterar innehåll som startsida, spelplan/agenda, media/lyssna samt information om Erik.
+Detta är källkoden för Erik Shoefflers officiella webbplats, byggd med Next.js och internationellt stöd (flerspråk) via `next-intl`. Webbplatsen presenterar innehåll som startsida, spelplan/schedule, media samt information om Erik.
 
 ### Teknisk översikt
 
@@ -11,7 +11,7 @@ Detta är källkoden för Erik Shoefflers officiella webbplats, byggd med Next.j
 
 ### Huvudfunktioner
 
-- Navigation mellan sidor: `/` (hem), `/agenda`, `/listen`, `/about`
+- Navigation mellan sidor: `/` (hem), `/schedule`, `/media`, `/about`
 - Språkväxling via `LanguageSwitcher`
 - Responsiv meny för mobila enheter (`MobileMenu`)
 - Kontextstyrd header-animation och tillståndshantering via `ActiveContext`

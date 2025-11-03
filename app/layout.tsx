@@ -1,6 +1,6 @@
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
+import Header from "@/components/layout/Header/Header";
+import Footer from "@/components/layout/Footer/Footer";
 import { ActiveProvider } from "./context/ActiveContext";
 import { Playfair_Display, Merriweather } from "next/font/google";
 import type { Metadata } from "next";

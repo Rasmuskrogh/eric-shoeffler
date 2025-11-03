@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import Hero from "@/components/Hero";
-import Short from "@/components/Short";
+import Hero from "@/components/sections/Hero/Hero";
+import AboutPreview from "@/components/sections/AboutPreview/AboutPreview";
 import styles from "./page.module.css";
-import ListenShort from "@/components/ListenShort";
-import RepertoirShort from "@/components/RepertoirShort";
-import FormSpacer from "@/components/FormSpacer";
+import ListenPreview from "@/components/sections/ListenPreview/ListenPreview";
+import RepertoirePreview from "@/components/sections/RepertoirePreview/RepertoirePreview";
+import FormSpacer from "@/components/sections/FormSpacer/FormSpacer";
 import { useActive } from "./context/ActiveContext";
 
 export default function Page() {
@@ -42,15 +42,15 @@ export default function Page() {
               !showContent ? styles.fadeOut : ""
             }`}
           >
-            <Short />
+            <AboutPreview />
           </div>
           <section
             className={`${styles.listenAndRepertoirSection} ${
               styles.fadeContainer
             } ${!showContent ? styles.fadeOut : ""}`}
           >
-            <RepertoirShort />
-            <ListenShort />
+            <RepertoirePreview />
+            <ListenPreview />
           </section>
           <section
             className={`${styles.videoSection} ${styles.fadeContainer} ${

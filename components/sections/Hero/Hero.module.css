@@ -264,7 +264,6 @@
 @media (width < 800px) {
   .hero {
     height: 100vh;
-    overflow: hidden;
   }
 
   .profileImageWrapper {
@@ -281,6 +280,7 @@
 
   .contactText {
     top: 97vh;
+    z-index: 20;
   }
   .tagline {
     width: 64%;

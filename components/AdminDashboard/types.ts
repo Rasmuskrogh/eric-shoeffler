@@ -1,8 +1,3 @@
-import { AdminUser, Content } from "@/src/generated/prisma/client";
-
-export type AdminUserType = AdminUser;
-export type ContentType = Content;
-
 export interface SectionConfig {
   id: string;
   name: string;

@@ -15,13 +15,20 @@ export default async function AdminPage() {
 
   const sectionIds = dashboardConfig.map((section) => section.id);
 
-  const existingContent = await prisma.content.findMany({
-    where: {
-      sectionId: {
-        in: sectionIds,
+  let existingContent;
+  try {
+    existingContent = await prisma.content.findMany({
+      where: {
+        sectionId: {
+          in: sectionIds,
+        },
       },
-    },
-  });
+    });
+  } catch (dbError) {
+    console.error("Database error:", dbError);
+    // Return empty content map if database query fails
+    existingContent = [];
+  }
 
   const contentMap = sectionIds.reduce<Record<string, ContentData | null>>(
     (accumulator, sectionId) => {

@@ -10,12 +10,24 @@ if (process.env.NODE_ENV !== "production") {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 }
 
-const pool = new Pool({
-  connectionString: process.env.DATABASE_URL,
-});
+let pool: Pool;
+let adapter: PrismaPg;
 
-const adapter = new PrismaPg(pool);
+try {
+  if (!process.env.DATABASE_URL) {
+    throw new Error("DATABASE_URL is not set");
+  }
+  pool = new Pool({
+    connectionString: process.env.DATABASE_URL,
+  });
+  adapter = new PrismaPg(pool);
+} catch (error) {
+  console.error("Failed to create database pool:", error);
+  throw error;
+}
 
 export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter });
 
-if (process.env.NODE_ENV !== "production") globalForPrisma.prisma = prisma;
+if (process.env.NODE_ENV !== "production") {
+  globalForPrisma.prisma = prisma;
+}

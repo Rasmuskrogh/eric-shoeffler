@@ -1,6 +1,5 @@
 import "./globals.css";
-import Header from "@/components/layout/Header/Header";
-import Footer from "@/components/layout/Footer/Footer";
+import ConditionalLayout from "@/components/layout/ConditionalLayout";
 import { ActiveProvider } from "./context/ActiveContext";
 import { Playfair_Display, Merriweather } from "next/font/google";
 import type { Metadata } from "next";
@@ -40,9 +39,7 @@ export default async function RootLayout({
       >
         <NextIntlClientProvider messages={messages}>
           <ActiveProvider>
-            <Header />
-            {children}
-            <Footer />
+            <ConditionalLayout>{children}</ConditionalLayout>
           </ActiveProvider>
         </NextIntlClientProvider>
       </body>

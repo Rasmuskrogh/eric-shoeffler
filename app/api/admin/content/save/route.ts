@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/components/AdminDashboard/auth";
 import { prisma } from "@/lib/prisma";
 import { dashboardConfig } from "@/components/AdminDashboard/config";
+import type { ContentData } from "@/components/AdminDashboard/types";
 
 export async function POST(request: NextRequest) {
   try {
@@ -38,7 +39,7 @@ export async function POST(request: NextRequest) {
     // Om sektionen har språk, kan data vara Record<string, ContentData>
     // Annars är det direkt ContentData
     const configFieldIds = sectionConfig.fields.map((field) => field.id);
-    
+
     // Kolla om data är språk-struktur (Record<string, ContentData>)
     const isLocalized =
       sectionConfig.languages &&
@@ -50,12 +51,14 @@ export async function POST(request: NextRequest) {
 
     if (isLocalized) {
       // Validera varje språk-data
-      const localizedData = data as Record<string, any>;
+      const localizedData = data as Record<string, ContentData>;
       for (const [lang, langData] of Object.entries(localizedData)) {
         if (!sectionConfig.languages!.includes(lang)) {
           return NextResponse.json(
             {
-              error: `Invalid language: ${lang}. Allowed languages: ${sectionConfig.languages!.join(", ")}`,
+              error: `Invalid language: ${lang}. Allowed languages: ${sectionConfig.languages!.join(
+                ", "
+              )}`,
             },
             { status: 400 }
           );

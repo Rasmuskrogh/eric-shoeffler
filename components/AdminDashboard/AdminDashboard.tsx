@@ -139,9 +139,11 @@ export default function AdminDashboard({
           ...previous,
           [sectionId]: (json.content?.data ?? data) as ContentData | null,
         }));
+        setErrorMessage(null);
       } catch (error) {
         const message =
           error instanceof Error ? error.message : "Failed to save content";
+        setErrorMessage(message);
         throw error;
       }
     },

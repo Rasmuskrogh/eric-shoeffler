@@ -1,4 +1,4 @@
-import { AdminUser, Content } from "@/generated/prisma/client";
+import { AdminUser, Content } from "@/src/generated/prisma/client";
 
 export type AdminUserType = AdminUser;
 export type ContentType = Content;

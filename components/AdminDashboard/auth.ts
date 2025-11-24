@@ -12,31 +12,48 @@ export const authOptions: NextAuthOptions = {
         password: { label: "Password", type: "password" },
       },
       async authorize(credentials) {
-        if (!credentials?.username || !credentials?.password) {
+        try {
+          console.log("[Auth] Authorization attempt started");
+          
+          if (!credentials?.username || !credentials?.password) {
+            console.log("[Auth] Missing credentials");
+            return null;
+          }
+
+          console.log("[Auth] Looking up user:", credentials.username);
+          const user = await prisma.adminUser.findUnique({
+            where: { username: credentials.username },
+          });
+
+          if (!user) {
+            console.log("[Auth] User not found:", credentials.username);
+            return null;
+          }
+
+          console.log("[Auth] User found, validating password");
+          const isPasswordValid = await bcrypt.compare(
+            credentials.password,
+            user.password
+          );
+
+          if (!isPasswordValid) {
+            console.log("[Auth] Invalid password for user:", credentials.username);
+            return null;
+          }
+
+          console.log("[Auth] Authentication successful for user:", credentials.username);
+          return {
+            id: user.id,
+            username: user.username,
+          };
+        } catch (error) {
+          console.error("[Auth] Authorization error:", error);
+          console.error("[Auth] Error details:", {
+            message: error instanceof Error ? error.message : String(error),
+            stack: error instanceof Error ? error.stack : undefined,
+          });
           return null;
         }
-
-        const user = await prisma.adminUser.findUnique({
-          where: { username: credentials.username },
-        });
-
-        if (!user) {
-          return null;
-        }
-
-        const isPasswordValid = await bcrypt.compare(
-          credentials.password,
-          user.password
-        );
-
-        if (!isPasswordValid) {
-          return null;
-        }
-
-        return {
-          id: user.id,
-          username: user.username,
-        };
       },
     }),
   ],
@@ -63,4 +80,5 @@ export const authOptions: NextAuthOptions = {
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
+  debug: process.env.NODE_ENV === "development",
 };

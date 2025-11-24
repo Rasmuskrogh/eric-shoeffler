@@ -10,23 +10,40 @@ if (process.env.NODE_ENV !== "production") {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 }
 
-let pool: Pool;
-let adapter: PrismaPg;
+let pool: Pool | undefined;
+let adapter: PrismaPg | undefined;
 
-try {
-  if (!process.env.DATABASE_URL) {
-    throw new Error("DATABASE_URL is not set");
+if (process.env.DATABASE_URL) {
+  try {
+    console.log("[Prisma] Initializing database connection");
+    pool = new Pool({
+      connectionString: process.env.DATABASE_URL,
+    });
+    adapter = new PrismaPg(pool);
+    console.log("[Prisma] Database connection initialized successfully");
+  } catch (error) {
+    console.error("[Prisma] Failed to create database pool:", error);
+    console.error("[Prisma] Error details:", {
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : undefined,
+    });
   }
-  pool = new Pool({
-    connectionString: process.env.DATABASE_URL,
-  });
-  adapter = new PrismaPg(pool);
-} catch (error) {
-  console.error("Failed to create database pool:", error);
-  throw error;
+} else {
+  console.error("[Prisma] DATABASE_URL is not set!");
 }
 
-export const prisma = globalForPrisma.prisma ?? new PrismaClient({ adapter });
+// Create Prisma client with adapter if available
+// In production, DATABASE_URL should always be set
+const createPrismaClient = () => {
+  if (!adapter) {
+    throw new Error(
+      "DATABASE_URL is not set. Please configure DATABASE_URL environment variable."
+    );
+  }
+  return new PrismaClient({ adapter });
+};
+
+export const prisma = globalForPrisma.prisma ?? createPrismaClient();
 
 if (process.env.NODE_ENV !== "production") {
   globalForPrisma.prisma = prisma;

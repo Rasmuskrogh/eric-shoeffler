@@ -15,7 +15,7 @@ export default async function AdminPage() {
 
   const sectionIds = dashboardConfig.map((section) => section.id);
 
-  let existingContent;
+  let existingContent: Awaited<ReturnType<typeof prisma.content.findMany>>;
   try {
     existingContent = await prisma.content.findMany({
       where: {

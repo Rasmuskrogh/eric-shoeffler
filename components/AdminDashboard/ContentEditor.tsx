@@ -1,5 +1,11 @@
 import { useEffect, useState } from "react";
-import { SectionConfig, ContentData, ContentEditorProps } from "./types";
+import {
+  SectionConfig,
+  ContentData,
+  ContentEditorProps,
+  NestedContentData,
+  ContentDataValue,
+} from "./types";
 import styles from "./ContentEditor.module.css";
 
 export default function ContentEditor({
@@ -17,41 +23,57 @@ export default function ContentEditor({
     sectionConfig.languages?.[0] || null
   );
 
-  useEffect(() => {
-    if (initialData) {
-      // Om sektionen har språk, förvänta sig språk-struktur
-      if (sectionConfig.languages && sectionConfig.languages.length > 0) {
-        // initialData kan vara antingen språk-struktur eller direkt data
-        const isLocalized =
-          typeof initialData === "object" &&
-          initialData !== null &&
-          !Array.isArray(initialData) &&
-          sectionConfig.languages[0] in initialData;
+  // För list-sektioner: håll listan separat
+  const [listItems, setListItems] = useState<ContentData[]>([]);
 
-        if (isLocalized) {
-          const localizedData = initialData as unknown as Record<
-            string,
-            ContentData
-          >;
-          const defaultLang = activeLanguage || sectionConfig.languages[0];
-          setFormData(localizedData[defaultLang] || {});
+  useEffect(() => {
+    if (sectionConfig.type === "list") {
+      // För list-sektioner, förvänta sig en array i initialData
+      if (initialData && Array.isArray(initialData.items)) {
+        setListItems(initialData.items as ContentData[]);
+      } else {
+        setListItems([]);
+      }
+    } else {
+      // Vanlig sektion
+      if (initialData) {
+        // Om sektionen har språk, förvänta sig språk-struktur
+        if (sectionConfig.languages && sectionConfig.languages.length > 0) {
+          // initialData kan vara antingen språk-struktur eller direkt data
+          const isLocalized =
+            typeof initialData === "object" &&
+            initialData !== null &&
+            !Array.isArray(initialData) &&
+            sectionConfig.languages[0] in initialData;
+
+          if (isLocalized) {
+            const localizedData = initialData as unknown as Record<
+              string,
+              ContentData
+            >;
+            const defaultLang = activeLanguage || sectionConfig.languages[0];
+            setFormData(localizedData[defaultLang] || {});
+          } else {
+            // Fallback: behandla som direkt data
+            setFormData(initialData);
+          }
         } else {
-          // Fallback: behandla som direkt data
           setFormData(initialData);
         }
       } else {
-        setFormData(initialData);
+        const emptyData: ContentData = {};
+        sectionConfig.fields.forEach((field) => {
+          emptyData[field.id] = "";
+        });
+        setFormData(emptyData);
       }
-    } else {
-      const emptyData: ContentData = {};
-      sectionConfig.fields.forEach((field) => {
-        emptyData[field.id] = "";
-      });
-      setFormData(emptyData);
     }
   }, [initialData, sectionConfig, activeLanguage]);
 
-  const handleChange = (fieldId: string, value: string | number | boolean) => {
+  const handleChange = (
+    fieldId: string,
+    value: string | number | boolean | NestedContentData
+  ) => {
     setFormData((prevData) => ({
       ...prevData,
       [fieldId]: value,
@@ -85,6 +107,57 @@ export default function ContentEditor({
     }
   };
 
+  // List-hantering funktioner
+  const addListItem = () => {
+    if (!sectionConfig.listItemConfig) return;
+
+    const newItem: ContentData = {};
+    sectionConfig.listItemConfig.fields.forEach((field) => {
+      if (field.nestedFields) {
+        // För nested fields (t.ex. startDate)
+        const nestedObj: NestedContentData = {};
+        field.nestedFields.forEach((nestedField) => {
+          nestedObj[nestedField.id] = "";
+        });
+        newItem[field.id] = nestedObj;
+      } else {
+        newItem[field.id] = "";
+      }
+    });
+    // Generera ett unikt ID
+    newItem.id = Date.now().toString();
+
+    setListItems([...listItems, newItem]);
+  };
+
+  const removeListItem = (index: number) => {
+    setListItems(listItems.filter((_, i) => i !== index));
+  };
+
+  const updateListItem = (
+    index: number,
+    fieldId: string,
+    value: ContentDataValue,
+    nestedFieldId?: string
+  ) => {
+    const updatedItems = [...listItems];
+    if (nestedFieldId) {
+      // Uppdatera nested field (t.ex. startDate.day)
+      if (
+        !updatedItems[index][fieldId] ||
+        typeof updatedItems[index][fieldId] !== "object"
+      ) {
+        updatedItems[index][fieldId] = {};
+      }
+      (updatedItems[index][fieldId] as NestedContentData)[nestedFieldId] =
+        value as string | number | boolean | null;
+    } else {
+      // Uppdatera vanligt field
+      updatedItems[index][fieldId] = value;
+    }
+    setListItems(updatedItems);
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
@@ -93,8 +166,14 @@ export default function ContentEditor({
     try {
       let dataToSave: ContentData | Record<string, ContentData>;
 
-      // Om sektionen har språk, spara som språk-struktur
-      if (sectionConfig.languages && sectionConfig.languages.length > 0) {
+      // Om det är en list-sektion
+      if (sectionConfig.type === "list") {
+        dataToSave = { items: listItems } as ContentData;
+      } else if (
+        sectionConfig.languages &&
+        sectionConfig.languages.length > 0
+      ) {
+        // Om sektionen har språk, spara som språk-struktur
         // Hämta befintlig data eller skapa ny struktur
         const existingData = initialData as
           | Record<string, ContentData>
@@ -192,6 +271,47 @@ export default function ContentEditor({
           />
         );
 
+      case "date":
+        // Date field med nested fields (day, month, year)
+        if (field.nestedFields) {
+          const dateValue = (value as NestedContentData) || {};
+          return (
+            <div style={{ display: "flex", gap: "0.5rem" }}>
+              {field.nestedFields.map((nestedField) => (
+                <input
+                  key={nestedField.id}
+                  type={nestedField.id === "year" ? "number" : "text"}
+                  value={String(dateValue[nestedField.id] ?? "")}
+                  onChange={(e) => {
+                    const newDateValue = {
+                      ...dateValue,
+                      [nestedField.id]:
+                        nestedField.id === "year"
+                          ? parseInt(e.target.value) || 0
+                          : e.target.value,
+                    };
+                    handleChange(field.id, newDateValue);
+                  }}
+                  placeholder={nestedField.placeholder || nestedField.label}
+                  className={styles.input}
+                  style={{ flex: 1 }}
+                />
+              ))}
+            </div>
+          );
+        }
+        return (
+          <input
+            type="date"
+            id={field.id}
+            value={value as string}
+            onChange={(e) => handleChange(field.id, e.target.value)}
+            required={field.required}
+            placeholder={field.placeholder}
+            className={styles.input}
+          />
+        );
+
       case "image":
         return (
           <div>
@@ -267,6 +387,119 @@ export default function ContentEditor({
         );
     }
   };
+  // Rendera ett fält för ett list-item
+  const renderListItemField = (
+    field: SectionConfig["fields"][0],
+    item: ContentData,
+    itemIndex: number
+  ) => {
+    const value = item[field.id] || "";
+
+    switch (field.type) {
+      case "text":
+        return (
+          <input
+            type="text"
+            value={value as string}
+            onChange={(e) =>
+              updateListItem(itemIndex, field.id, e.target.value)
+            }
+            required={field.required}
+            placeholder={field.placeholder}
+            className={styles.input}
+          />
+        );
+
+      case "textarea":
+        return (
+          <textarea
+            value={value as string}
+            onChange={(e) =>
+              updateListItem(itemIndex, field.id, e.target.value)
+            }
+            required={field.required}
+            placeholder={field.placeholder}
+            rows={3}
+            className={styles.textarea}
+          />
+        );
+
+      case "number":
+        return (
+          <input
+            type="number"
+            value={value as number}
+            onChange={(e) =>
+              updateListItem(
+                itemIndex,
+                field.id,
+                parseFloat(e.target.value) || 0
+              )
+            }
+            required={field.required}
+            placeholder={field.placeholder}
+            className={styles.input}
+          />
+        );
+
+      case "date":
+        // Date field med nested fields (day, month, year)
+        if (field.nestedFields) {
+          const dateValue = (value as NestedContentData) || {};
+          return (
+            <div style={{ display: "flex", gap: "0.5rem" }}>
+              {field.nestedFields.map((nestedField) => (
+                <input
+                  key={nestedField.id}
+                  type={nestedField.id === "year" ? "number" : "text"}
+                  value={String(dateValue[nestedField.id] ?? "")}
+                  onChange={(e) => {
+                    const newDateValue = {
+                      ...dateValue,
+                      [nestedField.id]:
+                        nestedField.id === "year"
+                          ? parseInt(e.target.value) || 0
+                          : e.target.value,
+                    };
+                    updateListItem(itemIndex, field.id, newDateValue);
+                  }}
+                  placeholder={nestedField.placeholder || nestedField.label}
+                  className={styles.input}
+                  style={{ flex: 1 }}
+                />
+              ))}
+            </div>
+          );
+        }
+        return (
+          <input
+            type="date"
+            value={value as string}
+            onChange={(e) =>
+              updateListItem(itemIndex, field.id, e.target.value)
+            }
+            required={field.required}
+            placeholder={field.placeholder}
+            className={styles.input}
+          />
+        );
+
+      default:
+        return (
+          <input
+            type="text"
+            value={value as string}
+            onChange={(e) =>
+              updateListItem(itemIndex, field.id, e.target.value)
+            }
+            required={field.required}
+            placeholder={field.placeholder}
+            className={styles.input}
+          />
+        );
+    }
+  };
+
   const handleLanguageChange = (newLang: string) => {
     // Spara nuvarande språk-data innan byte
     if (activeLanguage && sectionConfig.languages) {
@@ -368,17 +601,127 @@ export default function ContentEditor({
           </div>
         )}
 
-        <div className={styles.fieldsContainer}>
-          {sectionConfig.fields.map((field) => (
-            <div key={field.id} className={styles.fieldGroup}>
-              <label htmlFor={field.id} className={styles.label}>
-                {field.label}{" "}
-                {field.required && <span className={styles.required}>*</span>}
-              </label>
-              {renderField(field)}
+        {sectionConfig.type === "list" && sectionConfig.listItemConfig ? (
+          <div className={styles.fieldsContainer}>
+            <div
+              style={{
+                marginBottom: "1rem",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <h3 style={{ margin: 0 }}>List Items ({listItems.length})</h3>
+              <button
+                type="button"
+                onClick={addListItem}
+                style={{
+                  padding: "0.5rem 1rem",
+                  backgroundColor: "#10b981",
+                  color: "white",
+                  border: "none",
+                  borderRadius: "0.375rem",
+                  cursor: "pointer",
+                  fontWeight: "500",
+                }}
+              >
+                + Add Item
+              </button>
             </div>
-          ))}
-        </div>
+
+            {listItems.length === 0 ? (
+              <p style={{ color: "#666", fontStyle: "italic" }}>
+                No items in list. Click "Add Item" to add your first item.
+              </p>
+            ) : (
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  gap: "1.5rem",
+                }}
+              >
+                {listItems.map((item, index) => {
+                  const itemId =
+                    typeof item.id === "string" || typeof item.id === "number"
+                      ? String(item.id)
+                      : index;
+                  return (
+                    <div
+                      key={itemId}
+                      style={{
+                        border: "1px solid #e0e0e0",
+                        borderRadius: "0.5rem",
+                        padding: "1.5rem",
+                        backgroundColor: "#fafafa",
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          marginBottom: "1rem",
+                        }}
+                      >
+                        <h4 style={{ margin: 0, color: "#333" }}>
+                          Item #{index + 1}
+                        </h4>
+                        <button
+                          type="button"
+                          onClick={() => removeListItem(index)}
+                          style={{
+                            padding: "0.375rem 0.75rem",
+                            backgroundColor: "#ef4444",
+                            color: "white",
+                            border: "none",
+                            borderRadius: "0.375rem",
+                            cursor: "pointer",
+                            fontSize: "0.875rem",
+                          }}
+                        >
+                          Remove
+                        </button>
+                      </div>
+
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "1rem",
+                        }}
+                      >
+                        {sectionConfig.listItemConfig?.fields.map((field) => (
+                          <div key={field.id} className={styles.fieldGroup}>
+                            <label className={styles.label}>
+                              {field.label}{" "}
+                              {field.required && (
+                                <span className={styles.required}>*</span>
+                              )}
+                            </label>
+                            {renderListItemField(field, item, index)}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+          </div>
+        ) : (
+          <div className={styles.fieldsContainer}>
+            {sectionConfig.fields.map((field) => (
+              <div key={field.id} className={styles.fieldGroup}>
+                <label htmlFor={field.id} className={styles.label}>
+                  {field.label}{" "}
+                  {field.required && <span className={styles.required}>*</span>}
+                </label>
+                {renderField(field)}
+              </div>
+            ))}
+          </div>
+        )}
         {saveStatus === "success" && (
           <div className={styles.successMessage}>
             {" "}

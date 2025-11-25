@@ -4,8 +4,8 @@ export const dashboardConfig: SectionConfig[] = [
   {
     id: "hero",
     name: "Hero Section",
-    type: "text",
-    // languages: ["en", "sv", "fr"],
+    type: "mixed",
+    languages: ["en", "sv", "fr"],
     fields: [
       {
         id: "name",
@@ -28,13 +28,6 @@ export const dashboardConfig: SectionConfig[] = [
         required: true,
         placeholder: "image url",
       },
-    ],
-  },
-  {
-    id: "profileHome",
-    name: "Profile Image",
-    type: "image",
-    fields: [
       {
         id: "profileImage",
         label: "Profile Image",
@@ -42,19 +35,12 @@ export const dashboardConfig: SectionConfig[] = [
         required: true,
         placeholder: "Add Profile Picture",
       },
-    ],
-  },
-  {
-    id: "aboutShort",
-    name: "About Short",
-    type: "text",
-    fields: [
       {
-        id: "title",
-        label: "Title",
+        id: "aboutTitle",
+        label: "About Title",
         type: "text",
         required: true,
-        placeholder: "Enter title",
+        placeholder: "Enter about title",
       },
       {
         id: "description",
@@ -64,40 +50,26 @@ export const dashboardConfig: SectionConfig[] = [
         placeholder: "Enter description",
       },
       {
-        id: "buttonText",
-        label: "Button Text",
+        id: "aboutButtonText",
+        label: "About Button Text",
         type: "text",
         required: true,
-        placeholder: "Enter button text",
+        placeholder: "Enter about button text",
       },
-    ],
-  },
-  {
-    id: "listenShort",
-    name: "Listen Short",
-    type: "text",
-    fields: [
       {
-        id: "title",
-        label: "Title",
+        id: "listenTitle",
+        label: "Listen Title",
         type: "text",
         required: false,
-        placeholder: "Enter title",
+        placeholder: "Enter listen title",
       },
       {
-        id: "buttonText",
-        label: "Button Text",
+        id: "listenButtonText",
+        label: "Listen Button Text",
         type: "text",
         required: true,
-        placeholder: "Enter button text",
+        placeholder: "Enter listen button text",
       },
-    ],
-  },
-  {
-    id: "secondImageHome",
-    name: "Second Home Image",
-    type: "image",
-    fields: [
       {
         id: "SecondImage",
         label: "Second Home Image",
@@ -105,6 +77,30 @@ export const dashboardConfig: SectionConfig[] = [
         required: true,
         placeholder: "Add a second image",
       },
+      {
+        id: "youtubeUrl",
+        label: "YouTube URL",
+        type: "text",
+        required: true,
+        placeholder:
+          "https://www.youtube.com/watch?v=... eller https://youtu.be/...",
+      },
+    ],
+  },
+  {
+    id: "schedule",
+    name: "Schedule",
+    type: "mixed",
+    languages: ["en", "sv", "fr"],
+    fields: [
+      {
+        id: "scheduleTitle",
+        label: "Schedule Title",
+        type: "text",
+        required: true,
+        placeholder: "Enter schedule title",
+      },
+      // {},
     ],
   },
 ];

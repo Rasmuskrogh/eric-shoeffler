@@ -631,7 +631,8 @@ export default function ContentEditor({
 
             {listItems.length === 0 ? (
               <p style={{ color: "#666", fontStyle: "italic" }}>
-                No items in list. Click "Add Item" to add your first item.
+                No items in list. Click &quot;Add Item&quot; to add your first
+                item.
               </p>
             ) : (
               <div

@@ -40,6 +40,8 @@ export async function POST(request: NextRequest) {
         success: true,
         url: uploadResult.secure_url,
         publicId: uploadResult.public_id,
+        width: uploadResult.width,
+        height: uploadResult.height,
       },
       { status: 200 }
     );

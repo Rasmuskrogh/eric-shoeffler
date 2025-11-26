@@ -7,6 +7,7 @@ import {
   ContentDataValue,
 } from "./types";
 import styles from "./ContentEditor.module.css";
+import { getImageDimensions } from "@/lib/imageDimensions";
 
 export default function ContentEditor({
   sectionConfig,
@@ -23,19 +24,44 @@ export default function ContentEditor({
     sectionConfig.languages?.[0] || null
   );
 
-  // För list-sektioner: håll listan separat
+  // För list-sektioner: håll listan separat (en lista)
   const [listItems, setListItems] = useState<ContentData[]>([]);
+  // För flera listor: objekt där nyckeln är namnet på listan
+  const [listItemsByKey, setListItemsByKey] = useState<
+    Record<string, ContentData[]>
+  >({});
 
   useEffect(() => {
-    if (sectionConfig.type === "list") {
-      // För list-sektioner, förvänta sig en array i initialData
+    // Hantera en lista om listItemConfig finns (oavsett typ)
+    if (sectionConfig.listItemConfig) {
+      // För listor, förvänta sig en array i initialData.items
       if (initialData && Array.isArray(initialData.items)) {
         setListItems(initialData.items as ContentData[]);
       } else {
         setListItems([]);
       }
-    } else {
-      // Vanlig sektion
+    }
+
+    // Hantera flera listor om listItemConfigs finns
+    if (sectionConfig.listItemConfigs) {
+      const lists: Record<string, ContentData[]> = {};
+      Object.keys(sectionConfig.listItemConfigs).forEach((listKey) => {
+        // Förvänta sig initialData[listKey] som array
+        if (
+          initialData &&
+          initialData[listKey] &&
+          Array.isArray(initialData[listKey])
+        ) {
+          lists[listKey] = initialData[listKey] as ContentData[];
+        } else {
+          lists[listKey] = [];
+        }
+      });
+      setListItemsByKey(lists);
+    }
+
+    // Hantera vanliga fields om typen INTE är "list" eller om det finns fields
+    if (sectionConfig.type !== "list" || sectionConfig.fields.length > 0) {
       if (initialData) {
         // Om sektionen har språk, förvänta sig språk-struktur
         if (sectionConfig.languages && sectionConfig.languages.length > 0) {
@@ -99,6 +125,12 @@ export default function ContentEditor({
       const data = await response.json();
 
       handleChange(fieldId, data.url);
+      if (data.width && data.height) {
+        const widthField = sectionConfig.fields.find((f) => f.id === "width");
+        const heightField = sectionConfig.fields.find((f) => f.id === "height");
+        if (widthField) handleChange("width", data.width);
+        if (heightField) handleChange("height", data.height);
+      }
     } catch (error) {
       console.error("Error uploading image:", error);
       alert("Failed to upload image. Please try again.");
@@ -107,7 +139,93 @@ export default function ContentEditor({
     }
   };
 
-  // List-hantering funktioner
+  // Image upload för list items (en lista)
+  const handleImageUploadForListItem = async (
+    itemIndex: number,
+    fieldId: string,
+    file: File
+  ) => {
+    const uploadId = `list-item-${itemIndex}-${fieldId}`;
+    setUploadingImage(uploadId);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/admin/content/upload-image", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload image");
+      }
+
+      const data = await response.json();
+      updateListItem(itemIndex, fieldId, data.url);
+      if (data.width && data.height && sectionConfig.listItemConfig) {
+        const widthField = sectionConfig.listItemConfig.fields.find(
+          (f) => f.id === "width"
+        );
+        const heightField = sectionConfig.listItemConfig.fields.find(
+          (f) => f.id === "height"
+        );
+        if (widthField) updateListItem(itemIndex, "width", data.width);
+        if (heightField) updateListItem(itemIndex, "height", data.height);
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("Failed to upload image. Please try again.");
+    } finally {
+      setUploadingImage(null);
+    }
+  };
+
+  // Image upload för list items (flera listor)
+  const handleImageUploadForListItemInKey = async (
+    listKey: string,
+    itemIndex: number,
+    fieldId: string,
+    file: File
+  ) => {
+    const uploadId = `list-item-${listKey}-${itemIndex}-${fieldId}`;
+    setUploadingImage(uploadId);
+
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await fetch("/api/admin/content/upload-image", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to upload image");
+      }
+
+      const data = await response.json();
+      updateListItemInKey(listKey, itemIndex, fieldId, data.url);
+      if (data.width && data.height) {
+        const listConfig = sectionConfig.listItemConfigs?.[listKey];
+        if (listConfig) {
+          const widthField = listConfig.fields.find((f) => f.id === "width");
+          const heightField = listConfig.fields.find((f) => f.id === "height");
+          if (widthField)
+            updateListItemInKey(listKey, itemIndex, "width", data.width);
+          if (heightField)
+            updateListItemInKey(listKey, itemIndex, "height", data.height);
+        }
+      }
+    } catch (error) {
+      console.error("Error uploading image:", error);
+      alert("Failed to upload image. Please try again.");
+    } finally {
+      setUploadingImage(null);
+    }
+  };
+
+  // List-hantering funktioner (för en lista)
   const addListItem = () => {
     if (!sectionConfig.listItemConfig) return;
 
@@ -125,7 +243,7 @@ export default function ContentEditor({
       }
     });
     // Generera ett unikt ID
-    newItem.id = Date.now().toString();
+    newItem.id = crypto.randomUUID();
 
     setListItems([...listItems, newItem]);
   };
@@ -158,6 +276,64 @@ export default function ContentEditor({
     setListItems(updatedItems);
   };
 
+  // List-hantering funktioner (för flera listor)
+  const addListItemToKey = (listKey: string) => {
+    const listConfig = sectionConfig.listItemConfigs?.[listKey];
+    if (!listConfig) return;
+
+    const newItem: ContentData = {};
+    listConfig.fields.forEach((field) => {
+      if (field.nestedFields) {
+        const nestedObj: NestedContentData = {};
+        field.nestedFields.forEach((nestedField) => {
+          nestedObj[nestedField.id] = "";
+        });
+        newItem[field.id] = nestedObj;
+      } else {
+        newItem[field.id] = "";
+      }
+    });
+    newItem.id = crypto.randomUUID();
+
+    setListItemsByKey({
+      ...listItemsByKey,
+      [listKey]: [...(listItemsByKey[listKey] || []), newItem],
+    });
+  };
+
+  const removeListItemFromKey = (listKey: string, index: number) => {
+    setListItemsByKey({
+      ...listItemsByKey,
+      [listKey]: (listItemsByKey[listKey] || []).filter((_, i) => i !== index),
+    });
+  };
+
+  const updateListItemInKey = (
+    listKey: string,
+    index: number,
+    fieldId: string,
+    value: ContentDataValue,
+    nestedFieldId?: string
+  ) => {
+    const updatedItems = [...(listItemsByKey[listKey] || [])];
+    if (nestedFieldId) {
+      if (
+        !updatedItems[index][fieldId] ||
+        typeof updatedItems[index][fieldId] !== "object"
+      ) {
+        updatedItems[index][fieldId] = {};
+      }
+      (updatedItems[index][fieldId] as NestedContentData)[nestedFieldId] =
+        value as string | number | boolean | null;
+    } else {
+      updatedItems[index][fieldId] = value;
+    }
+    setListItemsByKey({
+      ...listItemsByKey,
+      [listKey]: updatedItems,
+    });
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
@@ -166,9 +342,30 @@ export default function ContentEditor({
     try {
       let dataToSave: ContentData | Record<string, ContentData>;
 
-      // Om det är en list-sektion
-      if (sectionConfig.type === "list") {
-        dataToSave = { items: listItems } as ContentData;
+      // Om det finns flera listor, spara dem
+      if (sectionConfig.listItemConfigs) {
+        // Kombinera fields (om de finns) med alla listor
+        const listsData: ContentData = { ...listItemsByKey };
+        if (sectionConfig.fields.length > 0) {
+          dataToSave = {
+            ...formData,
+            ...listsData,
+          } as ContentData;
+        } else {
+          dataToSave = listsData;
+        }
+      } else if (sectionConfig.listItemConfig) {
+        // Om det finns en lista, spara den
+        // Om det också finns fields, kombinera dem
+        if (sectionConfig.type !== "list" && sectionConfig.fields.length > 0) {
+          dataToSave = {
+            ...formData,
+            items: listItems,
+          } as ContentData;
+        } else {
+          // Bara lista
+          dataToSave = { items: listItems } as ContentData;
+        }
       } else if (
         sectionConfig.languages &&
         sectionConfig.languages.length > 0
@@ -323,6 +520,25 @@ export default function ContentEditor({
                 id={field.id}
                 value={value as string}
                 onChange={(e) => handleChange(field.id, e.target.value)}
+                onBlur={async (e) => {
+                  const url = e.target.value;
+                  if (url) {
+                    const dimensions = await getImageDimensions(url);
+                    if (dimensions) {
+                      handleChange(field.id, url);
+                      // Uppdatera width/height om de finns
+                      const widthField = sectionConfig.fields.find(
+                        (f) => f.id === "width"
+                      );
+                      const heightField = sectionConfig.fields.find(
+                        (f) => f.id === "height"
+                      );
+                      if (widthField) handleChange("width", dimensions.width);
+                      if (heightField)
+                        handleChange("height", dimensions.height);
+                    }
+                  }
+                }}
                 required={field.required}
                 placeholder={
                   field.placeholder || "https://example.com/image.jpg"
@@ -484,6 +700,88 @@ export default function ContentEditor({
           />
         );
 
+      case "image":
+        const uploadId = `list-item-${itemIndex}-${field.id}`;
+        return (
+          <div>
+            <div
+              style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}
+            >
+              <input
+                type="url"
+                value={value as string}
+                onChange={(e) =>
+                  updateListItem(itemIndex, field.id, e.target.value)
+                }
+                onBlur={async (e) => {
+                  const url = e.target.value;
+                  if (url) {
+                    const dimensions = await getImageDimensions(url);
+                    if (dimensions) {
+                      handleChange(field.id, url);
+                      // Uppdatera width/height om de finns
+                      const widthField = sectionConfig.fields.find(
+                        (f) => f.id === "width"
+                      );
+                      const heightField = sectionConfig.fields.find(
+                        (f) => f.id === "height"
+                      );
+                      if (widthField) handleChange("width", dimensions.width);
+                      if (heightField)
+                        handleChange("height", dimensions.height);
+                    }
+                  }
+                }}
+                required={field.required}
+                placeholder={
+                  field.placeholder || "https://example.com/image.jpg"
+                }
+                className={styles.input}
+                style={{ flex: 1 }}
+              />
+              <label
+                htmlFor={`${uploadId}-file`}
+                style={{
+                  padding: "0.5rem 1rem",
+                  backgroundColor: "#3b82f6",
+                  color: "white",
+                  borderRadius: "0.375rem",
+                  cursor:
+                    uploadingImage === uploadId ? "not-allowed" : "pointer",
+                  opacity: uploadingImage === uploadId ? 0.6 : 1,
+                }}
+              >
+                {uploadingImage === uploadId ? "Uploading..." : "Upload"}
+              </label>
+              <input
+                type="file"
+                id={`${uploadId}-file`}
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    handleImageUploadForListItem(itemIndex, field.id, file);
+                  }
+                }}
+                disabled={uploadingImage === uploadId}
+              />
+            </div>
+            {value && (
+              <img
+                src={value as string}
+                alt="Preview"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "300px",
+                  marginTop: "0.5rem",
+                  borderRadius: "0.375rem",
+                }}
+              />
+            )}
+          </div>
+        );
+
       default:
         return (
           <input
@@ -491,6 +789,220 @@ export default function ContentEditor({
             value={value as string}
             onChange={(e) =>
               updateListItem(itemIndex, field.id, e.target.value)
+            }
+            required={field.required}
+            placeholder={field.placeholder}
+            className={styles.input}
+          />
+        );
+    }
+  };
+
+  // Rendera ett fält för ett list-item i en specifik lista (för flera listor)
+  const renderListItemFieldForKey = (
+    field: SectionConfig["fields"][0],
+    item: ContentData,
+    itemIndex: number,
+    listKey: string
+  ) => {
+    const value = item[field.id] || "";
+
+    switch (field.type) {
+      case "text":
+        return (
+          <input
+            type="text"
+            value={value as string}
+            onChange={(e) =>
+              updateListItemInKey(listKey, itemIndex, field.id, e.target.value)
+            }
+            required={field.required}
+            placeholder={field.placeholder}
+            className={styles.input}
+          />
+        );
+
+      case "textarea":
+        return (
+          <textarea
+            value={value as string}
+            onChange={(e) =>
+              updateListItemInKey(listKey, itemIndex, field.id, e.target.value)
+            }
+            required={field.required}
+            placeholder={field.placeholder}
+            rows={3}
+            className={styles.textarea}
+          />
+        );
+
+      case "number":
+        return (
+          <input
+            type="number"
+            value={value as number}
+            onChange={(e) =>
+              updateListItemInKey(
+                listKey,
+                itemIndex,
+                field.id,
+                parseFloat(e.target.value) || 0
+              )
+            }
+            required={field.required}
+            placeholder={field.placeholder}
+            className={styles.input}
+          />
+        );
+
+      case "date":
+        // Date field med nested fields (day, month, year)
+        if (field.nestedFields) {
+          const dateValue = (value as NestedContentData) || {};
+          return (
+            <div style={{ display: "flex", gap: "0.5rem" }}>
+              {field.nestedFields.map((nestedField) => (
+                <input
+                  key={nestedField.id}
+                  type={nestedField.id === "year" ? "number" : "text"}
+                  value={String(dateValue[nestedField.id] ?? "")}
+                  onChange={(e) => {
+                    const newDateValue = {
+                      ...dateValue,
+                      [nestedField.id]:
+                        nestedField.id === "year"
+                          ? parseInt(e.target.value) || 0
+                          : e.target.value,
+                    };
+                    updateListItemInKey(
+                      listKey,
+                      itemIndex,
+                      field.id,
+                      newDateValue
+                    );
+                  }}
+                  placeholder={nestedField.placeholder || nestedField.label}
+                  className={styles.input}
+                  style={{ flex: 1 }}
+                />
+              ))}
+            </div>
+          );
+        }
+        return (
+          <input
+            type="date"
+            value={value as string}
+            onChange={(e) =>
+              updateListItemInKey(listKey, itemIndex, field.id, e.target.value)
+            }
+            required={field.required}
+            placeholder={field.placeholder}
+            className={styles.input}
+          />
+        );
+
+      case "image":
+        const uploadIdForKey = `list-item-${listKey}-${itemIndex}-${field.id}`;
+        return (
+          <div>
+            <div
+              style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}
+            >
+              <input
+                type="url"
+                value={value as string}
+                onChange={(e) =>
+                  updateListItemInKey(
+                    listKey,
+                    itemIndex,
+                    field.id,
+                    e.target.value
+                  )
+                }
+                onBlur={async (e) => {
+                  const url = e.target.value;
+                  if (url) {
+                    const dimensions = await getImageDimensions(url);
+                    if (dimensions) {
+                      handleChange(field.id, url);
+                      // Uppdatera width/height om de finns
+                      const widthField = sectionConfig.fields.find(
+                        (f) => f.id === "width"
+                      );
+                      const heightField = sectionConfig.fields.find(
+                        (f) => f.id === "height"
+                      );
+                      if (widthField) handleChange("width", dimensions.width);
+                      if (heightField)
+                        handleChange("height", dimensions.height);
+                    }
+                  }
+                }}
+                required={field.required}
+                placeholder={
+                  field.placeholder || "https://example.com/image.jpg"
+                }
+                className={styles.input}
+                style={{ flex: 1 }}
+              />
+              <label
+                htmlFor={`${uploadIdForKey}-file`}
+                style={{
+                  padding: "0.5rem 1rem",
+                  backgroundColor: "#3b82f6",
+                  color: "white",
+                  borderRadius: "0.375rem",
+                  cursor:
+                    uploadingImage === uploadIdForKey
+                      ? "not-allowed"
+                      : "pointer",
+                  opacity: uploadingImage === uploadIdForKey ? 0.6 : 1,
+                }}
+              >
+                {uploadingImage === uploadIdForKey ? "Uploading..." : "Upload"}
+              </label>
+              <input
+                type="file"
+                id={`${uploadIdForKey}-file`}
+                accept="image/*"
+                style={{ display: "none" }}
+                onChange={(e) => {
+                  const file = e.target.files?.[0];
+                  if (file) {
+                    handleImageUploadForListItemInKey(
+                      listKey,
+                      itemIndex,
+                      field.id,
+                      file
+                    );
+                  }
+                }}
+                disabled={uploadingImage === uploadIdForKey}
+              />
+            </div>
+            {value && (
+              <img
+                src={value as string}
+                alt="Preview"
+                style={{
+                  maxWidth: "100%",
+                  maxHeight: "300px",
+                  marginTop: "0.5rem",
+                  borderRadius: "0.375rem",
+                }}
+              />
+            )}
+          </div>
+        );
+
+      default:
+        return (
+          <input
+            type="text"
+            value={value as string}
+            onChange={(e) =>
+              updateListItemInKey(listKey, itemIndex, field.id, e.target.value)
             }
             required={field.required}
             placeholder={field.placeholder}
@@ -601,128 +1113,324 @@ export default function ContentEditor({
           </div>
         )}
 
-        {sectionConfig.type === "list" && sectionConfig.listItemConfig ? (
-          <div className={styles.fieldsContainer}>
-            <div
-              style={{
-                marginBottom: "1rem",
-                display: "flex",
-                justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              <h3 style={{ margin: 0 }}>List Items ({listItems.length})</h3>
-              <button
-                type="button"
-                onClick={addListItem}
-                style={{
-                  padding: "0.5rem 1rem",
-                  backgroundColor: "#10b981",
-                  color: "white",
-                  border: "none",
-                  borderRadius: "0.375rem",
-                  cursor: "pointer",
-                  fontWeight: "500",
-                }}
-              >
-                + Add Item
-              </button>
-            </div>
+        <div className={styles.fieldsContainer}>
+          {/* Render fields om de finns (och typen inte är "list" eller om det finns fields) */}
+          {sectionConfig.fields.length > 0 && sectionConfig.type !== "list" && (
+            <>
+              {sectionConfig.fields.map((field) => (
+                <div key={field.id} className={styles.fieldGroup}>
+                  <label htmlFor={field.id} className={styles.label}>
+                    {field.label}{" "}
+                    {field.required && (
+                      <span className={styles.required}>*</span>
+                    )}
+                  </label>
+                  {renderField(field)}
+                </div>
+              ))}
+            </>
+          )}
 
-            {listItems.length === 0 ? (
-              <p style={{ color: "#666", fontStyle: "italic" }}>
-                No items in list. Click &quot;Add Item&quot; to add your first
-                item.
-              </p>
-            ) : (
-              <div
-                style={{
-                  display: "flex",
-                  flexDirection: "column",
-                  gap: "1.5rem",
-                }}
-              >
-                {listItems.map((item, index) => {
-                  const itemId =
-                    typeof item.id === "string" || typeof item.id === "number"
-                      ? String(item.id)
-                      : index;
-                  return (
-                    <div
-                      key={itemId}
-                      style={{
-                        border: "1px solid #e0e0e0",
-                        borderRadius: "0.5rem",
-                        padding: "1.5rem",
-                        backgroundColor: "#fafafa",
-                      }}
-                    >
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          marginBottom: "1rem",
-                        }}
-                      >
-                        <h4 style={{ margin: 0, color: "#333" }}>
-                          Item #{index + 1}
-                        </h4>
-                        <button
-                          type="button"
-                          onClick={() => removeListItem(index)}
+          {/* Render lista om listItemConfig finns */}
+          {sectionConfig.listItemConfig && (
+            <>
+              {/* Lägg till mellanrum om både fields och lista finns */}
+              {sectionConfig.fields.length > 0 &&
+                sectionConfig.type !== "list" && (
+                  <div style={{ marginTop: "2rem", marginBottom: "1rem" }}>
+                    <hr style={{ border: "1px solid #e0e0e0" }} />
+                  </div>
+                )}
+
+              <div>
+                <div
+                  style={{
+                    marginBottom: "1rem",
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <h3 style={{ margin: 0 }}>List Items ({listItems.length})</h3>
+                  <button
+                    type="button"
+                    onClick={addListItem}
+                    style={{
+                      padding: "0.5rem 1rem",
+                      backgroundColor: "#10b981",
+                      color: "white",
+                      border: "none",
+                      borderRadius: "0.375rem",
+                      cursor: "pointer",
+                      fontWeight: "500",
+                    }}
+                  >
+                    + Add Item
+                  </button>
+                </div>
+
+                {listItems.length === 0 ? (
+                  <p style={{ color: "#666", fontStyle: "italic" }}>
+                    No items in list. Click &quot;Add Item&quot; to add your
+                    first item.
+                  </p>
+                ) : (
+                  <div
+                    style={{
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "1.5rem",
+                    }}
+                  >
+                    {listItems.map((item, index) => {
+                      const itemId =
+                        typeof item.id === "string" ||
+                        typeof item.id === "number"
+                          ? String(item.id)
+                          : index;
+                      return (
+                        <div
+                          key={itemId}
                           style={{
-                            padding: "0.375rem 0.75rem",
-                            backgroundColor: "#ef4444",
-                            color: "white",
-                            border: "none",
-                            borderRadius: "0.375rem",
-                            cursor: "pointer",
-                            fontSize: "0.875rem",
+                            border: "1px solid #e0e0e0",
+                            borderRadius: "0.5rem",
+                            padding: "1.5rem",
+                            backgroundColor: "#fafafa",
                           }}
                         >
-                          Remove
-                        </button>
-                      </div>
+                          <div
+                            style={{
+                              display: "flex",
+                              justifyContent: "space-between",
+                              alignItems: "center",
+                              marginBottom: "1rem",
+                            }}
+                          >
+                            <h4 style={{ margin: 0, color: "#333" }}>
+                              Item #{index + 1}
+                            </h4>
+                            <button
+                              type="button"
+                              onClick={() => removeListItem(index)}
+                              style={{
+                                padding: "0.375rem 0.75rem",
+                                backgroundColor: "#ef4444",
+                                color: "white",
+                                border: "none",
+                                borderRadius: "0.375rem",
+                                cursor: "pointer",
+                                fontSize: "0.875rem",
+                              }}
+                            >
+                              Remove
+                            </button>
+                          </div>
 
+                          <div
+                            style={{
+                              display: "flex",
+                              flexDirection: "column",
+                              gap: "1rem",
+                            }}
+                          >
+                            {sectionConfig.listItemConfig?.fields
+                              .filter((field) => field.id !== "id")
+                              .map((field) => (
+                                <div
+                                  key={field.id}
+                                  className={styles.fieldGroup}
+                                >
+                                  <label className={styles.label}>
+                                    {field.label}{" "}
+                                    {field.required && (
+                                      <span className={styles.required}>*</span>
+                                    )}
+                                  </label>
+                                  {renderListItemField(field, item, index)}
+                                </div>
+                              ))}
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+            </>
+          )}
+
+          {/* Render flera listor om listItemConfigs finns */}
+          {sectionConfig.listItemConfigs &&
+            Object.keys(sectionConfig.listItemConfigs || {}).map((listKey) => {
+              const listConfig = sectionConfig.listItemConfigs![listKey];
+              const items = listItemsByKey[listKey] || [];
+              const listName =
+                listKey.charAt(0).toUpperCase() +
+                listKey.slice(1).replace(/([A-Z])/g, " $1");
+
+              return (
+                <div key={listKey}>
+                  {/* Lägg till mellanrum om det finns fields eller andra listor före */}
+                  {(sectionConfig.fields.length > 0 ||
+                    sectionConfig.listItemConfig ||
+                    (sectionConfig.listItemConfigs &&
+                      Object.keys(sectionConfig.listItemConfigs).indexOf(
+                        listKey
+                      ) > 0)) && (
+                    <div style={{ marginTop: "2rem", marginBottom: "1rem" }}>
+                      <hr style={{ border: "1px solid #e0e0e0" }} />
+                    </div>
+                  )}
+
+                  <div>
+                    <div
+                      style={{
+                        marginBottom: "1rem",
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                      }}
+                    >
+                      <h3 style={{ margin: 0 }}>
+                        {listName} ({items.length})
+                      </h3>
+                      <button
+                        type="button"
+                        onClick={() => addListItemToKey(listKey)}
+                        style={{
+                          padding: "0.5rem 1rem",
+                          backgroundColor: "#10b981",
+                          color: "white",
+                          border: "none",
+                          borderRadius: "0.375rem",
+                          cursor: "pointer",
+                          fontWeight: "500",
+                        }}
+                      >
+                        + Add Item
+                      </button>
+                    </div>
+
+                    {items.length === 0 ? (
+                      <p style={{ color: "#666", fontStyle: "italic" }}>
+                        No items in {listName.toLowerCase()}. Click &quot;Add
+                        Item&quot; to add your first item.
+                      </p>
+                    ) : (
                       <div
                         style={{
                           display: "flex",
                           flexDirection: "column",
-                          gap: "1rem",
+                          gap: "1.5rem",
                         }}
                       >
-                        {sectionConfig.listItemConfig?.fields.map((field) => (
-                          <div key={field.id} className={styles.fieldGroup}>
-                            <label className={styles.label}>
-                              {field.label}{" "}
-                              {field.required && (
-                                <span className={styles.required}>*</span>
-                              )}
-                            </label>
-                            {renderListItemField(field, item, index)}
-                          </div>
-                        ))}
+                        {items.map((item, index) => {
+                          const itemId =
+                            typeof item.id === "string" ||
+                            typeof item.id === "number"
+                              ? String(item.id)
+                              : index;
+                          return (
+                            <div
+                              key={itemId}
+                              style={{
+                                border: "1px solid #e0e0e0",
+                                borderRadius: "0.5rem",
+                                padding: "1.5rem",
+                                backgroundColor: "#fafafa",
+                              }}
+                            >
+                              <div
+                                style={{
+                                  display: "flex",
+                                  justifyContent: "space-between",
+                                  alignItems: "center",
+                                  marginBottom: "1rem",
+                                }}
+                              >
+                                <h4 style={{ margin: 0, color: "#333" }}>
+                                  Item #{index + 1}
+                                </h4>
+                                <button
+                                  type="button"
+                                  onClick={() =>
+                                    removeListItemFromKey(listKey, index)
+                                  }
+                                  style={{
+                                    padding: "0.375rem 0.75rem",
+                                    backgroundColor: "#ef4444",
+                                    color: "white",
+                                    border: "none",
+                                    borderRadius: "0.375rem",
+                                    cursor: "pointer",
+                                    fontSize: "0.875rem",
+                                  }}
+                                >
+                                  Remove
+                                </button>
+                              </div>
+
+                              <div
+                                style={{
+                                  display: "flex",
+                                  flexDirection: "column",
+                                  gap: "1rem",
+                                }}
+                              >
+                                {listConfig.fields
+                                  .filter((field) => field.id !== "id")
+                                  .map((field) => (
+                                    <div
+                                      key={field.id}
+                                      className={styles.fieldGroup}
+                                    >
+                                      <label className={styles.label}>
+                                        {field.label}{" "}
+                                        {field.required && (
+                                          <span className={styles.required}>
+                                            *
+                                          </span>
+                                        )}
+                                      </label>
+                                      {renderListItemFieldForKey(
+                                        field,
+                                        item,
+                                        index,
+                                        listKey
+                                      )}
+                                    </div>
+                                  ))}
+                              </div>
+                            </div>
+                          );
+                        })}
                       </div>
-                    </div>
-                  );
-                })}
-              </div>
+                    )}
+                  </div>
+                </div>
+              );
+            })}
+
+          {/* Om typen är "list" och det INTE finns listItemConfig eller listItemConfigs, visa tomt */}
+          {sectionConfig.type === "list" &&
+            !sectionConfig.listItemConfig &&
+            !sectionConfig.listItemConfigs && (
+              <p style={{ color: "#666", fontStyle: "italic" }}>
+                No list configuration found. Please add listItemConfig or
+                listItemConfigs to your section.
+              </p>
             )}
-          </div>
-        ) : (
-          <div className={styles.fieldsContainer}>
-            {sectionConfig.fields.map((field) => (
-              <div key={field.id} className={styles.fieldGroup}>
-                <label htmlFor={field.id} className={styles.label}>
-                  {field.label}{" "}
-                  {field.required && <span className={styles.required}>*</span>}
-                </label>
-                {renderField(field)}
-              </div>
-            ))}
-          </div>
-        )}
+
+          {/* Om det varken finns fields eller lista */}
+          {sectionConfig.fields.length === 0 &&
+            !sectionConfig.listItemConfig &&
+            !sectionConfig.listItemConfigs &&
+            sectionConfig.type !== "list" && (
+              <p style={{ color: "#666", fontStyle: "italic" }}>
+                No fields configured for this section.
+              </p>
+            )}
+        </div>
         {saveStatus === "success" && (
           <div className={styles.successMessage}>
             {" "}

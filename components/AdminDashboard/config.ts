@@ -100,6 +100,34 @@ export const dashboardConfig: SectionConfig[] = [
         required: true,
         placeholder: "Enter schedule title",
       },
+      {
+        id: "ScheduleBookTitle",
+        label: "Schedule Book Title",
+        type: "text",
+        required: true,
+        placeholder: "Enter schedule book title",
+      },
+      {
+        id: "ScheduleBookDesc",
+        label: "Schedule Book Description",
+        type: "textarea",
+        required: true,
+        placeholder: "Enter schedule book description",
+      },
+      {
+        id: "ScheduöeBookEmail",
+        label: "Schedule Book Email",
+        type: "text",
+        required: true,
+        placeholder: "Enter schedule book email",
+      },
+      {
+        id: "ScheduleBookPhone",
+        label: "Schedule Book Phone",
+        type: "text",
+        required: true,
+        placeholder: "Enter schedule book phone",
+      },
     ],
     listItemConfig: {
       fields: [
@@ -168,6 +196,116 @@ export const dashboardConfig: SectionConfig[] = [
           ],
         },
       ],
+    },
+  },
+  {
+    id: "media",
+    name: "Media",
+    type: "mixed",
+    languages: ["en", "sv", "fr"],
+    fields: [
+      {
+        id: "mediaTitle",
+        label: "Media Title",
+        type: "text",
+        required: true,
+        placeholder: "Enter media title",
+      },
+      {
+        id: "mediaSubtitle",
+        label: "Media Subtitle",
+        type: "text",
+        required: true,
+        placeholder: "Enter media subtitle",
+      },
+      {
+        id: "videoSectionTitle",
+        label: "VideoSection Title",
+        type: "text",
+        required: false,
+        placeholder: "Videos Section Title",
+      },
+      {
+        id: "musicSectionTitle",
+        label: "Music Section Title",
+        type: "text",
+        required: false,
+        placeholder: "Music Section Title",
+      },
+      {
+        id: "gallerySectionTitle",
+        label: "Gallery Section Title",
+        type: "text",
+        required: false,
+        placeholder: "Gallery Section Title",
+      },
+    ],
+    listItemConfigs: {
+      videos: {
+        fields: [
+          {
+            id: "youtubeUrl",
+            label: "YouTube URL",
+            type: "text",
+            required: true,
+            placeholder:
+              "https://www.youtube.com/watch?v=... eller https://youtu.be/...",
+          },
+          {
+            id: "title",
+            label: "Video Title",
+            type: "text",
+            required: true,
+            placeholder: "Video title (e.g., 'Stars')",
+          },
+          {
+            id: "description",
+            label: "Description",
+            type: "textarea",
+            required: false,
+            placeholder: "Video description",
+          },
+        ],
+      },
+      music: {
+        fields: [
+          {
+            id: "spotifyUrl",
+            label: "Spotify URL",
+            type: "text",
+            required: true,
+            placeholder:
+              "https://open.spotify.com/track/... eller https://open.spotify.com/album/... eller https://open.spotify.com/playlist/...",
+          },
+          // Valfritt: om du vill ha titel (ser ut som den är kommenterad i ditt exempel)
+          {
+            id: "title",
+            label: "Title",
+            type: "text",
+            required: false,
+            placeholder:
+              "Track/Album/Playlist title (e.g., 'Eric Schoeffler - Album')",
+          },
+        ],
+      },
+      gallery: {
+        fields: [
+          {
+            id: "url",
+            label: "Image URL",
+            type: "image",
+            required: true,
+            placeholder: "Image URL or upload",
+          },
+          {
+            id: "alt",
+            label: "Alt Text",
+            type: "text",
+            required: true,
+            placeholder: "Image description",
+          },
+        ],
+      },
     },
   },
 ];

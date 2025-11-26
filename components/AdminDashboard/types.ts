@@ -24,8 +24,10 @@ export interface SectionConfig {
   type: "text" | "rich-text" | "image" | "mixed" | "list";
   languages?: string[];
   fields: EditorField[];
-  // För list-typ: definiera strukturen för list-items
+  // För list-typ: definiera strukturen för list-items (en lista)
   listItemConfig?: ListItemConfig;
+  // För flera listor: objekt där nyckeln är namnet på listan
+  listItemConfigs?: Record<string, ListItemConfig>;
 }
 
 // Typ för nested objects (t.ex. startDate: { day, month, year })

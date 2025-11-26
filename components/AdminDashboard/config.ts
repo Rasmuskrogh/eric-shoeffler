@@ -2,8 +2,8 @@ import { SectionConfig } from "./types";
 
 export const dashboardConfig: SectionConfig[] = [
   {
-    id: "hero",
-    name: "Hero Section",
+    id: "home",
+    name: "Home",
     type: "mixed",
     languages: ["en", "sv", "fr"],
     fields: [
@@ -307,5 +307,34 @@ export const dashboardConfig: SectionConfig[] = [
         ],
       },
     },
+  },
+  {
+    id: "about",
+    name: "About",
+    type: "mixed",
+    languages: ["en", "sv", "fr"],
+    fields: [
+      {
+        id: "aboutTitle",
+        label: "About Title",
+        type: "text",
+        required: true,
+        placeholder: "Enter about title",
+      },
+      {
+        id: "aboutText",
+        label: "About Text",
+        type: "textarea",
+        required: true,
+        placeholder: "Enter about text",
+      },
+      {
+        id: "AboutImage",
+        label: "About Image",
+        type: "image",
+        required: true,
+        placeholder: "Enter about image",
+      },
+    ],
   },
 ];

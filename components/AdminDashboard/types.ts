@@ -16,6 +16,9 @@ export interface EditorField {
 export interface ListItemConfig {
   // Fält som definierar strukturen för varje objekt i listan
   fields: EditorField[];
+  // Fält som är språk-specifika (t.ex. description för videos)
+  // Dessa fält sparas som objekt med språk-nycklar: { en: "...", sv: "...", fr: "..." }
+  localizedFields?: string[];
 }
 
 export interface SectionConfig {
@@ -24,6 +27,11 @@ export interface SectionConfig {
   type: "text" | "rich-text" | "image" | "mixed" | "list";
   languages?: string[];
   fields: EditorField[];
+  // Fält som delas mellan alla språk (t.ex. bilder)
+  sharedFields?: EditorField[];
+  // Listor som delas mellan alla språk (t.ex. gallery, music)
+  // Dessa listor sparas på toppnivån, utanför språk-strukturen
+  sharedLists?: string[];
   // För list-typ: definiera strukturen för list-items (en lista)
   listItemConfig?: ListItemConfig;
   // För flera listor: objekt där nyckeln är namnet på listan

@@ -5,44 +5,23 @@ import { useActive } from "../../../app/context/ActiveContext";
 import Image from "next/image";
 import ContactForm from "../../features/contact/ContactForm";
 import { useState, useEffect } from "react";
-import { useTranslations } from "next-intl";
 
-const Hero: React.FC = () => {
+interface HeroProps {
+  name?: string;
+  tagline?: string;
+  contactText?: string;
+  imageLarge?: string;
+  imageSmall?: string;
+}
+
+const Hero: React.FC<HeroProps> = ({ name, tagline, contactText, imageLarge, imageSmall }) => {
   const { active } = useActive();
   const [isSmallScreen, setIsSmallScreen] = useState(false);
-  const [heroImageUrl, setHeroImageUrl] = useState<string>("");
-
-  const t = useTranslations("Hero");
 
   useEffect(() => {
     const checkScreenSize = () => {
       const newIsSmallScreen = window.innerWidth < 800;
-      const newIsRetina = window.devicePixelRatio > 1;
-
-      console.log(newIsRetina);
       setIsSmallScreen(newIsSmallScreen);
-
-      // Fetch appropriate image based on screen size
-      const fetchHeroImage = async () => {
-        try {
-          const imageName = newIsSmallScreen ? "eric-standing" : "eric-hero";
-          const response = await fetch(
-            `/api/hero-image?image=${imageName}&small=${newIsSmallScreen}`
-          );
-          const data = await response.json();
-          if (data.url) {
-            setHeroImageUrl(data.url);
-          }
-        } catch (error) {
-          console.error("Error fetching hero image:", error);
-          // Fallback to local images if API fails
-          setHeroImageUrl(
-            newIsSmallScreen ? "/eric-standing.JPG" : "/eric-hero.jpg"
-          );
-        }
-      };
-
-      fetchHeroImage();
     };
 
     checkScreenSize();
@@ -51,20 +30,24 @@ const Hero: React.FC = () => {
     return () => window.removeEventListener("resize", checkScreenSize);
   }, []);
 
+  // Use image from database (Cloudinary URL) based on screen size
+  const heroImageUrl = isSmallScreen 
+    ? (imageSmall || "/eric-standing.JPG") 
+    : (imageLarge || "/eric-hero.jpg");
+
   return (
     <section className={styles.hero}>
       <div className={`${styles.blueArea} ${active ? styles.active : ""}`}>
         <article className={styles.tagline}>
-          <h1 className={styles.taglineTitle}>{t("name")}</h1>
-          <p className={styles.taglineSubtitle}>{t("tagline")}</p>
+          <h1 className={styles.taglineTitle}>{name || "Eric Schoeffler"}</h1>
+          <p className={styles.taglineSubtitle}>
+            {tagline || "The Franco-Swedish Bass Baritone"}
+          </p>
         </article>
         <figure className={styles.profileImageWrapper}>
           <Image
             className={styles.profileImage}
-            src={
-              heroImageUrl ||
-              (isSmallScreen ? "/eric-standing.JPG" : "/eric-hero.jpg")
-            }
+            src={heroImageUrl}
             alt="Erik Shoeffler"
             fill
             priority
@@ -80,7 +63,7 @@ const Hero: React.FC = () => {
               <ContactForm />
             </div>
             <div className={styles.contactText}>
-              <p>{t("description")}</p>
+              <p>{contactText || ""}</p>
             </div>
           </>
         )}

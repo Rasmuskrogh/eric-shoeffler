@@ -1,14 +1,16 @@
 import React from "react";
 import styles from "./ListenPreview.module.css";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
 
-function ListenPreview() {
-  const t = useTranslations("ListenShort");
+interface ListenPreviewProps {
+  listenTitle?: string;
+  listenButtonText?: string;
+}
 
+function ListenPreview({ listenTitle, listenButtonText }: ListenPreviewProps) {
   return (
     <section className={styles.listenSection}>
-      <h2 className={styles.listenTitle}>{t("title")}</h2>
+      <h2 className={styles.listenTitle}>{listenTitle || "Listen"}</h2>
       <iframe
         className={styles.listenIframe}
         src="https://open.spotify.com/embed/track/3W9NQIIENxpOTRNEbmFYPG?utm_source=generator"
@@ -20,7 +22,9 @@ function ListenPreview() {
         loading="lazy"
       ></iframe>
       <Link href="/media">
-        <button className={styles.listenButton}>{t("button")}</button>
+        <button className={styles.listenButton}>
+          {listenButtonText || "More"}
+        </button>
       </Link>
     </section>
   );

@@ -1,25 +1,36 @@
 import styles from "./AboutPreview.module.css";
 import Image from "next/image";
 import Link from "next/link";
-import { useTranslations } from "next-intl";
 
-function AboutPreview() {
-  const t = useTranslations("Short");
+interface AboutPreviewProps {
+  aboutTitle?: string;
+  description?: string;
+  aboutButtonText?: string;
+  profileImage?: string;
+}
 
+function AboutPreview({
+  aboutTitle,
+  description,
+  aboutButtonText,
+  profileImage,
+}: AboutPreviewProps) {
   return (
     <>
       <section className={styles.short}>
         <section className={styles.presentationShort}>
-          <h2 className={styles.title}>{t("title")}</h2>
-          <p className={styles.description}>{t("description")}</p>
+          <h2 className={styles.title}>{aboutTitle || "About"}</h2>
+          <p className={styles.description}>{description || ""}</p>
           <Link href="/about">
-            <button className={styles.button}>{t("button")}</button>
+            <button className={styles.button}>
+              {aboutButtonText || "Read more"}
+            </button>
           </Link>
         </section>
         <section className={styles.shortImage}>
           <figure>
             <Image
-              src="/eric-no-background.png"
+              src={profileImage || "/eric-no-background.png"}
               alt="Eric Shoeffler"
               width={400}
               height={500}

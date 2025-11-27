@@ -22,20 +22,6 @@ export const dashboardConfig: SectionConfig[] = [
         placeholder: "Enter hero tagline",
       },
       {
-        id: "Image",
-        label: "Hero Image",
-        type: "image",
-        required: true,
-        placeholder: "image url",
-      },
-      {
-        id: "profileImage",
-        label: "Profile Image",
-        type: "image",
-        required: true,
-        placeholder: "Add Profile Picture",
-      },
-      {
         id: "aboutTitle",
         label: "About Title",
         type: "text",
@@ -71,19 +57,42 @@ export const dashboardConfig: SectionConfig[] = [
         placeholder: "Enter listen button text",
       },
       {
-        id: "SecondImage",
-        label: "Second Home Image",
-        type: "image",
-        required: true,
-        placeholder: "Add a second image",
-      },
-      {
         id: "youtubeUrl",
         label: "YouTube URL",
         type: "text",
         required: true,
         placeholder:
           "https://www.youtube.com/watch?v=... eller https://youtu.be/...",
+      },
+    ],
+    sharedFields: [
+      {
+        id: "imageLarge",
+        label: "Hero Image Wide Screens",
+        type: "image",
+        required: true,
+        placeholder: "image url",
+      },
+      {
+        id: "imageSmall",
+        label: "Hero Image Small Screens",
+        type: "image",
+        required: true,
+        placeholder: "image url",
+      },
+      {
+        id: "profileImage",
+        label: "Profile Image",
+        type: "image",
+        required: true,
+        placeholder: "Add Profile Picture",
+      },
+      {
+        id: "SecondImage",
+        label: "Second Home Image",
+        type: "image",
+        required: true,
+        placeholder: "Add a second image",
       },
     ],
   },
@@ -101,28 +110,35 @@ export const dashboardConfig: SectionConfig[] = [
         placeholder: "Enter schedule title",
       },
       {
-        id: "ScheduleBookTitle",
+        id: "scheduleUnderTitle",
+        label: "Schedule Under Title",
+        type: "text",
+        required: true,
+        placeholder: "Enter schedule under title",
+      },
+      {
+        id: "scheduleBookTitle",
         label: "Schedule Book Title",
         type: "text",
         required: true,
         placeholder: "Enter schedule book title",
       },
       {
-        id: "ScheduleBookDesc",
+        id: "scheduleBookDesc",
         label: "Schedule Book Description",
         type: "textarea",
         required: true,
         placeholder: "Enter schedule book description",
       },
       {
-        id: "ScheduöeBookEmail",
+        id: "scheduleBookEmail",
         label: "Schedule Book Email",
         type: "text",
         required: true,
         placeholder: "Enter schedule book email",
       },
       {
-        id: "ScheduleBookPhone",
+        id: "scheduleBookPhone",
         label: "Schedule Book Phone",
         type: "text",
         required: true,
@@ -240,6 +256,7 @@ export const dashboardConfig: SectionConfig[] = [
         placeholder: "Gallery Section Title",
       },
     ],
+    sharedLists: ["gallery", "music"], // Dessa listor är delade mellan alla språk
     listItemConfigs: {
       videos: {
         fields: [
@@ -266,6 +283,8 @@ export const dashboardConfig: SectionConfig[] = [
             placeholder: "Video description",
           },
         ],
+        // Description är språk-specifik, men listan är delad
+        localizedFields: ["description"],
       },
       music: {
         fields: [
@@ -277,7 +296,6 @@ export const dashboardConfig: SectionConfig[] = [
             placeholder:
               "https://open.spotify.com/track/... eller https://open.spotify.com/album/... eller https://open.spotify.com/playlist/...",
           },
-          // Valfritt: om du vill ha titel (ser ut som den är kommenterad i ditt exempel)
           {
             id: "title",
             label: "Title",
@@ -328,12 +346,29 @@ export const dashboardConfig: SectionConfig[] = [
         required: true,
         placeholder: "Enter about text",
       },
+    ],
+    sharedFields: [
       {
-        id: "AboutImage",
+        id: "aboutImage",
         label: "About Image",
         type: "image",
         required: true,
         placeholder: "Enter about image",
+      },
+    ],
+  },
+  {
+    id: "contact",
+    name: "Contact",
+    type: "mixed",
+    languages: ["en", "sv", "fr"],
+    fields: [
+      {
+        id: "contactText",
+        label: "Contact Text",
+        type: "textarea",
+        required: true,
+        placeholder: "Enter contact text",
       },
     ],
   },

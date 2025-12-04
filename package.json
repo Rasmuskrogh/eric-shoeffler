@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "seed:content": "tsx prisma/seed-content.ts"
+    "seed:content": "tsx prisma/seed-content.ts",
+    "migrate:schedule": "tsx prisma/migrate-schedule-items.ts",
+    "fix:schedule-descriptions": "tsx prisma/fix-schedule-descriptions.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.0.0",

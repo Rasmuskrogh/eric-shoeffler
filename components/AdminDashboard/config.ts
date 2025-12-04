@@ -212,6 +212,9 @@ export const dashboardConfig: SectionConfig[] = [
           ],
         },
       ],
+      // Description är språk-specifik, men listan är delad
+      // Month översätts i frontend (behålls som engelska namn i databasen)
+      localizedFields: ["description"],
     },
   },
   {

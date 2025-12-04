@@ -1,6 +1,9 @@
 // src/lib/getContent.ts
 import { prisma } from "./prisma";
-import type { ContentData, ContentDataValue } from "@/components/AdminDashboard/types";
+import type {
+  ContentData,
+  ContentDataValue,
+} from "@/components/AdminDashboard/types";
 
 type LocalizedContent = Record<string, ContentData>;
 
@@ -27,25 +30,38 @@ export async function getContent(
     ) {
       const localizedData = data as LocalizedContent;
       const langData = localizedData[locale] || {};
-      
+
       // Identifiera språk-nycklar (vanligtvis "en", "sv", "fr")
       // Delade fält och listor är alla nycklar som inte är språk-nycklar
-      const possibleLanguages = ["en", "sv", "fr", "de", "es", "it", "pt", "ru", "zh", "ja", "ko"];
+      const possibleLanguages = [
+        "en",
+        "sv",
+        "fr",
+        "de",
+        "es",
+        "it",
+        "pt",
+        "ru",
+        "zh",
+        "ja",
+        "ko",
+      ];
       const sharedData: ContentData = {};
       Object.keys(data).forEach((key) => {
         // Om nyckeln inte är en språk-nyckel, är det troligen ett delat fält eller lista
         const value = (data as Record<string, unknown>)[key];
-        const isLanguageKey = possibleLanguages.includes(key) && 
-                              typeof value === "object" && 
-                              value !== null && 
-                              !Array.isArray(value);
-        
+        const isLanguageKey =
+          possibleLanguages.includes(key) &&
+          typeof value === "object" &&
+          value !== null &&
+          !Array.isArray(value);
+
         if (!isLanguageKey) {
           // Detta är ett delat fält eller lista på toppnivån
           sharedData[key] = value as ContentDataValue;
         }
       });
-      
+
       // För delade listor med localizedFields (t.ex. videos med description),
       // behöver vi bearbeta description för aktivt språk
       const processedSharedData: ContentData = {};
@@ -56,9 +72,19 @@ export async function getContent(
           processedSharedData[key] = value.map((item: ContentData) => {
             const processedItem: ContentData = { ...item };
             // Om item har description som objekt, hämta rätt språk
-            if (item.description && typeof item.description === "object" && !Array.isArray(item.description)) {
-              const descriptions = item.description as Record<string, string>;
-              processedItem.description = descriptions[locale] || descriptions["en"] || "";
+            if (item.description) {
+              if (
+                typeof item.description === "object" &&
+                !Array.isArray(item.description)
+              ) {
+                // Description är redan lokaliserat objekt
+                const descriptions = item.description as Record<string, string>;
+                processedItem.description =
+                  descriptions[locale] || descriptions["en"] || "";
+              } else if (typeof item.description === "string") {
+                // Description är sträng - använd den direkt (bakåtkompatibilitet)
+                processedItem.description = item.description;
+              }
             }
             return processedItem;
           });
@@ -66,7 +92,7 @@ export async function getContent(
           processedSharedData[key] = value;
         }
       });
-      
+
       // Kombinera språk-data med delade fält/listor
       return {
         ...processedSharedData,

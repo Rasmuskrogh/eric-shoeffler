@@ -7,6 +7,7 @@ import type { ContentData } from "@/components/AdminDashboard/types";
 
 interface ScheduleClientProps {
   scheduleData: ContentData | null;
+  locale?: string;
 }
 
 interface ScheduleItem {
@@ -37,21 +38,76 @@ interface ScheduleData {
   items?: ScheduleItem[];
 }
 
-export default function ScheduleClient({ scheduleData }: ScheduleClientProps) {
+export default function ScheduleClient({
+  scheduleData,
+  locale = "sv",
+}: ScheduleClientProps) {
   if (!scheduleData) {
     return <div>Loading...</div>;
   }
+
+  // Funktion för att översätta månadsnamn baserat på locale
+  // Månader kommer från databasen som engelska namn, översätts här
+  const translateMonth = (month: string): string => {
+    const monthTranslations: Record<string, Record<string, string>> = {
+      en: {
+        January: "January",
+        February: "February",
+        March: "March",
+        April: "April",
+        May: "May",
+        June: "June",
+        July: "July",
+        August: "August",
+        September: "September",
+        October: "October",
+        November: "November",
+        December: "December",
+      },
+      sv: {
+        January: "Januari",
+        February: "Februari",
+        March: "Mars",
+        April: "April",
+        May: "Maj",
+        June: "Juni",
+        July: "Juli",
+        August: "Augusti",
+        September: "September",
+        October: "Oktober",
+        November: "November",
+        December: "December",
+      },
+      fr: {
+        January: "Janvier",
+        February: "Février",
+        March: "Mars",
+        April: "Avril",
+        May: "Mai",
+        June: "Juin",
+        July: "Juillet",
+        August: "Août",
+        September: "Septembre",
+        October: "Octobre",
+        November: "Novembre",
+        December: "Décembre",
+      },
+    };
+    const translations = monthTranslations[locale] || monthTranslations["sv"];
+    return translations[month] || month;
+  };
 
   const data = scheduleData as unknown as ScheduleData;
   const scheduleTitle = data.scheduleTitle || "Schedule";
   const scheduleUnderTitle = data.scheduleUnderTitle || "";
   const scheduleBookTitle = data.scheduleBookTitle || "";
   const scheduleBookDesc = data.scheduleBookDesc || "";
-  const scheduleBookEmail = data.scheduleBookEmail || "ecm.schoeffler@gmail.com";
+  const scheduleBookEmail =
+    data.scheduleBookEmail || "ecm.schoeffler@gmail.com";
   const scheduleBookPhone = data.scheduleBookPhone || "+46735362254";
-  
+
   const items: ScheduleItem[] = data.items || [];
-  
+
   // Convert items to Event format
   const events: Event[] = items.map((item) => ({
     id: item.id,
@@ -59,12 +115,47 @@ export default function ScheduleClient({ scheduleData }: ScheduleClientProps) {
     location: item.location,
     time: item.time || "",
     description: item.description || "",
-    startDate: item.startDate,
-    endDate: item.endDate,
+    startDate: {
+      ...item.startDate,
+      month: translateMonth(item.startDate.month),
+    },
+    endDate: item.endDate
+      ? {
+          ...item.endDate,
+          month: translateMonth(item.endDate.month),
+        }
+      : undefined,
   }));
 
-  // Helper function to convert month name to index
+  // Helper function to convert month name to index (använder engelska namn för datum-beräkningar)
   function getMonthIndex(month: string): number {
+    // Konvertera tillbaka till engelska namn för datum-beräkningar
+    const englishMonths: Record<string, string> = {
+      Januari: "January",
+      Februari: "February",
+      Mars: "March",
+      April: "April",
+      Maj: "May",
+      Juni: "June",
+      Juli: "July",
+      Augusti: "August",
+      September: "September",
+      Oktober: "October",
+      November: "November",
+      December: "December",
+      Janvier: "January",
+      Février: "February",
+      Avril: "April",
+      Mai: "May",
+      Juin: "June",
+      Juillet: "July",
+      Août: "August",
+      Septembre: "September",
+      Octobre: "October",
+      Novembre: "November",
+      Décembre: "December",
+    };
+    const englishMonth = englishMonths[month] || month;
     const months = [
       "January",
       "February",
@@ -79,7 +170,7 @@ export default function ScheduleClient({ scheduleData }: ScheduleClientProps) {
       "November",
       "December",
     ];
-    return months.indexOf(month);
+    return months.indexOf(englishMonth);
   }
 
   // Get current date (start of today)
@@ -171,14 +262,18 @@ export default function ScheduleClient({ scheduleData }: ScheduleClientProps) {
                   {upcomingEventsByYear[parseInt(year)].map((event) => (
                     <div key={event.id} className={styles.event}>
                       <div className={styles.eventDate}>
-                        <span className={styles.day}>{event.startDate.day}</span>
+                        <span className={styles.day}>
+                          {event.startDate.day}
+                        </span>
                         <span className={styles.month}>
                           {event.startDate.month}
                         </span>
                         {event.endDate && (
                           <>
                             <span className={styles.day}>-</span>
-                            <span className={styles.day}>{event.endDate.day}</span>
+                            <span className={styles.day}>
+                              {event.endDate.day}
+                            </span>
                             <span className={styles.month}>
                               {event.endDate.month}
                             </span>
@@ -212,16 +307,23 @@ export default function ScheduleClient({ scheduleData }: ScheduleClientProps) {
                 <div key={`past-${year}`}>
                   <h3 className={styles.yearHeader}>{year}</h3>
                   {pastEventsByYear[parseInt(year)].map((event) => (
-                    <div key={event.id} className={`${styles.event} ${styles.pastEvent}`}>
+                    <div
+                      key={event.id}
+                      className={`${styles.event} ${styles.pastEvent}`}
+                    >
                       <div className={styles.eventDate}>
-                        <span className={styles.day}>{event.startDate.day}</span>
+                        <span className={styles.day}>
+                          {event.startDate.day}
+                        </span>
                         <span className={styles.month}>
                           {event.startDate.month}
                         </span>
                         {event.endDate && (
                           <>
                             <span className={styles.day}>-</span>
-                            <span className={styles.day}>{event.endDate.day}</span>
+                            <span className={styles.day}>
+                              {event.endDate.day}
+                            </span>
                             <span className={styles.month}>
                               {event.endDate.month}
                             </span>
@@ -264,7 +366,3 @@ export default function ScheduleClient({ scheduleData }: ScheduleClientProps) {
     </div>
   );
 }
-
-
-
-

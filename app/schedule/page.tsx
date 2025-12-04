@@ -7,5 +7,5 @@ export default async function AgendaPage() {
   const locale = cookieStore.get("language")?.value || "sv";
   const scheduleData = await getContent("schedule", locale);
 
-  return <ScheduleClient scheduleData={scheduleData} />;
+  return <ScheduleClient scheduleData={scheduleData} locale={locale} />;
 }

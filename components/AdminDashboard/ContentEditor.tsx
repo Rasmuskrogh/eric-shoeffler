@@ -39,7 +39,28 @@ export default function ContentEditor({
     if (sectionConfig.listItemConfig) {
       // För listor, förvänta sig en array i initialData.items
       if (initialData && Array.isArray(initialData.items)) {
-        setListItems(initialData.items as ContentData[]);
+        const items = initialData.items as ContentData[];
+        // Konvertera localizedFields från strängar till objekt om de är strängar
+        const localizedFields = new Set(
+          sectionConfig.listItemConfig.localizedFields || []
+        );
+        const processedItems = items.map((item) => {
+          const processedItem: ContentData = { ...item };
+          localizedFields.forEach((fieldId) => {
+            const fieldValue = item[fieldId];
+            // Om fältet är en sträng men ska vara lokaliserat, konvertera till objekt
+            if (typeof fieldValue === "string" && fieldValue) {
+              // Konvertera sträng till objekt med engelska som default
+              processedItem[fieldId] = {
+                en: fieldValue,
+                sv: fieldValue, // Fallback till engelska
+                fr: fieldValue, // Fallback till engelska
+              };
+            }
+          });
+          return processedItem;
+        });
+        setListItems(processedItems);
       } else {
         setListItems([]);
       }
@@ -52,12 +73,30 @@ export default function ContentEditor({
 
       Object.keys(sectionConfig.listItemConfigs).forEach((listKey) => {
         const isShared = sharedLists.has(listKey);
+        const listConfig = sectionConfig.listItemConfigs![listKey];
+        const localizedFields = new Set(listConfig?.localizedFields || []);
 
         if (initialData) {
           // Om listan är delad, hämta från toppnivån
           if (isShared) {
             if (initialData[listKey] && Array.isArray(initialData[listKey])) {
-              lists[listKey] = initialData[listKey] as ContentData[];
+              const items = initialData[listKey] as ContentData[];
+              // Konvertera localizedFields från strängar till objekt om de är strängar
+              const processedItems = items.map((item) => {
+                const processedItem: ContentData = { ...item };
+                localizedFields.forEach((fieldId) => {
+                  const fieldValue = item[fieldId];
+                  if (typeof fieldValue === "string" && fieldValue) {
+                    processedItem[fieldId] = {
+                      en: fieldValue,
+                      sv: fieldValue,
+                      fr: fieldValue,
+                    };
+                  }
+                });
+                return processedItem;
+              });
+              lists[listKey] = processedItems;
             } else {
               // Om listan är delad men finns i språk-strukturen (för bakåtkompatibilitet)
               const isLocalized =
@@ -79,9 +118,25 @@ export default function ContentEditor({
                   localizedData[firstLang]?.[listKey] &&
                   Array.isArray(localizedData[firstLang][listKey])
                 ) {
-                  lists[listKey] = localizedData[firstLang][
+                  const items = localizedData[firstLang][
                     listKey
                   ] as ContentData[];
+                  // Konvertera localizedFields från strängar till objekt
+                  const processedItems = items.map((item) => {
+                    const processedItem: ContentData = { ...item };
+                    localizedFields.forEach((fieldId) => {
+                      const fieldValue = item[fieldId];
+                      if (typeof fieldValue === "string" && fieldValue) {
+                        processedItem[fieldId] = {
+                          en: fieldValue,
+                          sv: fieldValue,
+                          fr: fieldValue,
+                        };
+                      }
+                    });
+                    return processedItem;
+                  });
+                  lists[listKey] = processedItems;
                 } else {
                   lists[listKey] = [];
                 }
@@ -109,9 +164,25 @@ export default function ContentEditor({
                 localizedData[defaultLang]?.[listKey] &&
                 Array.isArray(localizedData[defaultLang][listKey])
               ) {
-                lists[listKey] = localizedData[defaultLang][
+                const items = localizedData[defaultLang][
                   listKey
                 ] as ContentData[];
+                // Konvertera localizedFields från strängar till objekt
+                const processedItems = items.map((item) => {
+                  const processedItem: ContentData = { ...item };
+                  localizedFields.forEach((fieldId) => {
+                    const fieldValue = item[fieldId];
+                    if (typeof fieldValue === "string" && fieldValue) {
+                      processedItem[fieldId] = {
+                        en: fieldValue,
+                        sv: fieldValue,
+                        fr: fieldValue,
+                      };
+                    }
+                  });
+                  return processedItem;
+                });
+                lists[listKey] = processedItems;
               } else {
                 lists[listKey] = [];
               }
@@ -119,7 +190,23 @@ export default function ContentEditor({
               initialData[listKey] &&
               Array.isArray(initialData[listKey])
             ) {
-              lists[listKey] = initialData[listKey] as ContentData[];
+              const items = initialData[listKey] as ContentData[];
+              // Konvertera localizedFields från strängar till objekt
+              const processedItems = items.map((item) => {
+                const processedItem: ContentData = { ...item };
+                localizedFields.forEach((fieldId) => {
+                  const fieldValue = item[fieldId];
+                  if (typeof fieldValue === "string" && fieldValue) {
+                    processedItem[fieldId] = {
+                      en: fieldValue,
+                      sv: fieldValue,
+                      fr: fieldValue,
+                    };
+                  }
+                });
+                return processedItem;
+              });
+              lists[listKey] = processedItems;
             } else {
               lists[listKey] = [];
             }
@@ -481,7 +568,8 @@ export default function ContentEditor({
     // Generera ett unikt ID
     newItem.id = crypto.randomUUID();
 
-    setListItems([...listItems, newItem]);
+    // Lägg till nytt item högst upp i listan
+    setListItems([newItem, ...listItems]);
   };
 
   const removeListItem = (index: number) => {
@@ -495,6 +583,10 @@ export default function ContentEditor({
     nestedFieldId?: string
   ) => {
     const updatedItems = [...listItems];
+    const listConfig = sectionConfig.listItemConfig;
+    const localizedFields = new Set(listConfig?.localizedFields || []);
+    const isLocalized = localizedFields.has(fieldId);
+
     if (nestedFieldId) {
       // Uppdatera nested field (t.ex. startDate.day)
       if (
@@ -505,6 +597,18 @@ export default function ContentEditor({
       }
       (updatedItems[index][fieldId] as NestedContentData)[nestedFieldId] =
         value as string | number | boolean | null;
+    } else if (isLocalized && activeLanguage) {
+      // För localizedFields, spara som objekt med språk-nycklar
+      const existingValue = updatedItems[index][fieldId];
+      const localizedValue =
+        typeof existingValue === "object" &&
+        existingValue !== null &&
+        !Array.isArray(existingValue)
+          ? (existingValue as Record<string, string>)
+          : {};
+
+      localizedValue[activeLanguage] = value as string;
+      updatedItems[index][fieldId] = localizedValue;
     } else {
       // Uppdatera vanligt field
       updatedItems[index][fieldId] = value;
@@ -531,9 +635,10 @@ export default function ContentEditor({
     });
     newItem.id = crypto.randomUUID();
 
+    // Lägg till nytt item högst upp i listan
     setListItemsByKey({
       ...listItemsByKey,
-      [listKey]: [...(listItemsByKey[listKey] || []), newItem],
+      [listKey]: [newItem, ...(listItemsByKey[listKey] || [])],
     });
   };
 
@@ -777,14 +882,90 @@ export default function ContentEditor({
         }
       } else if (sectionConfig.listItemConfig) {
         // Om det finns en lista, spara den
-        // Om det också finns fields, kombinera dem
-        if (sectionConfig.type !== "list" && sectionConfig.fields.length > 0) {
+        // Om det också finns languages, spara items på toppnivån med språk-struktur
+        if (sectionConfig.languages && sectionConfig.languages.length > 0) {
+          // Språk-struktur med items på toppnivån
+          const existingData = initialData as
+            | Record<string, ContentData>
+            | ContentData;
+          const isLocalized =
+            typeof existingData === "object" &&
+            existingData !== null &&
+            !Array.isArray(existingData) &&
+            sectionConfig.languages[0] in existingData;
+
+          if (isLocalized) {
+            const existingLocalized = existingData as unknown as Record<
+              string,
+              ContentData
+            >;
+            const updatedLocalized: Record<string, ContentData> = {};
+
+            // Separera språk-nycklar från delade fält
+            const sharedFieldIds = new Set(
+              sectionConfig.sharedFields?.map((f) => f.id) || []
+            );
+
+            // Behåll alla språk, men uppdatera det aktiva språket
+            Object.keys(existingLocalized).forEach((lang) => {
+              // Hoppa över delade fält - de hanteras separat
+              if (sharedFieldIds.has(lang)) {
+                return;
+              }
+              if (sectionConfig.languages!.includes(lang)) {
+                if (lang === activeLanguage) {
+                  updatedLocalized[lang] = {
+                    ...filteredFormData,
+                  };
+                } else {
+                  // Behåll befintlig data för andra språk
+                  const langData = existingLocalized[lang];
+                  const filteredLangData: ContentData = {};
+                  Object.keys(langData).forEach((key) => {
+                    if (allowedFieldIds.has(key)) {
+                      filteredLangData[key] = langData[key];
+                    }
+                  });
+                  updatedLocalized[lang] = filteredLangData;
+                }
+              }
+            });
+
+            // Filtrera bort delade fält från updatedLocalized om de finns där
+            const filteredUpdatedLocalized: Record<string, ContentData> = {};
+            Object.keys(updatedLocalized).forEach((key) => {
+              if (!sharedFieldIds.has(key)) {
+                filteredUpdatedLocalized[key] = updatedLocalized[key];
+              }
+            });
+
+            // Lägg till items på toppnivån tillsammans med språk-data
+            dataToSave = {
+              items: listItems,
+              ...filteredUpdatedLocalized,
+              ...sanitizedSharedData,
+            } as unknown as Record<string, ContentData>;
+          } else {
+            // Skapa ny språk-struktur med items på toppnivån
+            dataToSave = {
+              items: listItems,
+              ...sanitizedSharedData,
+              [activeLanguage!]: {
+                ...filteredFormData,
+              },
+            } as unknown as Record<string, ContentData>;
+          }
+        } else if (
+          sectionConfig.type !== "list" &&
+          sectionConfig.fields.length > 0
+        ) {
+          // Ingen språk-struktur, men det finns fields
           dataToSave = {
             ...filteredFormData,
             items: listItems,
           } as ContentData;
         } else {
-          // Bara lista
+          // Bara lista, ingen språk-struktur, inga fields
           dataToSave = { items: listItems } as ContentData;
         }
       } else if (
@@ -1218,7 +1399,26 @@ export default function ContentEditor({
     item: ContentData,
     itemIndex: number
   ) => {
-    const value = item[field.id] || "";
+    const listConfig = sectionConfig.listItemConfig;
+    const localizedFields = new Set(listConfig?.localizedFields || []);
+    const isLocalized = localizedFields.has(field.id);
+
+    // För localizedFields, hämta värdet för aktivt språk
+    let value: ContentDataValue = "";
+    if (isLocalized && activeLanguage) {
+      const fieldValue = item[field.id];
+      if (
+        typeof fieldValue === "object" &&
+        fieldValue !== null &&
+        !Array.isArray(fieldValue)
+      ) {
+        value = (fieldValue as Record<string, string>)[activeLanguage] || "";
+      } else {
+        value = "";
+      }
+    } else {
+      value = item[field.id] || "";
+    }
 
     switch (field.type) {
       case "text":

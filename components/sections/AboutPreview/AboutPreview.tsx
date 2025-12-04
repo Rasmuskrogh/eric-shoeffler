@@ -30,7 +30,13 @@ function AboutPreview({
         <section className={styles.shortImage}>
           <figure>
             <Image
-              src={profileImage || "/eric-no-background.png"}
+              src={
+                profileImage &&
+                typeof profileImage === "string" &&
+                profileImage.trim()
+                  ? profileImage
+                  : "/eric-no-background.png"
+              }
               alt="Eric Shoeffler"
               width={400}
               height={500}

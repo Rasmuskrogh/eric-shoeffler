@@ -19,6 +19,7 @@ export async function POST(request: NextRequest) {
 
     const formData = await request.formData();
     const file = formData.get("file") as File;
+    const folder = (formData.get("folder") as string) || "hero";
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
@@ -31,7 +32,7 @@ export async function POST(request: NextRequest) {
     const dataURI = `data:${file.type};base64,${base64}`;
 
     const uploadResult = await cloudinary.uploader.upload(dataURI, {
-      folder: "admin-uploads",
+      folder: folder,
       resource_type: "auto",
     });
 

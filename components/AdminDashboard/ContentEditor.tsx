@@ -156,7 +156,27 @@ export default function ContentEditor({
           // Försök hämta från toppnivån först
           Object.keys(initialData).forEach((key) => {
             if (sharedFieldIds.has(key)) {
-              shared[key] = (initialData as any)[key];
+              const value = (initialData as any)[key];
+              // Säkerställ att värdet är primitivt (inte ett objekt)
+              // Om värdet är ett tomt objekt {}, hoppa över det
+              if (
+                value !== null &&
+                typeof value === "object" &&
+                !Array.isArray(value)
+              ) {
+                // Om objektet är tomt {}, hoppa över det
+                if (Object.keys(value).length === 0) {
+                  return;
+                }
+                // Om det är ett objekt, försök hämta URL eller konvertera till sträng
+                if ("url" in value && typeof value.url === "string") {
+                  shared[key] = value.url;
+                } else {
+                  shared[key] = String(value);
+                }
+              } else {
+                shared[key] = value;
+              }
             }
           });
           // Om inga delade fält hittades på toppnivån, kolla första språket
@@ -168,7 +188,26 @@ export default function ContentEditor({
           ) {
             Object.keys(localizedData[firstLang]).forEach((key) => {
               if (sharedFieldIds.has(key)) {
-                shared[key] = localizedData[firstLang][key];
+                const value = localizedData[firstLang][key];
+                // Säkerställ att värdet är primitivt (inte ett objekt)
+                // Om värdet är ett tomt objekt {}, hoppa över det
+                if (
+                  value !== null &&
+                  typeof value === "object" &&
+                  !Array.isArray(value)
+                ) {
+                  // Om objektet är tomt {}, hoppa över det
+                  if (Object.keys(value).length === 0) {
+                    return;
+                  }
+                  if ("url" in value && typeof value.url === "string") {
+                    shared[key] = value.url;
+                  } else {
+                    shared[key] = String(value);
+                  }
+                } else {
+                  shared[key] = value;
+                }
               }
             });
           }
@@ -176,7 +215,26 @@ export default function ContentEditor({
           // Direkt data - hämta delade fält
           Object.keys(initialData).forEach((key) => {
             if (sharedFieldIds.has(key)) {
-              shared[key] = initialData[key];
+              const value = initialData[key];
+              // Säkerställ att värdet är primitivt (inte ett objekt)
+              // Om värdet är ett tomt objekt {}, hoppa över det
+              if (
+                value !== null &&
+                typeof value === "object" &&
+                !Array.isArray(value)
+              ) {
+                // Om objektet är tomt {}, hoppa över det
+                if (Object.keys(value).length === 0) {
+                  return;
+                }
+                if ("url" in value && typeof value.url === "string") {
+                  shared[key] = value.url;
+                } else {
+                  shared[key] = String(value);
+                }
+              } else {
+                shared[key] = value;
+              }
             }
           });
         }
@@ -269,6 +327,12 @@ export default function ContentEditor({
     try {
       const formData = new FormData();
       formData.append("file", file);
+      // Bestäm mapp baserat på sektion och fält
+      const folder =
+        sectionConfig.id === "media" && fieldId === "url"
+          ? "eric-schoeffler/gallery"
+          : "hero";
+      formData.append("folder", folder);
 
       const response = await fetch("/api/admin/content/upload-image", {
         method: "POST",
@@ -308,6 +372,12 @@ export default function ContentEditor({
     try {
       const formData = new FormData();
       formData.append("file", file);
+      // Bestäm mapp baserat på sektion och fält
+      const folder =
+        sectionConfig.id === "media" && fieldId === "url"
+          ? "eric-schoeffler/gallery"
+          : "hero";
+      formData.append("folder", folder);
 
       const response = await fetch("/api/admin/content/upload-image", {
         method: "POST",
@@ -351,6 +421,14 @@ export default function ContentEditor({
     try {
       const formData = new FormData();
       formData.append("file", file);
+      // Bestäm mapp baserat på sektion, listKey och fält
+      const folder =
+        sectionConfig.id === "media" &&
+        listKey === "gallery" &&
+        fieldId === "url"
+          ? "eric-schoeffler/gallery"
+          : "hero";
+      formData.append("folder", folder);
 
       const response = await fetch("/api/admin/content/upload-image", {
         method: "POST",
@@ -507,6 +585,39 @@ export default function ContentEditor({
     });
   };
 
+  // Helper function to ensure values are primitive (not objects)
+  const sanitizeSharedData = (data: ContentData): ContentData => {
+    const sanitized: ContentData = {};
+    Object.keys(data).forEach((key) => {
+      const value = data[key];
+      // Om värdet är ett tomt objekt {}, hoppa över det
+      if (
+        value !== null &&
+        typeof value === "object" &&
+        !Array.isArray(value) &&
+        Object.keys(value).length === 0
+      ) {
+        return; // Hoppa över tomma objekt
+      }
+      // Om värdet är ett objekt (men inte null eller array), konvertera till sträng
+      if (
+        value !== null &&
+        typeof value === "object" &&
+        !Array.isArray(value)
+      ) {
+        // Om det är ett objekt, försök hämta URL eller konvertera till sträng
+        if ("url" in value && typeof (value as any).url === "string") {
+          sanitized[key] = (value as any).url;
+        } else {
+          sanitized[key] = String(value);
+        }
+      } else {
+        sanitized[key] = value;
+      }
+    });
+    return sanitized;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
@@ -521,6 +632,9 @@ export default function ContentEditor({
           filteredFormData[key] = formData[key];
         }
       });
+
+      // Sanitize sharedData för att säkerställa att alla värden är primitiva
+      const sanitizedSharedData = sanitizeSharedData(sharedData);
 
       let dataToSave: ContentData | Record<string, ContentData>;
 
@@ -590,8 +704,17 @@ export default function ContentEditor({
             >;
             const updatedLocalized: Record<string, ContentData> = {};
 
+            // Separera språk-nycklar från delade fält
+            const sharedFieldIds = new Set(
+              sectionConfig.sharedFields?.map((f) => f.id) || []
+            );
+
             // Behåll alla språk, men uppdatera det aktiva språket
             Object.keys(existingLocalized).forEach((lang) => {
+              // Hoppa över delade fält - de hanteras separat
+              if (sharedFieldIds.has(lang)) {
+                return;
+              }
               if (sectionConfig.languages!.includes(lang)) {
                 if (lang === activeLanguage) {
                   updatedLocalized[lang] = {
@@ -615,16 +738,25 @@ export default function ContentEditor({
               }
             });
 
+            // Filtrera bort delade fält från updatedLocalized om de finns där
+            const filteredUpdatedLocalized: Record<string, ContentData> = {};
+            Object.keys(updatedLocalized).forEach((key) => {
+              if (!sharedFieldIds.has(key)) {
+                filteredUpdatedLocalized[key] = updatedLocalized[key];
+              }
+            });
+
             // Lägg till delade fält och delade listor på toppnivån
+            // VIKTIGT: Lägg till sanitizedSharedData SIST så att delade fält inte skrivs över
             dataToSave = {
-              ...sharedData,
               ...sharedListsData,
-              ...updatedLocalized,
+              ...filteredUpdatedLocalized,
+              ...sanitizedSharedData, // Lägg till delade fält SIST så de inte skrivs över
             } as Record<string, ContentData>;
           } else {
             // Skapa ny språk-struktur
             dataToSave = {
-              ...sharedData,
+              ...sanitizedSharedData,
               ...sharedListsData,
               [activeLanguage!]: {
                 ...filteredFormData,
@@ -635,7 +767,7 @@ export default function ContentEditor({
         } else {
           // Ingen språk-struktur
           dataToSave = {
-            ...sharedData,
+            ...sanitizedSharedData,
             ...filteredFormData,
             ...sharedListsData,
             ...localizedListsData,
@@ -675,8 +807,16 @@ export default function ContentEditor({
             ContentData
           >;
           const updatedLocalized: Record<string, ContentData> = {};
+          const sharedFieldIds = new Set(
+            sectionConfig.sharedFields?.map((f) => f.id) || []
+          );
+
           // Behåll alla språk, men uppdatera det aktiva språket med filtrerad data
           Object.keys(existingLocalized).forEach((lang) => {
+            // Hoppa över delade fält - de hanteras separat
+            if (sharedFieldIds.has(lang)) {
+              return;
+            }
             if (lang === activeLanguage) {
               updatedLocalized[lang] = filteredFormData;
             } else {
@@ -692,22 +832,25 @@ export default function ContentEditor({
             }
           });
           // Lägg till delade fält på toppnivån
+          // VIKTIGT: Lägg till sanitizedSharedData SIST så att delade fält inte skrivs över
           dataToSave = {
-            ...sharedData,
             ...updatedLocalized,
+            ...sanitizedSharedData, // Lägg till delade fält SIST så de inte skrivs över
           } as Record<string, ContentData>;
         } else {
           // Skapa ny språk-struktur med delade fält
+          // VIKTIGT: Lägg till sanitizedSharedData SIST så att delade fält inte skrivs över
           dataToSave = {
-            ...sharedData,
             [activeLanguage!]: filteredFormData,
+            ...sanitizedSharedData, // Lägg till delade fält SIST så de inte skrivs över
           } as Record<string, ContentData>;
         }
       } else {
         // Ingen språk-struktur, spara direkt med delade fält
+        // VIKTIGT: Lägg till sanitizedSharedData SIST så att delade fält inte skrivs över
         dataToSave = {
-          ...sharedData,
           ...filteredFormData,
+          ...sanitizedSharedData, // Lägg till delade fält SIST så de inte skrivs över
         } as ContentData;
       }
 
@@ -839,6 +982,15 @@ export default function ContentEditor({
     try {
       const formData = new FormData();
       formData.append("file", file);
+      // Bestäm mapp baserat på fält-ID eller sektion
+      // För home-sektionen: alla bilder går till "hero"
+      // För about-sektionen: aboutImage går till "hero"
+      // För media-sektionen: gallery-bilder kan gå till "gallery" (om det finns)
+      const folder =
+        sectionConfig.id === "media" && fieldId === "url"
+          ? "eric-schoeffler/gallery"
+          : "hero";
+      formData.append("folder", folder);
 
       const response = await fetch("/api/admin/content/upload-image", {
         method: "POST",
@@ -850,7 +1002,13 @@ export default function ContentEditor({
       }
 
       const data = await response.json();
-      handleSharedChange(fieldId, data.url);
+      // Säkerställ att vi sparar en sträng, inte ett objekt
+      const imageUrl =
+        typeof data.url === "string" ? data.url : String(data.url || "");
+      if (!imageUrl) {
+        throw new Error("No URL returned from upload");
+      }
+      handleSharedChange(fieldId, imageUrl);
     } catch (error) {
       console.error("Error uploading image:", error);
       alert("Failed to upload image. Please try again.");

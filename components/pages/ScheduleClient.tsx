@@ -52,8 +52,31 @@ export default function ScheduleClient({ scheduleData }: ScheduleClientProps) {
     return months.indexOf(month);
   }
 
-  // Sort events chronologically
-  const sortedEvents = events.sort((a, b) => {
+  // Get current date (start of today)
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Separate events into upcoming and past
+  const upcomingEvents: Event[] = [];
+  const pastEvents: Event[] = [];
+
+  events.forEach((event) => {
+    const eventDate = new Date(
+      event.startDate.year,
+      getMonthIndex(event.startDate.month),
+      event.startDate.day
+    );
+    eventDate.setHours(0, 0, 0, 0);
+
+    if (eventDate >= today) {
+      upcomingEvents.push(event);
+    } else {
+      pastEvents.push(event);
+    }
+  });
+
+  // Sort upcoming events chronologically (ascending)
+  const sortedUpcomingEvents = upcomingEvents.sort((a, b) => {
     const dateA = new Date(
       a.startDate.year,
       getMonthIndex(a.startDate.month),
@@ -67,8 +90,33 @@ export default function ScheduleClient({ scheduleData }: ScheduleClientProps) {
     return dateA.getTime() - dateB.getTime();
   });
 
-  // Group events by year
-  const eventsByYear = sortedEvents.reduce((acc, event) => {
+  // Sort past events chronologically (descending - most recent first)
+  const sortedPastEvents = pastEvents.sort((a, b) => {
+    const dateA = new Date(
+      a.startDate.year,
+      getMonthIndex(a.startDate.month),
+      a.startDate.day
+    );
+    const dateB = new Date(
+      b.startDate.year,
+      getMonthIndex(b.startDate.month),
+      b.startDate.day
+    );
+    return dateB.getTime() - dateA.getTime();
+  });
+
+  // Group upcoming events by year
+  const upcomingEventsByYear = sortedUpcomingEvents.reduce((acc, event) => {
+    const year = event.startDate.year;
+    if (!acc[year]) {
+      acc[year] = [];
+    }
+    acc[year].push(event);
+    return acc;
+  }, {} as Record<number, Event[]>);
+
+  // Group past events by year
+  const pastEventsByYear = sortedPastEvents.reduce((acc, event) => {
     const year = event.startDate.year;
     if (!acc[year]) {
       acc[year] = [];
@@ -84,42 +132,90 @@ export default function ScheduleClient({ scheduleData }: ScheduleClientProps) {
         <p className={styles.subtitle}>{scheduleUnderTitle}</p>
 
         <div className={styles.events}>
-          {Object.keys(eventsByYear).map((year) => (
-            <div key={year}>
-              <h2 className={styles.yearHeader}>{year}</h2>
-              {eventsByYear[parseInt(year)].map((event) => (
-                <div key={event.id} className={styles.event}>
-                  <div className={styles.eventDate}>
-                    <span className={styles.day}>{event.startDate.day}</span>
-                    <span className={styles.month}>
-                      {event.startDate.month}
-                    </span>
-                    {event.endDate && (
-                      <>
-                        <span className={styles.day}>-</span>
-                        <span className={styles.day}>{event.endDate.day}</span>
+          {/* Upcoming Events */}
+          {Object.keys(upcomingEventsByYear).length > 0 && (
+            <>
+              {Object.keys(upcomingEventsByYear).map((year) => (
+                <div key={`upcoming-${year}`}>
+                  <h2 className={styles.yearHeader}>{year}</h2>
+                  {upcomingEventsByYear[parseInt(year)].map((event) => (
+                    <div key={event.id} className={styles.event}>
+                      <div className={styles.eventDate}>
+                        <span className={styles.day}>{event.startDate.day}</span>
                         <span className={styles.month}>
-                          {event.endDate.month}
+                          {event.startDate.month}
                         </span>
-                      </>
-                    )}
-                  </div>
-                  <div className={styles.eventDetails}>
-                    <h3 className={styles.eventTitle}>{event.title}</h3>
-                    <p className={styles.eventLocation}>{event.location}</p>
-                    {event.time && (
-                      <p className={styles.eventTime}>{event.time}</p>
-                    )}
-                    {event.description && (
-                      <p className={styles.eventDescription}>
-                        {event.description}
-                      </p>
-                    )}
-                  </div>
+                        {event.endDate && (
+                          <>
+                            <span className={styles.day}>-</span>
+                            <span className={styles.day}>{event.endDate.day}</span>
+                            <span className={styles.month}>
+                              {event.endDate.month}
+                            </span>
+                          </>
+                        )}
+                      </div>
+                      <div className={styles.eventDetails}>
+                        <h3 className={styles.eventTitle}>{event.title}</h3>
+                        <p className={styles.eventLocation}>{event.location}</p>
+                        {event.time && (
+                          <p className={styles.eventTime}>{event.time}</p>
+                        )}
+                        {event.description && (
+                          <p className={styles.eventDescription}>
+                            {event.description}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
                 </div>
               ))}
-            </div>
-          ))}
+            </>
+          )}
+
+          {/* Past Events */}
+          {Object.keys(pastEventsByYear).length > 0 && (
+            <>
+              <h2 className={styles.pastEventsHeader}>Passerade evenemang</h2>
+              {Object.keys(pastEventsByYear).map((year) => (
+                <div key={`past-${year}`}>
+                  <h3 className={styles.yearHeader}>{year}</h3>
+                  {pastEventsByYear[parseInt(year)].map((event) => (
+                    <div key={event.id} className={`${styles.event} ${styles.pastEvent}`}>
+                      <div className={styles.eventDate}>
+                        <span className={styles.day}>{event.startDate.day}</span>
+                        <span className={styles.month}>
+                          {event.startDate.month}
+                        </span>
+                        {event.endDate && (
+                          <>
+                            <span className={styles.day}>-</span>
+                            <span className={styles.day}>{event.endDate.day}</span>
+                            <span className={styles.month}>
+                              {event.endDate.month}
+                            </span>
+                          </>
+                        )}
+                      </div>
+                      <div className={styles.eventDetails}>
+                        <h3 className={styles.eventTitle}>{event.title}</h3>
+                        <p className={styles.eventLocation}>{event.location}</p>
+                        {event.time && (
+                          <p className={styles.eventTime}>{event.time}</p>
+                        )}
+                        {event.description && (
+                          <p className={styles.eventDescription}>
+                            {event.description}
+                          </p>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ))}
+            </>
+          )}
         </div>
 
         <div className={styles.contactInfo}>
@@ -138,4 +234,7 @@ export default function ScheduleClient({ scheduleData }: ScheduleClientProps) {
     </div>
   );
 }
+
+
+
 

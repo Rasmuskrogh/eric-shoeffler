@@ -14,7 +14,13 @@ interface HeroProps {
   imageSmall?: string;
 }
 
-const Hero: React.FC<HeroProps> = ({ name, tagline, contactText, imageLarge, imageSmall }) => {
+const Hero: React.FC<HeroProps> = ({
+  name,
+  tagline,
+  contactText,
+  imageLarge,
+  imageSmall,
+}) => {
   const { active } = useActive();
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 
@@ -31,9 +37,19 @@ const Hero: React.FC<HeroProps> = ({ name, tagline, contactText, imageLarge, ima
   }, []);
 
   // Use image from database (Cloudinary URL) based on screen size
-  const heroImageUrl = isSmallScreen 
-    ? (imageSmall || "/eric-standing.JPG") 
-    : (imageLarge || "/eric-hero.jpg");
+  // Treat empty strings as undefined to use fallback
+  const effectiveImageSmall =
+    imageSmall && typeof imageSmall === "string" && imageSmall.trim()
+      ? imageSmall
+      : undefined;
+  const effectiveImageLarge =
+    imageLarge && typeof imageLarge === "string" && imageLarge.trim()
+      ? imageLarge
+      : undefined;
+
+  const heroImageUrl = isSmallScreen
+    ? effectiveImageSmall || "/eric-standing.JPG"
+    : effectiveImageLarge || "/eric-hero.jpg";
 
   return (
     <section className={styles.hero}>
@@ -73,4 +89,3 @@ const Hero: React.FC<HeroProps> = ({ name, tagline, contactText, imageLarge, ima
 };
 
 export default Hero;
-

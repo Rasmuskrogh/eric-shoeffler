@@ -67,7 +67,6 @@ export async function POST(request: NextRequest) {
       );
       const sharedFieldKeys = topLevelKeys.filter((key) => sharedFieldIds.has(key));
       const sharedListKeys = topLevelKeys.filter((key) => sharedLists.has(key));
-      const listKeys = topLevelKeys.filter((key) => listItemConfigKeys.has(key));
 
       // Validera delade fält på toppnivån
       for (const sharedKey of sharedFieldKeys) {

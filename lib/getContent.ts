@@ -1,6 +1,6 @@
 // src/lib/getContent.ts
 import { prisma } from "./prisma";
-import type { ContentData } from "@/components/AdminDashboard/types";
+import type { ContentData, ContentDataValue } from "@/components/AdminDashboard/types";
 
 type LocalizedContent = Record<string, ContentData>;
 
@@ -34,7 +34,7 @@ export async function getContent(
       const sharedData: ContentData = {};
       Object.keys(data).forEach((key) => {
         // Om nyckeln inte är en språk-nyckel, är det troligen ett delat fält eller lista
-        const value = (data as any)[key];
+        const value = (data as Record<string, unknown>)[key];
         const isLanguageKey = possibleLanguages.includes(key) && 
                               typeof value === "object" && 
                               value !== null && 
@@ -42,7 +42,7 @@ export async function getContent(
         
         if (!isLanguageKey) {
           // Detta är ett delat fält eller lista på toppnivån
-          sharedData[key] = value;
+          sharedData[key] = value as ContentDataValue;
         }
       });
       

@@ -9,28 +9,58 @@ interface ScheduleClientProps {
   scheduleData: ContentData | null;
 }
 
+interface ScheduleItem {
+  id: string;
+  title: string;
+  location: string;
+  time?: string;
+  description?: string;
+  startDate: {
+    day: number;
+    month: string;
+    year: number;
+  };
+  endDate?: {
+    day: number;
+    month: string;
+    year: number;
+  };
+}
+
+interface ScheduleData {
+  scheduleTitle?: string;
+  scheduleUnderTitle?: string;
+  scheduleBookTitle?: string;
+  scheduleBookDesc?: string;
+  scheduleBookEmail?: string;
+  scheduleBookPhone?: string;
+  items?: ScheduleItem[];
+}
+
 export default function ScheduleClient({ scheduleData }: ScheduleClientProps) {
   if (!scheduleData) {
     return <div>Loading...</div>;
   }
 
-  const scheduleTitle = (scheduleData as any).scheduleTitle || "Schedule";
-  const scheduleUnderTitle = (scheduleData as any).scheduleUnderTitle || "";
-  const scheduleBookTitle = (scheduleData as any).scheduleBookTitle || "";
-  const scheduleBookDesc = (scheduleData as any).scheduleBookDesc || "";
-  const scheduleBookEmail = (scheduleData as any).scheduleBookEmail || "ecm.schoeffler@gmail.com";
-  const scheduleBookPhone = (scheduleData as any).scheduleBookPhone || "+46735362254";
+  const data = scheduleData as unknown as ScheduleData;
+  const scheduleTitle = data.scheduleTitle || "Schedule";
+  const scheduleUnderTitle = data.scheduleUnderTitle || "";
+  const scheduleBookTitle = data.scheduleBookTitle || "";
+  const scheduleBookDesc = data.scheduleBookDesc || "";
+  const scheduleBookEmail = data.scheduleBookEmail || "ecm.schoeffler@gmail.com";
+  const scheduleBookPhone = data.scheduleBookPhone || "+46735362254";
   
-  const items = ((scheduleData as any).items as any[]) || [];
+  const items: ScheduleItem[] = data.items || [];
   
   // Convert items to Event format
   const events: Event[] = items.map((item) => ({
-    id: item.id || "",
-    title: item.title || "",
-    location: item.location || "",
+    id: item.id,
+    title: item.title,
+    location: item.location,
     time: item.time || "",
     description: item.description || "",
-    startDate: item.startDate || { day: 0, month: "", year: 0 },
+    startDate: item.startDate,
+    endDate: item.endDate,
   }));
 
   // Helper function to convert month name to index

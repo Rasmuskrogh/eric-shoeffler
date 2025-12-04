@@ -9,14 +9,21 @@ interface AboutClientProps {
   aboutData: ContentData | null;
 }
 
+interface AboutData {
+  aboutTitle?: string;
+  aboutText?: string;
+  aboutImage?: string;
+}
+
 export default function AboutClient({ aboutData }: AboutClientProps) {
   if (!aboutData) {
     return <div>Loading...</div>;
   }
 
-  const aboutTitle = (aboutData as any).aboutTitle || "About";
-  const aboutText = (aboutData as any).aboutText || "";
-  const aboutImage = (aboutData as any).aboutImage || "/eric-about.jpg";
+  const data = aboutData as unknown as AboutData;
+  const aboutTitle = data.aboutTitle || "About";
+  const aboutText = data.aboutText || "";
+  const aboutImage = data.aboutImage || "/eric-about.jpg";
 
   // Split aboutText by \n\n to create paragraphs
   const paragraphs = aboutText.split("\n\n").filter((p: string) => p.trim());

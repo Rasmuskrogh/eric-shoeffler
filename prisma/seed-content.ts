@@ -9,8 +9,9 @@ import { randomUUID } from "crypto";
 // Load environment variables
 config({ path: ".env.local" });
 
-// Disable TLS certificate validation for development (same as lib/prisma.ts)
-if (process.env.NODE_ENV !== "production") {
+// Only disable TLS certificate validation in development environment
+// This is needed for some PostgreSQL providers with self-signed certificates
+if (process.env.NODE_ENV === "development" && !process.env.NODE_TLS_REJECT_UNAUTHORIZED) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 }
 
@@ -517,7 +518,7 @@ async function seedContent() {
     }));
 
     // Gallery är tom för nu (kommer från Cloudinary)
-    const gallery: any[] = [];
+    const gallery: ContentData[] = [];
 
     const mediaData = {
       // Delade listor på toppnivån

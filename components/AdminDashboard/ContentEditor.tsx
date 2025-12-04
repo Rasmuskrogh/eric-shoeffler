@@ -156,7 +156,7 @@ export default function ContentEditor({
           // Försök hämta från toppnivån först
           Object.keys(initialData).forEach((key) => {
             if (sharedFieldIds.has(key)) {
-              const value = (initialData as any)[key];
+              const value = (initialData as Record<string, unknown>)[key];
               // Säkerställ att värdet är primitivt (inte ett objekt)
               // Om värdet är ett tomt objekt {}, hoppa över det
               if (
@@ -169,13 +169,14 @@ export default function ContentEditor({
                   return;
                 }
                 // Om det är ett objekt, försök hämta URL eller konvertera till sträng
-                if ("url" in value && typeof value.url === "string") {
-                  shared[key] = value.url;
+                const valueObj = value as Record<string, unknown>;
+                if ("url" in valueObj && typeof valueObj.url === "string") {
+                  shared[key] = valueObj.url;
                 } else {
                   shared[key] = String(value);
                 }
               } else {
-                shared[key] = value;
+                shared[key] = value as ContentDataValue;
               }
             }
           });
@@ -606,8 +607,9 @@ export default function ContentEditor({
         !Array.isArray(value)
       ) {
         // Om det är ett objekt, försök hämta URL eller konvertera till sträng
-        if ("url" in value && typeof (value as any).url === "string") {
-          sanitized[key] = (value as any).url;
+        const valueObj = value as Record<string, unknown>;
+        if ("url" in valueObj && typeof valueObj.url === "string") {
+          sanitized[key] = valueObj.url;
         } else {
           sanitized[key] = String(value);
         }

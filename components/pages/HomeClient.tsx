@@ -16,6 +16,25 @@ interface HomeClientProps {
   contactData: ContentData | null;
 }
 
+interface HomeData {
+  name?: string;
+  tagline?: string;
+  aboutTitle?: string;
+  description?: string;
+  aboutButtonText?: string;
+  listenTitle?: string;
+  listenButtonText?: string;
+  youtubeUrl?: string;
+  imageLarge?: string;
+  imageSmall?: string;
+  profileImage?: string;
+  SecondImage?: string;
+}
+
+interface ContactData {
+  contactText?: string;
+}
+
 export default function HomeClient({ homeData, contactData }: HomeClientProps) {
   const { active } = useActive();
   const [showContent, setShowContent] = useState(true);
@@ -43,19 +62,22 @@ export default function HomeClient({ homeData, contactData }: HomeClientProps) {
     return <div>Loading...</div>;
   }
 
+  const home = homeData as unknown as HomeData;
+  const contact = (contactData as unknown as ContactData) || {};
+
   // Convert YouTube URL to embed format
   const youtubeEmbedUrl =
-    getYouTubeEmbedUrl((homeData as any).youtubeUrl) ||
+    getYouTubeEmbedUrl(home.youtubeUrl) ||
     "https://www.youtube.com/embed/R60gOl6xHy0"; // Fallback
 
   return (
     <>
       <Hero
-        name={(homeData as any)?.name}
-        tagline={(homeData as any)?.tagline}
-        contactText={(contactData as any)?.contactText}
-        imageLarge={(homeData as any)?.imageLarge}
-        imageSmall={(homeData as any)?.imageSmall}
+        name={home.name}
+        tagline={home.tagline}
+        contactText={contact.contactText}
+        imageLarge={home.imageLarge}
+        imageSmall={home.imageSmall}
       />
       {active && shouldRender && (
         <>
@@ -65,10 +87,10 @@ export default function HomeClient({ homeData, contactData }: HomeClientProps) {
             }`}
           >
             <AboutPreview
-              aboutTitle={(homeData as any).aboutTitle}
-              description={(homeData as any).description}
-              aboutButtonText={(homeData as any).aboutButtonText}
-              profileImage={(homeData as any).profileImage}
+              aboutTitle={home.aboutTitle}
+              description={home.description}
+              aboutButtonText={home.aboutButtonText}
+              profileImage={home.profileImage}
             />
           </div>
           <section
@@ -76,10 +98,10 @@ export default function HomeClient({ homeData, contactData }: HomeClientProps) {
               styles.fadeContainer
             } ${!showContent ? styles.fadeOut : ""}`}
           >
-            <RepertoirePreview secondImage={(homeData as any).SecondImage} />
+            <RepertoirePreview secondImage={home.SecondImage} />
             <ListenPreview
-              listenTitle={(homeData as any).listenTitle}
-              listenButtonText={(homeData as any).listenButtonText}
+              listenTitle={home.listenTitle}
+              listenButtonText={home.listenButtonText}
             />
           </section>
           <section
@@ -88,7 +110,7 @@ export default function HomeClient({ homeData, contactData }: HomeClientProps) {
             }`}
           >
             <div className={styles.videoContainer}>
-              <iframe
+                <iframe
                 src={youtubeEmbedUrl}
                 title="Erik Shoeffler - Klassisk sång"
                 frameBorder="0"

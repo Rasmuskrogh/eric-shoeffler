@@ -11,19 +11,41 @@ interface MediaClientProps {
   mediaData: ContentData | null;
 }
 
+interface VideoItem {
+  id: string;
+  youtubeUrl: string;
+  title?: string;
+  description?: string;
+}
+
+interface MusicItem {
+  id: string;
+  spotifyUrl: string;
+  title?: string | null;
+}
+
+interface MediaData {
+  mediaTitle?: string;
+  mediaSubtitle?: string;
+  videoSectionTitle?: string;
+  musicSectionTitle?: string;
+  videos?: VideoItem[];
+  music?: MusicItem[];
+}
+
 export default function MediaClient({ mediaData }: MediaClientProps) {
   if (!mediaData) {
     return <div>Loading...</div>;
   }
 
-  const mediaTitle = (mediaData as any).mediaTitle || "Media";
-  const mediaSubtitle = (mediaData as any).mediaSubtitle || "";
-  const videoSectionTitle = (mediaData as any).videoSectionTitle || "";
-  const musicSectionTitle = (mediaData as any).musicSectionTitle || "";
-  const gallerySectionTitle = (mediaData as any).gallerySectionTitle || "";
+  const data = mediaData as unknown as MediaData;
+  const mediaTitle = data.mediaTitle || "Media";
+  const mediaSubtitle = data.mediaSubtitle || "";
+  const videoSectionTitle = data.videoSectionTitle || "";
+  const musicSectionTitle = data.musicSectionTitle || "";
 
-  const videos = ((mediaData as any).videos as any[]) || [];
-  const music = ((mediaData as any).music as any[]) || [];
+  const videos: VideoItem[] = data.videos || [];
+  const music: MusicItem[] = data.music || [];
 
   return (
     <div className={styles.container}>

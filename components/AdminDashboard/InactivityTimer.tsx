@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { signOut } from "next-auth/react";
 
 interface InactivityTimerProps {
@@ -24,7 +24,7 @@ export default function InactivityTimer({
   const warningThreshold = timeoutMs - warningTimeMs;
 
   // Funktion för att starta om timern
-  const resetTimer = () => {
+  const resetTimer = useCallback(() => {
     lastActivityRef.current = Date.now();
     setShowWarning(false);
     setTimeRemaining(null);
@@ -50,12 +50,12 @@ export default function InactivityTimer({
     timeoutRef.current = setTimeout(() => {
       signOut({ callbackUrl: "/admin/login" });
     }, timeoutMs);
-  };
+  }, [timeoutMs, warningThreshold]);
 
   // Funktion för att hantera användaraktivitet
-  const handleActivity = () => {
+  const handleActivity = useCallback(() => {
     resetTimer();
-  };
+  }, [resetTimer]);
 
   // Funktion för att förlänga sessionen
   const handleExtendSession = () => {
@@ -97,7 +97,7 @@ export default function InactivityTimer({
         window.removeEventListener(event, handleActivity, true);
       });
     };
-  }, []);
+  }, [handleActivity, resetTimer]);
 
   // Om ingen varning ska visas, returnera ingenting
   if (!showWarning) {

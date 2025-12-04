@@ -5,6 +5,7 @@ import { config } from "dotenv";
 import * as fs from "fs";
 import * as path from "path";
 import { randomUUID } from "crypto";
+import { ContentData } from "../components/AdminDashboard/types";
 
 // Load environment variables
 config({ path: ".env.local" });

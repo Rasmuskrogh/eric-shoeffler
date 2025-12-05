@@ -9,7 +9,9 @@
     "lint": "eslint",
     "seed:content": "tsx prisma/seed-content.ts",
     "migrate:schedule": "tsx prisma/migrate-schedule-items.ts",
-    "fix:schedule-descriptions": "tsx prisma/fix-schedule-descriptions.ts"
+    "fix:schedule-descriptions": "tsx prisma/fix-schedule-descriptions.ts",
+    "fix:videos": "tsx prisma/fix-videos.ts",
+    "import:gallery": "tsx prisma/import-gallery.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.0.0",

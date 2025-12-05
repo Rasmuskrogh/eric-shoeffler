@@ -24,13 +24,23 @@ interface MusicItem {
   title?: string | null;
 }
 
+interface GalleryItem {
+  id: string;
+  url: string;
+  alt: string;
+  width?: number;
+  height?: number;
+}
+
 interface MediaData {
   mediaTitle?: string;
   mediaSubtitle?: string;
   videoSectionTitle?: string;
   musicSectionTitle?: string;
+  gallerySectionTitle?: string;
   videos?: VideoItem[];
   music?: MusicItem[];
+  gallery?: GalleryItem[];
 }
 
 export default function MediaClient({ mediaData }: MediaClientProps) {
@@ -43,9 +53,11 @@ export default function MediaClient({ mediaData }: MediaClientProps) {
   const mediaSubtitle = data.mediaSubtitle || "";
   const videoSectionTitle = data.videoSectionTitle || "";
   const musicSectionTitle = data.musicSectionTitle || "";
+  const gallerySectionTitle = data.gallerySectionTitle || "";
 
   const videos: VideoItem[] = data.videos || [];
   const music: MusicItem[] = data.music || [];
+  const gallery: GalleryItem[] = data.gallery || [];
 
   return (
     <div className={styles.container}>
@@ -124,7 +136,9 @@ export default function MediaClient({ mediaData }: MediaClientProps) {
           )}
 
           {/* Gallery Section */}
-          <Gallery />
+          {gallerySectionTitle && gallery.length > 0 && (
+            <Gallery images={gallery} gallerySectionTitle={gallerySectionTitle} />
+          )}
         </div>
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import {
   SectionConfig,
   ContentData,
@@ -8,7 +8,6 @@ import {
   EditorField,
 } from "./types";
 import styles from "./ContentEditor.module.css";
-import { getImageDimensions } from "@/lib/imageDimensions";
 
 export default function ContentEditor({
   sectionConfig,
@@ -71,6 +70,23 @@ export default function ContentEditor({
       const lists: Record<string, ContentData[]> = {};
       const sharedLists = new Set(sectionConfig.sharedLists || []);
 
+      if (initialData) {
+        console.log(
+          `[ContentEditor] initialData keys:`,
+          Object.keys(initialData)
+        );
+        const dataAsRecord = initialData as unknown as Record<string, unknown>;
+        console.log(`[ContentEditor] initialData structure:`, {
+          hasEn: "en" in dataAsRecord,
+          hasSv: "sv" in dataAsRecord,
+          hasFr: "fr" in dataAsRecord,
+          hasVideos: "videos" in dataAsRecord,
+          hasMusic: "music" in dataAsRecord,
+          hasGallery: "gallery" in dataAsRecord,
+          videosValue: dataAsRecord["videos"],
+        });
+      }
+
       Object.keys(sectionConfig.listItemConfigs).forEach((listKey) => {
         const isShared = sharedLists.has(listKey);
         const listConfig = sectionConfig.listItemConfigs![listKey];
@@ -79,8 +95,19 @@ export default function ContentEditor({
         if (initialData) {
           // Om listan är delad, hämta från toppnivån
           if (isShared) {
-            if (initialData[listKey] && Array.isArray(initialData[listKey])) {
-              const items = initialData[listKey] as ContentData[];
+            // initialData kan vara antingen direkt data eller lokaliserad struktur
+            // För delade listor, leta på toppnivån oavsett struktur
+            const dataAsRecord = initialData as unknown as Record<
+              string,
+              unknown
+            >;
+            console.log(`[ContentEditor] Loading shared list "${listKey}":`, {
+              hasKey: listKey in dataAsRecord,
+              value: dataAsRecord[listKey],
+              isArray: Array.isArray(dataAsRecord[listKey]),
+            });
+            if (dataAsRecord[listKey] && Array.isArray(dataAsRecord[listKey])) {
+              const items = dataAsRecord[listKey] as ContentData[];
               // Konvertera localizedFields från strängar till objekt om de är strängar
               const processedItems = items.map((item) => {
                 const processedItem: ContentData = { ...item };
@@ -434,12 +461,8 @@ export default function ContentEditor({
       const data = await response.json();
 
       handleChange(fieldId, data.url);
-      if (data.width && data.height) {
-        const widthField = sectionConfig.fields.find((f) => f.id === "width");
-        const heightField = sectionConfig.fields.find((f) => f.id === "height");
-        if (widthField) handleChange("width", data.width);
-        if (heightField) handleChange("height", data.height);
-      }
+      // width/height sparas automatiskt i bakgrunden om de finns i config
+      // (för vanliga fält behöver vi inte spara dem eftersom de inte används)
     } catch (error) {
       console.error("Error uploading image:", error);
       alert("Failed to upload image. Please try again.");
@@ -478,15 +501,10 @@ export default function ContentEditor({
 
       const data = await response.json();
       updateListItem(itemIndex, fieldId, data.url);
-      if (data.width && data.height && sectionConfig.listItemConfig) {
-        const widthField = sectionConfig.listItemConfig.fields.find(
-          (f) => f.id === "width"
-        );
-        const heightField = sectionConfig.listItemConfig.fields.find(
-          (f) => f.id === "height"
-        );
-        if (widthField) updateListItem(itemIndex, "width", data.width);
-        if (heightField) updateListItem(itemIndex, "height", data.height);
+      // Spara width/height automatiskt i bakgrunden, även om de inte finns i config
+      if (data.width && data.height) {
+        updateListItem(itemIndex, "width", data.width);
+        updateListItem(itemIndex, "height", data.height);
       }
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -529,16 +547,10 @@ export default function ContentEditor({
 
       const data = await response.json();
       updateListItemInKey(listKey, itemIndex, fieldId, data.url);
+      // Spara width/height automatiskt i bakgrunden, även om de inte finns i config
       if (data.width && data.height) {
-        const listConfig = sectionConfig.listItemConfigs?.[listKey];
-        if (listConfig) {
-          const widthField = listConfig.fields.find((f) => f.id === "width");
-          const heightField = listConfig.fields.find((f) => f.id === "height");
-          if (widthField)
-            updateListItemInKey(listKey, itemIndex, "width", data.width);
-          if (heightField)
-            updateListItemInKey(listKey, itemIndex, "height", data.height);
-        }
+        updateListItemInKey(listKey, itemIndex, "width", data.width);
+        updateListItemInKey(listKey, itemIndex, "height", data.height);
       }
     } catch (error) {
       console.error("Error uploading image:", error);
@@ -548,8 +560,413 @@ export default function ContentEditor({
     }
   };
 
+  // Helper function to ensure values are primitive (not objects)
+  const sanitizeSharedData = (data: ContentData): ContentData => {
+    const sanitized: ContentData = {};
+    Object.keys(data).forEach((key) => {
+      const value = data[key];
+      // Om värdet är ett tomt objekt {}, hoppa över det
+      if (
+        value !== null &&
+        typeof value === "object" &&
+        !Array.isArray(value) &&
+        Object.keys(value).length === 0
+      ) {
+        return; // Hoppa över tomma objekt
+      }
+      // Om värdet är ett objekt (men inte null eller array), konvertera till sträng
+      if (
+        value !== null &&
+        typeof value === "object" &&
+        !Array.isArray(value)
+      ) {
+        // Om det är ett objekt, försök hämta URL eller konvertera till sträng
+        const valueObj = value as Record<string, unknown>;
+        if ("url" in valueObj && typeof valueObj.url === "string") {
+          sanitized[key] = valueObj.url;
+        } else {
+          sanitized[key] = String(value);
+        }
+      } else {
+        sanitized[key] = value;
+      }
+    });
+    return sanitized;
+  };
+
+  // Autosave-funktion för listor
+  const performAutoSave = useCallback(
+    async (
+      overrideListItems?: ContentData[],
+      overrideListItemsByKey?: Record<string, ContentData[]>
+    ) => {
+      if (isSaving) return; // Om redan sparar, vänta
+
+      setIsSaving(true);
+      setSaveStatus("idle");
+
+      try {
+        // Använd override-värden om de finns, annars använd state
+        const currentListItems =
+          overrideListItems !== undefined ? overrideListItems : listItems;
+        const currentListItemsByKey =
+          overrideListItemsByKey !== undefined
+            ? overrideListItemsByKey
+            : listItemsByKey;
+
+        // Filtrera formData för att bara inkludera fält som finns i config
+        const allowedFieldIds = new Set(sectionConfig.fields.map((f) => f.id));
+        const filteredFormData: ContentData = {};
+        Object.keys(formData).forEach((key) => {
+          if (allowedFieldIds.has(key)) {
+            filteredFormData[key] = formData[key];
+          }
+        });
+
+        // Sanitize sharedData
+        const sanitizedSharedData = sanitizeSharedData(sharedData);
+
+        let dataToSave: ContentData | Record<string, ContentData>;
+
+        // Om det finns flera listor, spara dem
+        if (sectionConfig.listItemConfigs) {
+          const sharedLists = new Set(sectionConfig.sharedLists || []);
+          const sharedListsData: ContentData = {};
+          const localizedListsData: ContentData = {};
+
+          // Behåll befintliga delade listor som inte finns i listItemsByKey
+          if (initialData) {
+            const dataAsRecord = initialData as unknown as Record<
+              string,
+              unknown
+            >;
+            Object.keys(sectionConfig.listItemConfigs).forEach((listKey) => {
+              const isShared = sharedLists.has(listKey);
+              if (
+                isShared &&
+                !(listKey in currentListItemsByKey) &&
+                dataAsRecord[listKey] &&
+                Array.isArray(dataAsRecord[listKey])
+              ) {
+                sharedListsData[listKey] = dataAsRecord[
+                  listKey
+                ] as ContentData[];
+              }
+            });
+          }
+
+          // Separera delade listor från språk-specifika listor
+          Object.keys(currentListItemsByKey).forEach((listKey) => {
+            const listConfig = sectionConfig.listItemConfigs![listKey];
+            const isShared = sharedLists.has(listKey);
+            const localizedFields = new Set(listConfig.localizedFields || []);
+
+            if (isShared) {
+              const processedList = currentListItemsByKey[listKey].map(
+                (item) => {
+                  const processedItem: ContentData = { ...item };
+
+                  if (localizedFields.size > 0 && activeLanguage) {
+                    Object.keys(item).forEach((fieldId) => {
+                      if (localizedFields.has(fieldId)) {
+                        const existingValue = item[fieldId];
+                        let descriptions: Record<string, string>;
+
+                        if (
+                          typeof existingValue === "object" &&
+                          existingValue !== null &&
+                          !Array.isArray(existingValue)
+                        ) {
+                          descriptions = {
+                            ...(existingValue as Record<string, string>),
+                          };
+                        } else {
+                          descriptions = {};
+                          if (
+                            typeof existingValue === "string" &&
+                            existingValue
+                          ) {
+                            descriptions.en = existingValue;
+                            descriptions.sv = existingValue;
+                            descriptions.fr = existingValue;
+                          }
+                        }
+
+                        const currentValue = item[fieldId];
+                        if (typeof currentValue === "string") {
+                          descriptions[activeLanguage] = currentValue;
+                        } else if (
+                          typeof currentValue === "object" &&
+                          currentValue !== null &&
+                          !Array.isArray(currentValue)
+                        ) {
+                          const currentObj = currentValue as Record<
+                            string,
+                            string
+                          >;
+                          Object.keys(currentObj).forEach((lang) => {
+                            descriptions[lang] = currentObj[lang];
+                          });
+                        }
+
+                        processedItem[fieldId] = descriptions;
+                      }
+                    });
+                  }
+
+                  return processedItem;
+                }
+              );
+
+              sharedListsData[listKey] = processedList;
+            } else {
+              localizedListsData[listKey] = currentListItemsByKey[listKey];
+            }
+          });
+
+          // Kombinera med språk-struktur
+          if (sectionConfig.languages && sectionConfig.languages.length > 0) {
+            const existingData = initialData as
+              | Record<string, ContentData>
+              | ContentData;
+            const isLocalized =
+              typeof existingData === "object" &&
+              existingData !== null &&
+              !Array.isArray(existingData) &&
+              sectionConfig.languages[0] in existingData;
+
+            if (isLocalized) {
+              const existingLocalized = existingData as unknown as Record<
+                string,
+                ContentData
+              >;
+              const updatedLocalized: Record<string, ContentData> = {};
+              const sharedFieldIds = new Set(
+                sectionConfig.sharedFields?.map((f) => f.id) || []
+              );
+
+              Object.keys(existingLocalized).forEach((lang) => {
+                if (sharedFieldIds.has(lang)) {
+                  return;
+                }
+                if (sectionConfig.languages!.includes(lang)) {
+                  if (lang === activeLanguage) {
+                    updatedLocalized[lang] = {
+                      ...filteredFormData,
+                      ...localizedListsData,
+                    };
+                  } else {
+                    const langData = existingLocalized[lang];
+                    const filteredLangData: ContentData = {};
+                    Object.keys(langData).forEach((key) => {
+                      if (
+                        allowedFieldIds.has(key) ||
+                        sectionConfig.listItemConfigs![key]
+                      ) {
+                        filteredLangData[key] = langData[key];
+                      }
+                    });
+                    updatedLocalized[lang] = filteredLangData;
+                  }
+                }
+              });
+
+              const filteredUpdatedLocalized: Record<string, ContentData> = {};
+              Object.keys(updatedLocalized).forEach((key) => {
+                if (!sharedFieldIds.has(key)) {
+                  filteredUpdatedLocalized[key] = updatedLocalized[key];
+                }
+              });
+
+              dataToSave = {
+                ...sharedListsData,
+                ...filteredUpdatedLocalized,
+                ...sanitizedSharedData,
+              } as Record<string, ContentData>;
+            } else {
+              dataToSave = {
+                ...sanitizedSharedData,
+                ...sharedListsData,
+                [activeLanguage!]: {
+                  ...filteredFormData,
+                  ...localizedListsData,
+                },
+              } as Record<string, ContentData>;
+            }
+          } else {
+            dataToSave = {
+              ...sanitizedSharedData,
+              ...filteredFormData,
+              ...sharedListsData,
+              ...localizedListsData,
+            } as ContentData;
+          }
+        } else if (sectionConfig.listItemConfig) {
+          // En lista
+          if (sectionConfig.languages && sectionConfig.languages.length > 0) {
+            const existingData = initialData as
+              | Record<string, ContentData>
+              | ContentData;
+            const isLocalized =
+              typeof existingData === "object" &&
+              existingData !== null &&
+              !Array.isArray(existingData) &&
+              sectionConfig.languages[0] in existingData;
+
+            if (isLocalized) {
+              const existingLocalized = existingData as unknown as Record<
+                string,
+                ContentData
+              >;
+              const updatedLocalized: Record<string, ContentData> = {};
+              const sharedFieldIds = new Set(
+                sectionConfig.sharedFields?.map((f) => f.id) || []
+              );
+
+              Object.keys(existingLocalized).forEach((lang) => {
+                if (sharedFieldIds.has(lang)) {
+                  return;
+                }
+                if (lang === activeLanguage) {
+                  updatedLocalized[lang] = {
+                    ...filteredFormData,
+                  };
+                } else {
+                  const langData = existingLocalized[lang];
+                  const filteredLangData: ContentData = {};
+                  Object.keys(langData).forEach((key) => {
+                    if (allowedFieldIds.has(key)) {
+                      filteredLangData[key] = langData[key];
+                    }
+                  });
+                  updatedLocalized[lang] = filteredLangData;
+                }
+              });
+
+              const filteredUpdatedLocalized: Record<string, ContentData> = {};
+              Object.keys(updatedLocalized).forEach((key) => {
+                if (!sharedFieldIds.has(key)) {
+                  filteredUpdatedLocalized[key] = updatedLocalized[key];
+                }
+              });
+
+              dataToSave = {
+                items: currentListItems,
+                ...filteredUpdatedLocalized,
+                ...sanitizedSharedData,
+              } as unknown as Record<string, ContentData>;
+            } else {
+              dataToSave = {
+                items: currentListItems,
+                ...sanitizedSharedData,
+                [activeLanguage!]: {
+                  ...filteredFormData,
+                },
+              } as unknown as Record<string, ContentData>;
+            }
+          } else {
+            dataToSave = {
+              items: currentListItems,
+            } as ContentData;
+          }
+        } else {
+          // Ingen lista
+          if (sectionConfig.languages && sectionConfig.languages.length > 0) {
+            const existingData = initialData as
+              | Record<string, ContentData>
+              | ContentData;
+            const isLocalized =
+              typeof existingData === "object" &&
+              existingData !== null &&
+              !Array.isArray(existingData) &&
+              sectionConfig.languages[0] in existingData;
+
+            if (isLocalized) {
+              const existingLocalized = existingData as unknown as Record<
+                string,
+                ContentData
+              >;
+              const updatedLocalized: Record<string, ContentData> = {};
+              const sharedFieldIds = new Set(
+                sectionConfig.sharedFields?.map((f) => f.id) || []
+              );
+
+              Object.keys(existingLocalized).forEach((lang) => {
+                if (sharedFieldIds.has(lang)) {
+                  return;
+                }
+                if (lang === activeLanguage) {
+                  updatedLocalized[lang] = filteredFormData;
+                } else {
+                  const langData = existingLocalized[lang];
+                  const filteredLangData: ContentData = {};
+                  Object.keys(langData).forEach((key) => {
+                    if (allowedFieldIds.has(key)) {
+                      filteredLangData[key] = langData[key];
+                    }
+                  });
+                  updatedLocalized[lang] = filteredLangData;
+                }
+              });
+
+              const filteredUpdatedLocalized: Record<string, ContentData> = {};
+              Object.keys(updatedLocalized).forEach((key) => {
+                if (!sharedFieldIds.has(key)) {
+                  filteredUpdatedLocalized[key] = updatedLocalized[key];
+                }
+              });
+
+              dataToSave = {
+                ...filteredUpdatedLocalized,
+                ...sanitizedSharedData,
+              } as Record<string, ContentData>;
+            } else {
+              dataToSave = {
+                [activeLanguage!]: filteredFormData,
+                ...sanitizedSharedData,
+              } as Record<string, ContentData>;
+            }
+          } else {
+            dataToSave = {
+              ...filteredFormData,
+              ...sanitizedSharedData,
+            } as ContentData;
+          }
+        }
+
+        await onSave(dataToSave as ContentData);
+        setSaveStatus("success");
+
+        // Dölj success-meddelandet efter 2 sekunder
+        setTimeout(() => {
+          setSaveStatus("idle");
+        }, 2000);
+      } catch (error) {
+        console.error("Error auto-saving:", error);
+        setSaveStatus("error");
+      } finally {
+        setIsSaving(false);
+      }
+    },
+    [
+      formData,
+      sharedData,
+      listItems,
+      listItemsByKey,
+      activeLanguage,
+      sectionConfig,
+      initialData,
+      isSaving,
+      onSave,
+    ]
+  );
+
   // List-hantering funktioner (för en lista)
-  const addListItem = () => {
+  const addListItem = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     if (!sectionConfig.listItemConfig) return;
 
     const newItem: ContentData = {};
@@ -570,10 +987,110 @@ export default function ContentEditor({
 
     // Lägg till nytt item högst upp i listan
     setListItems([newItem, ...listItems]);
+    // Ingen autosave här - användaren ska kunna fylla i fält först
   };
 
-  const removeListItem = (index: number) => {
-    setListItems(listItems.filter((_, i) => i !== index));
+  const removeListItem = (index: number, e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    const updatedItems = listItems.filter((_, i) => i !== index);
+    setListItems(updatedItems);
+    // Spara direkt med uppdaterade items
+    performAutoSave(updatedItems, undefined);
+  };
+
+  // Spara ett specifikt item (för save-knapp per item)
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const saveSingleListItem = async (_itemIndex: number) => {
+    if (isSaving) return;
+
+    setIsSaving(true);
+    setSaveStatus("idle");
+
+    try {
+      const allowedFieldIds = new Set(sectionConfig.fields.map((f) => f.id));
+      const filteredFormData: ContentData = {};
+      Object.keys(formData).forEach((key) => {
+        if (allowedFieldIds.has(key)) {
+          filteredFormData[key] = formData[key];
+        }
+      });
+
+      const sanitizedSharedData = sanitizeSharedData(sharedData);
+
+      // Skapa data med bara det uppdaterade item:et
+      const updatedItems = [...listItems];
+      let dataToSave: ContentData | Record<string, ContentData> = {
+        items: updatedItems,
+        ...sanitizedSharedData,
+      } as ContentData;
+
+      if (sectionConfig.languages && sectionConfig.languages.length > 0) {
+        const existingData = initialData as
+          | Record<string, ContentData>
+          | ContentData;
+        const isLocalized =
+          typeof existingData === "object" &&
+          existingData !== null &&
+          !Array.isArray(existingData) &&
+          sectionConfig.languages[0] in existingData;
+
+        if (isLocalized) {
+          const existingLocalized = existingData as unknown as Record<
+            string,
+            ContentData
+          >;
+          const updatedLocalized: Record<string, ContentData> = {};
+          const sharedFieldIds = new Set(
+            sectionConfig.sharedFields?.map((f) => f.id) || []
+          );
+
+          Object.keys(existingLocalized).forEach((lang) => {
+            if (sharedFieldIds.has(lang)) {
+              return;
+            }
+            if (lang === activeLanguage) {
+              updatedLocalized[lang] = filteredFormData;
+            } else {
+              const langData = existingLocalized[lang];
+              const filteredLangData: ContentData = {};
+              Object.keys(langData).forEach((key) => {
+                if (allowedFieldIds.has(key)) {
+                  filteredLangData[key] = langData[key];
+                }
+              });
+              updatedLocalized[lang] = filteredLangData;
+            }
+          });
+
+          const filteredUpdatedLocalized: Record<string, ContentData> = {};
+          Object.keys(updatedLocalized).forEach((key) => {
+            if (!sharedFieldIds.has(key)) {
+              filteredUpdatedLocalized[key] = updatedLocalized[key];
+            }
+          });
+
+          dataToSave = {
+            items: updatedItems,
+            ...filteredUpdatedLocalized,
+            ...sanitizedSharedData,
+          } as unknown as Record<string, ContentData>;
+        }
+      }
+
+      await onSave(dataToSave as unknown as ContentData);
+      setSaveStatus("success");
+      setTimeout(() => {
+        setSaveStatus("idle");
+      }, 2000);
+    } catch (error) {
+      console.error("Error saving item:", error);
+      setSaveStatus("error");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const updateListItem = (
@@ -617,7 +1134,11 @@ export default function ContentEditor({
   };
 
   // List-hantering funktioner (för flera listor)
-  const addListItemToKey = (listKey: string) => {
+  const addListItemToKey = (listKey: string, e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     const listConfig = sectionConfig.listItemConfigs?.[listKey];
     if (!listConfig) return;
 
@@ -640,13 +1161,226 @@ export default function ContentEditor({
       ...listItemsByKey,
       [listKey]: [newItem, ...(listItemsByKey[listKey] || [])],
     });
+    // Ingen autosave här - användaren ska kunna fylla i fält först
   };
 
-  const removeListItemFromKey = (listKey: string, index: number) => {
-    setListItemsByKey({
+  const removeListItemFromKey = (
+    listKey: string,
+    index: number,
+    e?: React.MouseEvent
+  ) => {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    const updatedList = (listItemsByKey[listKey] || []).filter(
+      (_, i) => i !== index
+    );
+    const updatedListItemsByKey = {
       ...listItemsByKey,
-      [listKey]: (listItemsByKey[listKey] || []).filter((_, i) => i !== index),
-    });
+      [listKey]: updatedList,
+    };
+    setListItemsByKey(updatedListItemsByKey);
+    // Spara direkt med uppdaterade items
+    performAutoSave(undefined, updatedListItemsByKey);
+  };
+
+  // Spara ett specifikt item i en lista (för save-knapp per item)
+  const saveSingleListItemInKey = async (
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _listKey: string,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    _itemIndex: number
+  ) => {
+    if (isSaving) return;
+
+    setIsSaving(true);
+    setSaveStatus("idle");
+
+    try {
+      const allowedFieldIds = new Set(sectionConfig.fields.map((f) => f.id));
+      const filteredFormData: ContentData = {};
+      Object.keys(formData).forEach((key) => {
+        if (allowedFieldIds.has(key)) {
+          filteredFormData[key] = formData[key];
+        }
+      });
+
+      const sanitizedSharedData = sanitizeSharedData(sharedData);
+
+      // Skapa data med bara den uppdaterade listan
+      const updatedListItemsByKey = { ...listItemsByKey };
+      const sharedLists = new Set(sectionConfig.sharedLists || []);
+      const sharedListsData: ContentData = {};
+      const localizedListsData: ContentData = {};
+
+      // Behåll befintliga delade listor som inte finns i listItemsByKey
+      if (initialData) {
+        const dataAsRecord = initialData as unknown as Record<string, unknown>;
+        Object.keys(sectionConfig.listItemConfigs || {}).forEach((key) => {
+          const isShared = sharedLists.has(key);
+          if (
+            isShared &&
+            !(key in updatedListItemsByKey) &&
+            dataAsRecord[key] &&
+            Array.isArray(dataAsRecord[key])
+          ) {
+            sharedListsData[key] = dataAsRecord[key] as ContentData[];
+          }
+        });
+      }
+
+      // Processa alla listor
+      Object.keys(updatedListItemsByKey).forEach((key) => {
+        const listConfig = sectionConfig.listItemConfigs![key];
+        const isShared = sharedLists.has(key);
+        const localizedFields = new Set(listConfig.localizedFields || []);
+
+        if (isShared) {
+          const processedList = updatedListItemsByKey[key].map((item) => {
+            const processedItem: ContentData = { ...item };
+
+            if (localizedFields.size > 0 && activeLanguage) {
+              Object.keys(item).forEach((fieldId) => {
+                if (localizedFields.has(fieldId)) {
+                  const existingValue = item[fieldId];
+                  let descriptions: Record<string, string>;
+
+                  if (
+                    typeof existingValue === "object" &&
+                    existingValue !== null &&
+                    !Array.isArray(existingValue)
+                  ) {
+                    descriptions = {
+                      ...(existingValue as Record<string, string>),
+                    };
+                  } else {
+                    descriptions = {};
+                    if (typeof existingValue === "string" && existingValue) {
+                      descriptions.en = existingValue;
+                      descriptions.sv = existingValue;
+                      descriptions.fr = existingValue;
+                    }
+                  }
+
+                  const currentValue = item[fieldId];
+                  if (typeof currentValue === "string") {
+                    descriptions[activeLanguage] = currentValue;
+                  } else if (
+                    typeof currentValue === "object" &&
+                    currentValue !== null &&
+                    !Array.isArray(currentValue)
+                  ) {
+                    const currentObj = currentValue as Record<string, string>;
+                    Object.keys(currentObj).forEach((lang) => {
+                      descriptions[lang] = currentObj[lang];
+                    });
+                  }
+
+                  processedItem[fieldId] = descriptions;
+                }
+              });
+            }
+
+            return processedItem;
+          });
+
+          sharedListsData[key] = processedList;
+        } else {
+          localizedListsData[key] = updatedListItemsByKey[key];
+        }
+      });
+
+      // Kombinera med språk-struktur
+      let dataToSave: ContentData | Record<string, ContentData>;
+      if (sectionConfig.languages && sectionConfig.languages.length > 0) {
+        const existingData = initialData as
+          | Record<string, ContentData>
+          | ContentData;
+        const isLocalized =
+          typeof existingData === "object" &&
+          existingData !== null &&
+          !Array.isArray(existingData) &&
+          sectionConfig.languages[0] in existingData;
+
+        if (isLocalized) {
+          const existingLocalized = existingData as unknown as Record<
+            string,
+            ContentData
+          >;
+          const updatedLocalized: Record<string, ContentData> = {};
+          const sharedFieldIds = new Set(
+            sectionConfig.sharedFields?.map((f) => f.id) || []
+          );
+
+          Object.keys(existingLocalized).forEach((lang) => {
+            if (sharedFieldIds.has(lang)) {
+              return;
+            }
+            if (sectionConfig.languages!.includes(lang)) {
+              if (lang === activeLanguage) {
+                updatedLocalized[lang] = {
+                  ...filteredFormData,
+                  ...localizedListsData,
+                };
+              } else {
+                const langData = existingLocalized[lang];
+                const filteredLangData: ContentData = {};
+                Object.keys(langData).forEach((key) => {
+                  if (
+                    allowedFieldIds.has(key) ||
+                    sectionConfig.listItemConfigs![key]
+                  ) {
+                    filteredLangData[key] = langData[key];
+                  }
+                });
+                updatedLocalized[lang] = filteredLangData;
+              }
+            }
+          });
+
+          const filteredUpdatedLocalized: Record<string, ContentData> = {};
+          Object.keys(updatedLocalized).forEach((key) => {
+            if (!sharedFieldIds.has(key)) {
+              filteredUpdatedLocalized[key] = updatedLocalized[key];
+            }
+          });
+
+          dataToSave = {
+            ...sharedListsData,
+            ...filteredUpdatedLocalized,
+            ...sanitizedSharedData,
+          } as Record<string, ContentData>;
+        } else {
+          dataToSave = {
+            ...sanitizedSharedData,
+            ...sharedListsData,
+            [activeLanguage!]: {
+              ...filteredFormData,
+              ...localizedListsData,
+            },
+          } as Record<string, ContentData>;
+        }
+      } else {
+        dataToSave = {
+          ...sanitizedSharedData,
+          ...filteredFormData,
+          ...sharedListsData,
+          ...localizedListsData,
+        } as ContentData;
+      }
+
+      await onSave(dataToSave as unknown as ContentData);
+      setSaveStatus("success");
+      setTimeout(() => {
+        setSaveStatus("idle");
+      }, 2000);
+    } catch (error) {
+      console.error("Error saving item:", error);
+      setSaveStatus("error");
+    } finally {
+      setIsSaving(false);
+    }
   };
 
   const updateListItemInKey = (
@@ -691,40 +1425,6 @@ export default function ContentEditor({
     });
   };
 
-  // Helper function to ensure values are primitive (not objects)
-  const sanitizeSharedData = (data: ContentData): ContentData => {
-    const sanitized: ContentData = {};
-    Object.keys(data).forEach((key) => {
-      const value = data[key];
-      // Om värdet är ett tomt objekt {}, hoppa över det
-      if (
-        value !== null &&
-        typeof value === "object" &&
-        !Array.isArray(value) &&
-        Object.keys(value).length === 0
-      ) {
-        return; // Hoppa över tomma objekt
-      }
-      // Om värdet är ett objekt (men inte null eller array), konvertera till sträng
-      if (
-        value !== null &&
-        typeof value === "object" &&
-        !Array.isArray(value)
-      ) {
-        // Om det är ett objekt, försök hämta URL eller konvertera till sträng
-        const valueObj = value as Record<string, unknown>;
-        if ("url" in valueObj && typeof valueObj.url === "string") {
-          sanitized[key] = valueObj.url;
-        } else {
-          sanitized[key] = String(value);
-        }
-      } else {
-        sanitized[key] = value;
-      }
-    });
-    return sanitized;
-  };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSaving(true);
@@ -751,6 +1451,27 @@ export default function ContentEditor({
         const sharedListsData: ContentData = {};
         const localizedListsData: ContentData = {};
 
+        // Först: Behåll befintliga delade listor som inte finns i listItemsByKey
+        // (t.ex. om videos inte laddades men finns i databasen)
+        if (initialData) {
+          const dataAsRecord = initialData as unknown as Record<
+            string,
+            unknown
+          >;
+          Object.keys(sectionConfig.listItemConfigs).forEach((listKey) => {
+            const isShared = sharedLists.has(listKey);
+            // Om listan är delad och saknas i listItemsByKey, behåll den från initialData
+            if (
+              isShared &&
+              !(listKey in listItemsByKey) &&
+              dataAsRecord[listKey] &&
+              Array.isArray(dataAsRecord[listKey])
+            ) {
+              sharedListsData[listKey] = dataAsRecord[listKey] as ContentData[];
+            }
+          });
+        }
+
         // Separera delade listor från språk-specifika listor
         Object.keys(listItemsByKey).forEach((listKey) => {
           const listConfig = sectionConfig.listItemConfigs![listKey];
@@ -768,15 +1489,49 @@ export default function ContentEditor({
                   if (localizedFields.has(fieldId)) {
                     // Hämta befintlig språk-struktur eller skapa ny
                     const existingValue = item[fieldId];
-                    const descriptions =
+                    let descriptions: Record<string, string>;
+
+                    if (
                       typeof existingValue === "object" &&
                       existingValue !== null &&
                       !Array.isArray(existingValue)
-                        ? (existingValue as Record<string, string>)
-                        : {};
+                    ) {
+                      // Om det redan är ett objekt, kopiera det (för att undvika cirkulär referens)
+                      descriptions = {
+                        ...(existingValue as Record<string, string>),
+                      };
+                    } else {
+                      // Om det är en sträng eller null, skapa nytt objekt
+                      descriptions = {};
+                      // Om det var en sträng, sätt den för alla språk som fallback
+                      if (typeof existingValue === "string" && existingValue) {
+                        descriptions.en = existingValue;
+                        descriptions.sv = existingValue;
+                        descriptions.fr = existingValue;
+                      }
+                    }
 
                     // Uppdatera det aktiva språket
-                    descriptions[activeLanguage] = item[fieldId] as string;
+                    // Notera: I listItemsByKey är värdet redan ett objekt med språk-nycklar
+                    // eftersom updateListItemInKey konverterar det till objekt
+                    // Så vi behöver bara kopiera det befintliga objektet
+                    // Men om det är en sträng (vilket inte borde hända), hantera det också
+                    const currentValue = item[fieldId];
+                    if (typeof currentValue === "string") {
+                      // Om det är en sträng, sätt den för aktivt språk
+                      descriptions[activeLanguage] = currentValue;
+                    } else if (
+                      typeof currentValue === "object" &&
+                      currentValue !== null &&
+                      !Array.isArray(currentValue)
+                    ) {
+                      // Om det redan är ett objekt, kopiera alla värden
+                      const currentObj = currentValue as Record<string, string>;
+                      Object.keys(currentObj).forEach((lang) => {
+                        descriptions[lang] = currentObj[lang];
+                      });
+                    }
+
                     processedItem[fieldId] = descriptions;
                   }
                 });
@@ -785,6 +1540,8 @@ export default function ContentEditor({
               return processedItem;
             });
 
+            // Alltid spara den uppdaterade listan om den finns i listItemsByKey
+            // (även om den är tom - användaren kan ha tagit bort alla items)
             sharedListsData[listKey] = processedList;
           } else {
             // Språk-specifik lista
@@ -1082,73 +1839,53 @@ export default function ContentEditor({
       case "image":
         return (
           <div>
-            <div
-              style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}
+            <label
+              htmlFor={`shared-${field.id}-file`}
+              style={{
+                display: "inline-block",
+                padding: "0.5rem 1rem",
+                backgroundColor: "#3b82f6",
+                color: "white",
+                borderRadius: "0.375rem",
+                cursor:
+                  uploadingImage === `shared-${field.id}`
+                    ? "not-allowed"
+                    : "pointer",
+                opacity: uploadingImage === `shared-${field.id}` ? 0.6 : 1,
+                marginBottom: value ? "0.5rem" : "0",
+              }}
             >
-              <input
-                type="url"
-                id={`shared-${field.id}`}
-                value={value as string}
-                onChange={(e) => handleSharedChange(field.id, e.target.value)}
-                onBlur={async (e) => {
-                  const url = e.target.value;
-                  if (url) {
-                    const dimensions = await getImageDimensions(url);
-                    if (dimensions) {
-                      handleSharedChange(field.id, url);
-                    }
-                  }
-                }}
-                required={field.required}
-                placeholder={
-                  field.placeholder || "https://example.com/image.jpg"
+              {uploadingImage === `shared-${field.id}`
+                ? "Uploading..."
+                : value
+                ? "Replace Image"
+                : "Upload Image"}
+            </label>
+            <input
+              type="file"
+              id={`shared-${field.id}-file`}
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  handleImageUploadForShared(field.id, file);
                 }
-                className={styles.input}
-                style={{ flex: 1 }}
-              />
-              <label
-                htmlFor={`shared-${field.id}-file`}
-                style={{
-                  padding: "0.5rem 1rem",
-                  backgroundColor: "#3b82f6",
-                  color: "white",
-                  borderRadius: "0.375rem",
-                  cursor:
-                    uploadingImage === `shared-${field.id}`
-                      ? "not-allowed"
-                      : "pointer",
-                  opacity: uploadingImage === `shared-${field.id}` ? 0.6 : 1,
-                }}
-              >
-                {uploadingImage === `shared-${field.id}`
-                  ? "Uploading..."
-                  : "Upload"}
-              </label>
-              <input
-                type="file"
-                id={`shared-${field.id}-file`}
-                accept="image/*"
-                style={{ display: "none" }}
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    handleImageUploadForShared(field.id, file);
-                  }
-                }}
-                disabled={uploadingImage === `shared-${field.id}`}
-              />
-            </div>
+              }}
+              disabled={uploadingImage === `shared-${field.id}`}
+            />
             {value && (
-              <img
-                src={value as string}
-                alt="Preview"
-                style={{
-                  maxWidth: "100%",
-                  maxHeight: "300px",
-                  marginTop: "0.5rem",
-                  borderRadius: "0.375rem",
-                }}
-              />
+              <div style={{ marginTop: "0.5rem" }}>
+                <img
+                  src={value as string}
+                  alt="Preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "300px",
+                    borderRadius: "0.375rem",
+                  }}
+                />
+              </div>
             )}
           </div>
         );
@@ -1302,79 +2039,50 @@ export default function ContentEditor({
       case "image":
         return (
           <div>
-            <div
-              style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}
+            <label
+              htmlFor={`${field.id}-file`}
+              style={{
+                display: "inline-block",
+                padding: "0.5rem 1rem",
+                backgroundColor: "#3b82f6",
+                color: "white",
+                borderRadius: "0.375rem",
+                cursor: uploadingImage === field.id ? "not-allowed" : "pointer",
+                opacity: uploadingImage === field.id ? 0.6 : 1,
+                marginBottom: value ? "0.5rem" : "0",
+              }}
             >
-              <input
-                type="url"
-                id={field.id}
-                value={value as string}
-                onChange={(e) => handleChange(field.id, e.target.value)}
-                onBlur={async (e) => {
-                  const url = e.target.value;
-                  if (url) {
-                    const dimensions = await getImageDimensions(url);
-                    if (dimensions) {
-                      handleChange(field.id, url);
-                      // Uppdatera width/height om de finns
-                      const widthField = sectionConfig.fields.find(
-                        (f) => f.id === "width"
-                      );
-                      const heightField = sectionConfig.fields.find(
-                        (f) => f.id === "height"
-                      );
-                      if (widthField) handleChange("width", dimensions.width);
-                      if (heightField)
-                        handleChange("height", dimensions.height);
-                    }
-                  }
-                }}
-                required={field.required}
-                placeholder={
-                  field.placeholder || "https://example.com/image.jpg"
+              {uploadingImage === field.id
+                ? "Uploading..."
+                : value
+                ? "Replace Image"
+                : "Upload Image"}
+            </label>
+            <input
+              type="file"
+              id={`${field.id}-file`}
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  handleImageUpload(field.id, file);
                 }
-                className={styles.input}
-                style={{ flex: 1 }}
-              />
-              <label
-                htmlFor={`${field.id}-file`}
-                style={{
-                  padding: "0.5rem 1rem",
-                  backgroundColor: "#3b82f6",
-                  color: "white",
-                  borderRadius: "0.375rem",
-                  cursor:
-                    uploadingImage === field.id ? "not-allowed" : "pointer",
-                  opacity: uploadingImage === field.id ? 0.6 : 1,
-                }}
-              >
-                {uploadingImage === field.id ? "Uploading..." : "Upload"}
-              </label>
-              <input
-                type="file"
-                id={`${field.id}-file`}
-                accept="image/*"
-                style={{ display: "none" }}
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    handleImageUpload(field.id, file);
-                  }
-                }}
-                disabled={uploadingImage === field.id}
-              />
-            </div>
+              }}
+              disabled={uploadingImage === field.id}
+            />
             {value && (
-              <img
-                src={value as string}
-                alt="Preview"
-                style={{
-                  maxWidth: "100%",
-                  maxHeight: "300px",
-                  marginTop: "0.5rem",
-                  borderRadius: "0.375rem",
-                }}
-              />
+              <div style={{ marginTop: "0.5rem" }}>
+                <img
+                  src={value as string}
+                  alt="Preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "300px",
+                    borderRadius: "0.375rem",
+                  }}
+                />
+              </div>
             )}
           </div>
         );
@@ -1513,80 +2221,50 @@ export default function ContentEditor({
         const uploadId = `list-item-${itemIndex}-${field.id}`;
         return (
           <div>
-            <div
-              style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}
+            <label
+              htmlFor={`${uploadId}-file`}
+              style={{
+                display: "inline-block",
+                padding: "0.5rem 1rem",
+                backgroundColor: "#3b82f6",
+                color: "white",
+                borderRadius: "0.375rem",
+                cursor: uploadingImage === uploadId ? "not-allowed" : "pointer",
+                opacity: uploadingImage === uploadId ? 0.6 : 1,
+                marginBottom: value ? "0.5rem" : "0",
+              }}
             >
-              <input
-                type="url"
-                value={value as string}
-                onChange={(e) =>
-                  updateListItem(itemIndex, field.id, e.target.value)
+              {uploadingImage === uploadId
+                ? "Uploading..."
+                : value
+                ? "Replace Image"
+                : "Upload Image"}
+            </label>
+            <input
+              type="file"
+              id={`${uploadId}-file`}
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  handleImageUploadForListItem(itemIndex, field.id, file);
                 }
-                onBlur={async (e) => {
-                  const url = e.target.value;
-                  if (url) {
-                    const dimensions = await getImageDimensions(url);
-                    if (dimensions) {
-                      handleChange(field.id, url);
-                      // Uppdatera width/height om de finns
-                      const widthField = sectionConfig.fields.find(
-                        (f) => f.id === "width"
-                      );
-                      const heightField = sectionConfig.fields.find(
-                        (f) => f.id === "height"
-                      );
-                      if (widthField) handleChange("width", dimensions.width);
-                      if (heightField)
-                        handleChange("height", dimensions.height);
-                    }
-                  }
-                }}
-                required={field.required}
-                placeholder={
-                  field.placeholder || "https://example.com/image.jpg"
-                }
-                className={styles.input}
-                style={{ flex: 1 }}
-              />
-              <label
-                htmlFor={`${uploadId}-file`}
-                style={{
-                  padding: "0.5rem 1rem",
-                  backgroundColor: "#3b82f6",
-                  color: "white",
-                  borderRadius: "0.375rem",
-                  cursor:
-                    uploadingImage === uploadId ? "not-allowed" : "pointer",
-                  opacity: uploadingImage === uploadId ? 0.6 : 1,
-                }}
-              >
-                {uploadingImage === uploadId ? "Uploading..." : "Upload"}
-              </label>
-              <input
-                type="file"
-                id={`${uploadId}-file`}
-                accept="image/*"
-                style={{ display: "none" }}
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    handleImageUploadForListItem(itemIndex, field.id, file);
-                  }
-                }}
-                disabled={uploadingImage === uploadId}
-              />
-            </div>
+              }}
+              disabled={uploadingImage === uploadId}
+            />
             {value && (
-              <img
-                src={value as string}
-                alt="Preview"
-                style={{
-                  maxWidth: "100%",
-                  maxHeight: "300px",
-                  marginTop: "0.5rem",
-                  borderRadius: "0.375rem",
-                }}
-              />
+              <div style={{ marginTop: "0.5rem" }}>
+                <img
+                  src={value as string}
+                  alt="Preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "300px",
+                    borderRadius: "0.375rem",
+                  }}
+                />
+              </div>
             )}
           </div>
         );
@@ -1734,92 +2412,56 @@ export default function ContentEditor({
         const uploadIdForKey = `list-item-${listKey}-${itemIndex}-${field.id}`;
         return (
           <div>
-            <div
-              style={{ display: "flex", gap: "0.5rem", marginBottom: "0.5rem" }}
+            <label
+              htmlFor={`${uploadIdForKey}-file`}
+              style={{
+                display: "inline-block",
+                padding: "0.5rem 1rem",
+                backgroundColor: "#3b82f6",
+                color: "white",
+                borderRadius: "0.375rem",
+                cursor:
+                  uploadingImage === uploadIdForKey ? "not-allowed" : "pointer",
+                opacity: uploadingImage === uploadIdForKey ? 0.6 : 1,
+                marginBottom: value ? "0.5rem" : "0",
+              }}
             >
-              <input
-                type="url"
-                value={value as string}
-                onChange={(e) =>
-                  updateListItemInKey(
+              {uploadingImage === uploadIdForKey
+                ? "Uploading..."
+                : value
+                ? "Replace Image"
+                : "Upload Image"}
+            </label>
+            <input
+              type="file"
+              id={`${uploadIdForKey}-file`}
+              accept="image/*"
+              style={{ display: "none" }}
+              onChange={(e) => {
+                const file = e.target.files?.[0];
+                if (file) {
+                  handleImageUploadForListItemInKey(
                     listKey,
                     itemIndex,
                     field.id,
-                    e.target.value
-                  )
+                    file
+                  );
                 }
-                onBlur={async (e) => {
-                  const url = e.target.value;
-                  if (url) {
-                    const dimensions = await getImageDimensions(url);
-                    if (dimensions) {
-                      handleChange(field.id, url);
-                      // Uppdatera width/height om de finns
-                      const widthField = sectionConfig.fields.find(
-                        (f) => f.id === "width"
-                      );
-                      const heightField = sectionConfig.fields.find(
-                        (f) => f.id === "height"
-                      );
-                      if (widthField) handleChange("width", dimensions.width);
-                      if (heightField)
-                        handleChange("height", dimensions.height);
-                    }
-                  }
-                }}
-                required={field.required}
-                placeholder={
-                  field.placeholder || "https://example.com/image.jpg"
-                }
-                className={styles.input}
-                style={{ flex: 1 }}
-              />
-              <label
-                htmlFor={`${uploadIdForKey}-file`}
-                style={{
-                  padding: "0.5rem 1rem",
-                  backgroundColor: "#3b82f6",
-                  color: "white",
-                  borderRadius: "0.375rem",
-                  cursor:
-                    uploadingImage === uploadIdForKey
-                      ? "not-allowed"
-                      : "pointer",
-                  opacity: uploadingImage === uploadIdForKey ? 0.6 : 1,
-                }}
-              >
-                {uploadingImage === uploadIdForKey ? "Uploading..." : "Upload"}
-              </label>
-              <input
-                type="file"
-                id={`${uploadIdForKey}-file`}
-                accept="image/*"
-                style={{ display: "none" }}
-                onChange={(e) => {
-                  const file = e.target.files?.[0];
-                  if (file) {
-                    handleImageUploadForListItemInKey(
-                      listKey,
-                      itemIndex,
-                      field.id,
-                      file
-                    );
-                  }
-                }}
-                disabled={uploadingImage === uploadIdForKey}
-              />
-            </div>
+              }}
+              disabled={uploadingImage === uploadIdForKey}
+            />
             {value && (
-              <img
-                src={value as string}
-                alt="Preview"
-                style={{
-                  maxWidth: "100%",
-                  maxHeight: "300px",
-                  marginTop: "0.5rem",
-                  borderRadius: "0.375rem",
-                }}
-              />
+              <div style={{ marginTop: "0.5rem" }}>
+                <img
+                  src={value as string}
+                  alt="Preview"
+                  style={{
+                    maxWidth: "100%",
+                    maxHeight: "300px",
+                    borderRadius: "0.375rem",
+                  }}
+                />
+              </div>
             )}
           </div>
         );
@@ -2009,7 +2651,7 @@ export default function ContentEditor({
                   <h3 style={{ margin: 0 }}>List Items ({listItems.length})</h3>
                   <button
                     type="button"
-                    onClick={addListItem}
+                    onClick={(e) => addListItem(e)}
                     style={{
                       padding: "0.5rem 1rem",
                       backgroundColor: "#10b981",
@@ -2064,21 +2706,44 @@ export default function ContentEditor({
                             <h4 style={{ margin: 0, color: "#333" }}>
                               Item #{index + 1}
                             </h4>
-                            <button
-                              type="button"
-                              onClick={() => removeListItem(index)}
-                              style={{
-                                padding: "0.375rem 0.75rem",
-                                backgroundColor: "#ef4444",
-                                color: "white",
-                                border: "none",
-                                borderRadius: "0.375rem",
-                                cursor: "pointer",
-                                fontSize: "0.875rem",
-                              }}
-                            >
-                              Remove
-                            </button>
+                            <div style={{ display: "flex", gap: "0.5rem" }}>
+                              <button
+                                type="button"
+                                onClick={async (e) => {
+                                  e.preventDefault();
+                                  e.stopPropagation();
+                                  await saveSingleListItem(index);
+                                }}
+                                disabled={isSaving}
+                                style={{
+                                  padding: "0.375rem 0.75rem",
+                                  backgroundColor: "#3b82f6",
+                                  color: "white",
+                                  border: "none",
+                                  borderRadius: "0.375rem",
+                                  cursor: isSaving ? "not-allowed" : "pointer",
+                                  fontSize: "0.875rem",
+                                  opacity: isSaving ? 0.6 : 1,
+                                }}
+                              >
+                                {isSaving ? "Saving..." : "Save"}
+                              </button>
+                              <button
+                                type="button"
+                                onClick={(e) => removeListItem(index, e)}
+                                style={{
+                                  padding: "0.375rem 0.75rem",
+                                  backgroundColor: "#ef4444",
+                                  color: "white",
+                                  border: "none",
+                                  borderRadius: "0.375rem",
+                                  cursor: "pointer",
+                                  fontSize: "0.875rem",
+                                }}
+                              >
+                                Remove
+                              </button>
+                            </div>
                           </div>
 
                           <div
@@ -2151,7 +2816,7 @@ export default function ContentEditor({
                       </h3>
                       <button
                         type="button"
-                        onClick={() => addListItemToKey(listKey)}
+                        onClick={(e) => addListItemToKey(listKey, e)}
                         style={{
                           padding: "0.5rem 1rem",
                           backgroundColor: "#10b981",
@@ -2206,23 +2871,51 @@ export default function ContentEditor({
                                 <h4 style={{ margin: 0, color: "#333" }}>
                                   Item #{index + 1}
                                 </h4>
-                                <button
-                                  type="button"
-                                  onClick={() =>
-                                    removeListItemFromKey(listKey, index)
-                                  }
-                                  style={{
-                                    padding: "0.375rem 0.75rem",
-                                    backgroundColor: "#ef4444",
-                                    color: "white",
-                                    border: "none",
-                                    borderRadius: "0.375rem",
-                                    cursor: "pointer",
-                                    fontSize: "0.875rem",
-                                  }}
-                                >
-                                  Remove
-                                </button>
+                                <div style={{ display: "flex", gap: "0.5rem" }}>
+                                  <button
+                                    type="button"
+                                    onClick={async (e) => {
+                                      e.preventDefault();
+                                      e.stopPropagation();
+                                      await saveSingleListItemInKey(
+                                        listKey,
+                                        index
+                                      );
+                                    }}
+                                    disabled={isSaving}
+                                    style={{
+                                      padding: "0.375rem 0.75rem",
+                                      backgroundColor: "#3b82f6",
+                                      color: "white",
+                                      border: "none",
+                                      borderRadius: "0.375rem",
+                                      cursor: isSaving
+                                        ? "not-allowed"
+                                        : "pointer",
+                                      fontSize: "0.875rem",
+                                      opacity: isSaving ? 0.6 : 1,
+                                    }}
+                                  >
+                                    {isSaving ? "Saving..." : "Save"}
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={(e) =>
+                                      removeListItemFromKey(listKey, index, e)
+                                    }
+                                    style={{
+                                      padding: "0.375rem 0.75rem",
+                                      backgroundColor: "#ef4444",
+                                      color: "white",
+                                      border: "none",
+                                      borderRadius: "0.375rem",
+                                      cursor: "pointer",
+                                      fontSize: "0.875rem",
+                                    }}
+                                  >
+                                    Remove
+                                  </button>
+                                </div>
                               </div>
 
                               <div

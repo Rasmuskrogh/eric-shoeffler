@@ -1,74 +1,33 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import styles from "./Gallery.module.css";
 import { GalleryImage } from "../../../types/interfaces";
 import { useTranslations } from "next-intl";
 
-export default function Gallery() {
+interface GalleryProps {
+  images?: GalleryImage[];
+  gallerySectionTitle?: string;
+}
+
+export default function Gallery({
+  images = [],
+  gallerySectionTitle,
+}: GalleryProps) {
   const t = useTranslations("Gallery");
 
-  const [images, setImages] = useState<GalleryImage[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [failedImages, setFailedImages] = useState<Set<string>>(new Set());
 
-  useEffect(() => {
-    const fetchImages = async () => {
-      try {
-        const response = await fetch("/api/gallery");
-        if (!response.ok) {
-          throw new Error("Failed to fetch images");
-        }
-        const data = await response.json();
-        setImages(data);
-      } catch (err) {
-        setError(err instanceof Error ? err.message : "An error occurred");
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchImages();
-  }, []);
-
-  if (loading) {
-    return (
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Gallery</h2>
-        <div className={styles.loading}>
-          <p>Loading gallery images...</p>
-        </div>
-      </section>
-    );
-  }
-
-  if (error) {
-    return (
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Gallery</h2>
-        <div className={styles.error}>
-          <p>Error loading gallery: {error}</p>
-        </div>
-      </section>
-    );
-  }
-
   if (images.length === 0) {
-    return (
-      <section className={styles.section}>
-        <h2 className={styles.sectionTitle}>Gallery</h2>
-        <div className={styles.empty}>
-          <p>No images found in gallery.</p>
-        </div>
-      </section>
-    );
+    return null; // Don't render gallery section if no images
   }
 
   return (
     <section className={styles.section}>
-      <h2 className={styles.sectionTitle}>{t("title")}</h2>
+      {gallerySectionTitle && (
+        <h2 className={styles.sectionTitle}>{gallerySectionTitle}</h2>
+      )}
       <div className={styles.galleryGrid}>
         {images.map((image) => (
           <div key={image.id} className={styles.galleryItem}>
@@ -83,8 +42,8 @@ export default function Gallery() {
               <Image
                 src={image.url}
                 alt={image.alt}
-                width={image.width}
-                height={image.height}
+                width={image.width || 800}
+                height={image.height || 600}
                 className={styles.galleryImage}
                 priority={false}
                 placeholder="blur"
@@ -103,4 +62,3 @@ export default function Gallery() {
     </section>
   );
 }
-

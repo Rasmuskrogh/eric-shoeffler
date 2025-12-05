@@ -159,6 +159,7 @@ async function migrateScheduleItems() {
       if (lang in data) {
         const langData = data[lang] as Record<string, unknown>;
         if (langData && typeof langData === "object" && !Array.isArray(langData)) {
+          // eslint-disable-next-line @typescript-eslint/no-unused-vars
           const { items, ...langDataWithoutItems } = langData;
           newData[lang] = langDataWithoutItems;
         }

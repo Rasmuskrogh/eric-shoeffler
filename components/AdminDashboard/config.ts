@@ -259,7 +259,7 @@ export const dashboardConfig: SectionConfig[] = [
         placeholder: "Gallery Section Title",
       },
     ],
-    sharedLists: ["gallery", "music"], // Dessa listor är delade mellan alla språk
+    sharedLists: ["gallery", "music", "videos"], // Dessa listor är delade mellan alla språk
     listItemConfigs: {
       videos: {
         fields: [
@@ -313,10 +313,10 @@ export const dashboardConfig: SectionConfig[] = [
         fields: [
           {
             id: "url",
-            label: "Image URL",
+            label: "Image",
             type: "image",
             required: true,
-            placeholder: "Image URL or upload",
+            placeholder: "Upload image",
           },
           {
             id: "alt",
@@ -325,6 +325,7 @@ export const dashboardConfig: SectionConfig[] = [
             required: true,
             placeholder: "Image description",
           },
+          // width och height sparas automatiskt i bakgrunden, behöver inte visas
         ],
       },
     },

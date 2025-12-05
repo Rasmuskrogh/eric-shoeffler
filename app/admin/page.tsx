@@ -29,7 +29,11 @@ export default async function AdminPage() {
           },
         },
       });
-      console.log("[AdminPage] Database query successful, found", existingContent.length, "items");
+      console.log(
+        "[AdminPage] Database query successful, found",
+        existingContent.length,
+        "items"
+      );
     } catch (dbError) {
       console.error("[AdminPage] Database error:", dbError);
       console.error("[AdminPage] Error details:", {
@@ -51,6 +55,20 @@ export default async function AdminPage() {
     existingContent.forEach((content) => {
       contentMap[content.sectionId] = (content.data ??
         null) as ContentData | null;
+
+      // Debug: Log media section data
+      if (content.sectionId === "media" && content.data) {
+        const data = content.data as Record<string, unknown>;
+        console.log("[AdminPage] Media content.data keys:", Object.keys(data));
+        console.log(
+          "[AdminPage] Media content.data has videos:",
+          "videos" in data
+        );
+        console.log(
+          "[AdminPage] Media content.data videos value:",
+          data["videos"]
+        );
+      }
     });
 
     console.log("[AdminPage] Rendering AdminDashboard");

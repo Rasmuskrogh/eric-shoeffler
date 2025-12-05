@@ -6,6 +6,7 @@ import Gallery from "../features/gallery/Gallery";
 import { getYouTubeEmbedUrl } from "@/lib/youtube";
 import { getSpotifyEmbedUrl } from "@/lib/spotify";
 import type { ContentData } from "@/components/AdminDashboard/types";
+import type { GalleryImage } from "@/types/interfaces";
 
 interface MediaClientProps {
   mediaData: ContentData | null;
@@ -57,7 +58,16 @@ export default function MediaClient({ mediaData }: MediaClientProps) {
 
   const videos: VideoItem[] = data.videos || [];
   const music: MusicItem[] = data.music || [];
-  const gallery: GalleryItem[] = data.gallery || [];
+  const galleryItems: GalleryItem[] = data.gallery || [];
+  
+  // Konvertera GalleryItem[] till GalleryImage[] med fallback-värden
+  const gallery: GalleryImage[] = galleryItems.map((item) => ({
+    id: item.id,
+    url: item.url,
+    alt: item.alt,
+    width: item.width || 800, // Fallback width
+    height: item.height || 600, // Fallback height
+  }));
 
   return (
     <div className={styles.container}>

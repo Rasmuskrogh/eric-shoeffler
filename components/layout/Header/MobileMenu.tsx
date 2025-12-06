@@ -3,7 +3,7 @@ import headerStyles from "./Header.module.css";
 import { MobileMenuProps } from "../../../types/interfaces";
 import Navbar from "./Navbar";
 
-const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onToggle, items }) => {
+const MobileMenu = ({ isOpen, onToggle, items }: MobileMenuProps) => {
   const handleToggle = (e: React.MouseEvent) => {
     e.stopPropagation();
     onToggle(!isOpen);
@@ -73,4 +73,3 @@ const MobileMenu: React.FC<MobileMenuProps> = ({ isOpen, onToggle, items }) => {
 };
 
 export default MobileMenu;
-

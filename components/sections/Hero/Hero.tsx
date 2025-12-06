@@ -14,13 +14,13 @@ interface HeroProps {
   imageSmall?: string;
 }
 
-const Hero: React.FC<HeroProps> = ({
+const Hero = ({
   name,
   tagline,
   contactText,
   imageLarge,
   imageSmall,
-}) => {
+}: HeroProps) => {
   const { active } = useActive();
   const [isSmallScreen, setIsSmallScreen] = useState(false);
 

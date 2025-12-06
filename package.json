@@ -1,5 +1,5 @@
 {
-  "name": "erik-shoeffler",
+  "name": "eric-shoeffler",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -21,14 +21,14 @@
     "cloudinary": "^2.8.0",
     "dotenv": "^17.2.3",
     "framer-motion": "^12.23.12",
-    "next": "15.5.2",
+    "next": "15.5.7",
     "next-auth": "^4.24.13",
     "next-intl": "^4.4.0",
     "nodemailer": "^7.0.9",
     "pg": "^8.16.3",
     "prisma": "^7.0.0",
-    "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react": "19.1.2",
+    "react-dom": "19.1.2"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
@@ -38,7 +38,7 @@
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
-    "eslint-config-next": "15.5.2",
+    "eslint-config-next": "15.5.7",
     "tsx": "^4.20.6",
     "typescript": "^5"
   }

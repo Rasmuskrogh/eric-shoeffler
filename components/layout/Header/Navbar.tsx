@@ -6,7 +6,7 @@ import { NavbarProps } from "../../../types/interfaces";
 import { useActive } from "../../../app/context/ActiveContext";
 import { useRouter } from "next/navigation";
 
-const Navbar: React.FC<NavbarProps> = ({ type, items, show, onItemClick }) => {
+const Navbar = ({ type, items, show, onItemClick }: NavbarProps) => {
   const { setActive } = useActive();
   const router = useRouter();
 
@@ -59,4 +59,3 @@ const Navbar: React.FC<NavbarProps> = ({ type, items, show, onItemClick }) => {
 };
 
 export default Navbar;
-

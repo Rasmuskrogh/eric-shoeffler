@@ -4,12 +4,12 @@ import { useTranslations } from "next-intl";
 import styles from "./RequestButton.module.css";
 import { RequestButtonProps } from "../../../types/interfaces";
 
-const RequestButton: React.FC<RequestButtonProps> = ({
+const RequestButton = ({
   active,
   pathname,
   onRequest,
   onBack,
-}) => {
+}: RequestButtonProps) => {
   const t = useTranslations("Header");
 
   const getButtonConfig = () => {

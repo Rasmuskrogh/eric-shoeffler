@@ -19,12 +19,12 @@ function AboutPreview({
     <>
       <section className={styles.short}>
         <section className={styles.presentationShort}>
-          <h2 className={styles.title}>{aboutTitle || "About"}</h2>
-          <p className={styles.description}>{description || ""}</p>
+          {aboutTitle && <h2 className={styles.title}>{aboutTitle}</h2>}
+          {description && <p className={styles.description}>{description}</p>}
           <Link href="/about">
-            <button className={styles.button}>
-              {aboutButtonText || "Read more"}
-            </button>
+            {aboutButtonText && (
+              <button className={styles.button}>{aboutButtonText}</button>
+            )}
           </Link>
         </section>
         <section className={styles.shortImage}>
@@ -53,4 +53,3 @@ function AboutPreview({
 }
 
 export default AboutPreview;
-

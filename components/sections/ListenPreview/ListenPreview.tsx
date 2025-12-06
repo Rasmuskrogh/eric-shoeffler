@@ -10,7 +10,7 @@ interface ListenPreviewProps {
 function ListenPreview({ listenTitle, listenButtonText }: ListenPreviewProps) {
   return (
     <section className={styles.listenSection}>
-      <h2 className={styles.listenTitle}>{listenTitle || "Listen"}</h2>
+      {listenTitle && <h2 className={styles.listenTitle}>{listenTitle}</h2>}
       <iframe
         className={styles.listenIframe}
         src="https://open.spotify.com/embed/track/3W9NQIIENxpOTRNEbmFYPG?utm_source=generator"
@@ -22,13 +22,12 @@ function ListenPreview({ listenTitle, listenButtonText }: ListenPreviewProps) {
         loading="lazy"
       ></iframe>
       <Link href="/media">
-        <button className={styles.listenButton}>
-          {listenButtonText || "More"}
-        </button>
+        {listenButtonText && (
+          <button className={styles.listenButton}>{listenButtonText}</button>
+        )}
       </Link>
     </section>
   );
 }
 
 export default ListenPreview;
-

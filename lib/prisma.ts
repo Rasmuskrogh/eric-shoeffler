@@ -8,7 +8,11 @@ const globalForPrisma = globalThis as unknown as {
 
 // Only disable TLS certificate validation in development environment
 // This is needed for some PostgreSQL providers with self-signed certificates
-if (process.env.NODE_ENV === "development" && !process.env.NODE_TLS_REJECT_UNAUTHORIZED) {
+// Note: This will show a warning in the console, which is expected in development
+if (
+  process.env.NODE_ENV === "development" &&
+  !process.env.NODE_TLS_REJECT_UNAUTHORIZED
+) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 }
 

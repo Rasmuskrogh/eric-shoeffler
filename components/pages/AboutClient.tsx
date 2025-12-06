@@ -21,7 +21,7 @@ export default function AboutClient({ aboutData }: AboutClientProps) {
   }
 
   const data = aboutData as unknown as AboutData;
-  const aboutTitle = data.aboutTitle || "About";
+  const aboutTitle = data.aboutTitle || "";
   const aboutText = data.aboutText || "";
   const aboutImage = data.aboutImage || "/eric-about.jpg";
 
@@ -30,9 +30,11 @@ export default function AboutClient({ aboutData }: AboutClientProps) {
 
   return (
     <div className={styles.aboutPage}>
-      <section>
-        <h1 className={styles.aboutTitle}>{aboutTitle}</h1>
-      </section>
+      {aboutTitle && (
+        <section>
+          <h1 className={styles.aboutTitle}>{aboutTitle}</h1>
+        </section>
+      )}
       <section className={styles.contentSection}>
         <div className={styles.container}>
           <div className={styles.textContent}>

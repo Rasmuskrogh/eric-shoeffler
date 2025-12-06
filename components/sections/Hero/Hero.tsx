@@ -55,10 +55,8 @@ const Hero = ({
     <section className={styles.hero}>
       <div className={`${styles.blueArea} ${active ? styles.active : ""}`}>
         <article className={styles.tagline}>
-          <h1 className={styles.taglineTitle}>{name || "Eric Schoeffler"}</h1>
-          <p className={styles.taglineSubtitle}>
-            {tagline || "The Franco-Swedish Bass Baritone"}
-          </p>
+          {name && <h1 className={styles.taglineTitle}>{name}</h1>}
+          {tagline && <p className={styles.taglineSubtitle}>{tagline}</p>}
         </article>
         <figure className={styles.profileImageWrapper}>
           <Image

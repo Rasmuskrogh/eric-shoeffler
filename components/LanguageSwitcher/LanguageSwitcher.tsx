@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { changeLanguage } from "./actions.language";
+import { changeLanguage } from "@/app/actions/language";
 import styles from "./LanguageSwitch.module.css";
 import Image from "next/image";
 

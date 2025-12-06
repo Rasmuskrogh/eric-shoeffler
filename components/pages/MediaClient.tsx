@@ -50,7 +50,7 @@ export default function MediaClient({ mediaData }: MediaClientProps) {
   }
 
   const data = mediaData as unknown as MediaData;
-  const mediaTitle = data.mediaTitle || "Media";
+  const mediaTitle = data.mediaTitle || "";
   const mediaSubtitle = data.mediaSubtitle || "";
   const videoSectionTitle = data.videoSectionTitle || "";
   const musicSectionTitle = data.musicSectionTitle || "";
@@ -72,8 +72,8 @@ export default function MediaClient({ mediaData }: MediaClientProps) {
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <h1 className={styles.title}>{mediaTitle}</h1>
-        <p className={styles.subtitle}>{mediaSubtitle}</p>
+        {mediaTitle && <h1 className={styles.title}>{mediaTitle}</h1>}
+        {mediaSubtitle && <p className={styles.subtitle}>{mediaSubtitle}</p>}
 
         <div className={styles.sections}>
           {/* YouTube Videos Section */}

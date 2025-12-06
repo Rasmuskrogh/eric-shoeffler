@@ -98,13 +98,12 @@ export default function ScheduleClient({
   };
 
   const data = scheduleData as unknown as ScheduleData;
-  const scheduleTitle = data.scheduleTitle || "Schedule";
+  const scheduleTitle = data.scheduleTitle || "";
   const scheduleUnderTitle = data.scheduleUnderTitle || "";
   const scheduleBookTitle = data.scheduleBookTitle || "";
   const scheduleBookDesc = data.scheduleBookDesc || "";
-  const scheduleBookEmail =
-    data.scheduleBookEmail || "ecm.schoeffler@gmail.com";
-  const scheduleBookPhone = data.scheduleBookPhone || "+46735362254";
+  const scheduleBookEmail = data.scheduleBookEmail || "";
+  const scheduleBookPhone = data.scheduleBookPhone || "";
 
   const items: ScheduleItem[] = data.items || [];
 
@@ -249,8 +248,10 @@ export default function ScheduleClient({
   return (
     <div className={styles.container}>
       <div className={styles.content}>
-        <h1 className={styles.title}>{scheduleTitle}</h1>
-        <p className={styles.subtitle}>{scheduleUnderTitle}</p>
+        {scheduleTitle && <h1 className={styles.title}>{scheduleTitle}</h1>}
+        {scheduleUnderTitle && (
+          <p className={styles.subtitle}>{scheduleUnderTitle}</p>
+        )}
 
         <div className={styles.events}>
           {/* Upcoming Events */}
@@ -350,18 +351,29 @@ export default function ScheduleClient({
           )}
         </div>
 
-        <div className={styles.contactInfo}>
-          <h2>{scheduleBookTitle}</h2>
-          <p>{scheduleBookDesc}</p>
-          <div className={styles.contactDetails}>
-            <p>
-              <strong>Email:</strong> {scheduleBookEmail}
-            </p>
-            <p>
-              <strong>Telefon:</strong> {scheduleBookPhone}
-            </p>
+        {(scheduleBookTitle ||
+          scheduleBookDesc ||
+          scheduleBookEmail ||
+          scheduleBookPhone) && (
+          <div className={styles.contactInfo}>
+            {scheduleBookTitle && <h2>{scheduleBookTitle}</h2>}
+            {scheduleBookDesc && <p>{scheduleBookDesc}</p>}
+            {(scheduleBookEmail || scheduleBookPhone) && (
+              <div className={styles.contactDetails}>
+                {scheduleBookEmail && (
+                  <p>
+                    <strong>Email:</strong> {scheduleBookEmail}
+                  </p>
+                )}
+                {scheduleBookPhone && (
+                  <p>
+                    <strong>Telefon:</strong> {scheduleBookPhone}
+                  </p>
+                )}
+              </div>
+            )}
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

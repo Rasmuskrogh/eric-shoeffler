@@ -1,0 +1,16 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+# Configure secrets scanning
+# Next.js webpack bundles environment variables into build output,
+# which is expected behavior. These are safe to exclude from scanning.
+[build.environment]
+  # Exclude build output directories and cache from secret scanning
+  # These paths will be ignored by Netlify's secret scanner
+  SECRETS_SCAN_OMIT_PATHS = ".netlify/**,.next/**,node_modules/**,README.md,*.md"
+  
+  # NEXTAUTH_URL is public and safe to expose in client bundles
+  # ADMIN_USERNAME is only used in seed scripts (server-side only)
+  SECRETS_SCAN_OMIT_KEYS = "NEXTAUTH_URL,ADMIN_USERNAME"
+

@@ -19,7 +19,7 @@ const merriweather = Merriweather({
 
 export const metadata: Metadata = {
   title: "Eric Schoeffler",
-  description: "Official website of Erik Schoeffler",
+  description: "Official website of Eric Schoeffler",
   icons: {
     icon: "/favicon.png",
   },

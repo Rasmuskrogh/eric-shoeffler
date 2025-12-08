@@ -11,12 +11,6 @@ cloudinary.config({
 
 export async function GET() {
   try {
-    console.log("Cloudinary config:", {
-      cloud_name: process.env.CLOUDINARY_CLOUD_NAME ? "Set" : "Missing",
-      api_key: process.env.CLOUDINARY_API_KEY ? "Set" : "Missing",
-      api_secret: process.env.CLOUDINARY_API_SECRET ? "Set" : "Missing",
-    });
-
     // Get all images from the eric-schoeffler/gallery folder
     let result;
     try {
@@ -25,35 +19,13 @@ export async function GET() {
         .sort_by("public_id", "asc")
         .max_results(50)
         .execute();
-    } catch (searchError) {
-      console.log("Folder search failed, trying broader search:", searchError);
+    } catch {
       // Fallback: search for any images with "eric-schoeffler" in the public_id
       result = await cloudinary.search
         .expression("public_id:eric-schoeffler/*")
         .sort_by("public_id", "asc")
         .max_results(50)
         .execute();
-    }
-
-    console.log("Cloudinary search result:", {
-      total_count: result.total_count,
-      resources_count: result.resources?.length || 0,
-      resources:
-        result.resources?.map((r: CloudinaryResource) => r.public_id) || [],
-    });
-
-    // Log large images that will be optimized
-    const largeImages = result.resources.filter(
-      (r: CloudinaryResource) => r.bytes > 2000000
-    );
-    if (largeImages.length > 0) {
-      console.log(
-        "Large images that will be optimized:",
-        largeImages.map((img: CloudinaryResource) => ({
-          id: img.public_id,
-          size: `${(img.bytes / 1000000).toFixed(2)}MB`,
-        }))
-      );
     }
 
     // Transform the results to include only what we need

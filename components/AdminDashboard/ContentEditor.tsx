@@ -70,23 +70,6 @@ export default function ContentEditor({
       const lists: Record<string, ContentData[]> = {};
       const sharedLists = new Set(sectionConfig.sharedLists || []);
 
-      if (initialData) {
-        console.log(
-          `[ContentEditor] initialData keys:`,
-          Object.keys(initialData)
-        );
-        const dataAsRecord = initialData as unknown as Record<string, unknown>;
-        console.log(`[ContentEditor] initialData structure:`, {
-          hasEn: "en" in dataAsRecord,
-          hasSv: "sv" in dataAsRecord,
-          hasFr: "fr" in dataAsRecord,
-          hasVideos: "videos" in dataAsRecord,
-          hasMusic: "music" in dataAsRecord,
-          hasGallery: "gallery" in dataAsRecord,
-          videosValue: dataAsRecord["videos"],
-        });
-      }
-
       Object.keys(sectionConfig.listItemConfigs).forEach((listKey) => {
         const isShared = sharedLists.has(listKey);
         const listConfig = sectionConfig.listItemConfigs![listKey];
@@ -101,11 +84,6 @@ export default function ContentEditor({
               string,
               unknown
             >;
-            console.log(`[ContentEditor] Loading shared list "${listKey}":`, {
-              hasKey: listKey in dataAsRecord,
-              value: dataAsRecord[listKey],
-              isArray: Array.isArray(dataAsRecord[listKey]),
-            });
             if (dataAsRecord[listKey] && Array.isArray(dataAsRecord[listKey])) {
               const items = dataAsRecord[listKey] as ContentData[];
               // Konvertera localizedFields från strängar till objekt om de är strängar

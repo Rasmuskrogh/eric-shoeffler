@@ -54,22 +54,6 @@ export async function GET(request: NextRequest) {
       );
     }
 
-    // Debug: Log what's in content.data for media section
-    if (sectionId === "media" && content.data) {
-      const data = content.data as Record<string, unknown>;
-      console.log("[API] Media content.data keys:", Object.keys(data));
-      console.log("[API] Media content.data has videos:", "videos" in data);
-      if ("videos" in data) {
-        console.log(
-          "[API] Media content.data videos value:",
-          JSON.stringify(data["videos"], null, 2)
-        );
-      } else {
-        console.log("[API] ⚠️ WARNING: videos is missing from content.data!");
-        console.log("[API] Full content.data:", JSON.stringify(data, null, 2));
-      }
-    }
-
     return NextResponse.json({ success: true, content }, { status: 200 });
   } catch (error) {
     console.error("Error getting content:", error);

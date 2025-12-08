@@ -8,12 +8,17 @@ config({ path: ".env.local" });
 
 // Only disable TLS certificate validation in development environment
 // This is needed for some PostgreSQL providers with self-signed certificates
-if (process.env.NODE_ENV === "development" && !process.env.NODE_TLS_REJECT_UNAUTHORIZED) {
+if (process.env.NODE_ENV !== "production") {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 }
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_URL,
+  // Disable SSL certificate validation for development
+  ssl:
+    process.env.NODE_ENV !== "production"
+      ? { rejectUnauthorized: false }
+      : undefined,
 });
 
 const adapter = new PrismaPg(pool);

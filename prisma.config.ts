@@ -7,7 +7,7 @@ export default defineConfig({
   schema: "prisma/schema.prisma",
   migrations: {
     path: "prisma/migrations",
-    seed: "tsx prisma/seed.ts",
+    seed: "node --max-old-space-size=4096 node_modules/.bin/tsx prisma/seed.ts",
   },
   datasource: {
     url: env("DATABASE_URL"),

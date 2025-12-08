@@ -78,13 +78,6 @@ function Header() {
   }, [active]);
 
   const handleRedClick = () => {
-    console.log(
-      "handleRedClick called - current pathname:",
-      pathname,
-      "current active:",
-      active
-    );
-
     if (pathname === "/" && !active) {
       return;
     }

@@ -9,8 +9,6 @@ export function ActiveProvider({ children }: { children: ReactNode }) {
   const [active, setActiveState] = useState(true);
 
   const setActive = (value: boolean) => {
-    console.log("setActive called with:", value);
-    console.trace("Stack trace:");
     setActiveState(value);
   };
 

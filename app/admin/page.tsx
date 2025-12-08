@@ -8,20 +8,16 @@ import type { ContentData } from "@/components/AdminDashboard/types";
 
 export default async function AdminPage() {
   try {
-    console.log("[AdminPage] Starting page render");
     const session = await getServerSession(authOptions);
 
     if (!session) {
-      console.log("[AdminPage] No session, redirecting to login");
       redirect("/admin/login");
     }
 
-    console.log("[AdminPage] Session found, fetching content");
     const sectionIds = dashboardConfig.map((section) => section.id);
 
     let existingContent: Awaited<ReturnType<typeof prisma.content.findMany>>;
     try {
-      console.log("[AdminPage] Querying database for sections:", sectionIds);
       existingContent = await prisma.content.findMany({
         where: {
           sectionId: {
@@ -29,11 +25,6 @@ export default async function AdminPage() {
           },
         },
       });
-      console.log(
-        "[AdminPage] Database query successful, found",
-        existingContent.length,
-        "items"
-      );
     } catch (dbError) {
       console.error("[AdminPage] Database error:", dbError);
       console.error("[AdminPage] Error details:", {
@@ -55,23 +46,8 @@ export default async function AdminPage() {
     existingContent.forEach((content) => {
       contentMap[content.sectionId] = (content.data ??
         null) as ContentData | null;
-
-      // Debug: Log media section data
-      if (content.sectionId === "media" && content.data) {
-        const data = content.data as Record<string, unknown>;
-        console.log("[AdminPage] Media content.data keys:", Object.keys(data));
-        console.log(
-          "[AdminPage] Media content.data has videos:",
-          "videos" in data
-        );
-        console.log(
-          "[AdminPage] Media content.data videos value:",
-          data["videos"]
-        );
-      }
     });
 
-    console.log("[AdminPage] Rendering AdminDashboard");
     return <AdminDashboard initialContent={contentMap} />;
   } catch (error) {
     console.error("[AdminPage] Fatal error:", error);

@@ -6,13 +6,10 @@ const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
 
-// Only disable TLS certificate validation in development environment
-// This is needed for some PostgreSQL providers with self-signed certificates
-// Note: This will show a warning in the console, which is expected in development
-if (
-  process.env.NODE_ENV === "development" &&
-  !process.env.NODE_TLS_REJECT_UNAUTHORIZED
-) {
+// Disable TLS certificate validation for PostgreSQL providers with self-signed certificates
+// This is needed for some database providers (e.g., some cloud PostgreSQL services)
+// Note: This applies to both development and production
+if (!process.env.NODE_TLS_REJECT_UNAUTHORIZED) {
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
 }
 
@@ -24,6 +21,8 @@ if (process.env.DATABASE_URL) {
     console.log("[Prisma] Initializing database connection");
     pool = new Pool({
       connectionString: process.env.DATABASE_URL,
+      // Disable SSL certificate validation for self-signed certificates
+      ssl: { rejectUnauthorized: false },
     });
     adapter = new PrismaPg(pool);
     console.log("[Prisma] Database connection initialized successfully");

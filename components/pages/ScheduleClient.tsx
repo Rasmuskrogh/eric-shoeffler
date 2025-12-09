@@ -105,7 +105,38 @@ export default function ScheduleClient({
   const scheduleBookEmail = data.scheduleBookEmail || "";
   const scheduleBookPhone = data.scheduleBookPhone || "";
 
-  const items: ScheduleItem[] = data.items || [];
+  // Ensure items is always an array
+  // Items can be on top level (shared) or in locale-specific data
+  let items: ScheduleItem[] = [];
+  
+  // Try to get items from top level first (shared items)
+  if (data.items) {
+    if (Array.isArray(data.items)) {
+      items = data.items;
+    } else if (typeof data.items === "object" && data.items !== null) {
+      // If items is an object, try to convert it to array
+      console.warn("Schedule items is an object, expected array:", data.items);
+      items = [];
+    }
+  }
+  
+  // If no items found and data might have locale-specific structure, check there
+  if (items.length === 0 && typeof data === "object" && data !== null) {
+    const dataRecord = data as Record<string, unknown>;
+    // Check if items might be nested in locale structure
+    if (locale && dataRecord[locale] && typeof dataRecord[locale] === "object") {
+      const localeData = dataRecord[locale] as Record<string, unknown>;
+      if (localeData.items && Array.isArray(localeData.items)) {
+        items = localeData.items as ScheduleItem[];
+      }
+    }
+  }
+  
+  // Final fallback: ensure items is always an array
+  if (!Array.isArray(items)) {
+    console.warn("Schedule items is not an array, using empty array");
+    items = [];
+  }
 
   // Convert items to Event format
   const events: Event[] = items.map((item) => ({

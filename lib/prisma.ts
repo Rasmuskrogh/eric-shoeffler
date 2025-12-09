@@ -1,3 +1,9 @@
+// Set TLS rejection before any imports to avoid warnings
+// This is needed for PostgreSQL providers with self-signed certificates
+if (!process.env.NODE_TLS_REJECT_UNAUTHORIZED) {
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+}
+
 import { PrismaClient } from "../src/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import { Pool } from "pg";
@@ -5,13 +11,6 @@ import { Pool } from "pg";
 const globalForPrisma = globalThis as unknown as {
   prisma: PrismaClient | undefined;
 };
-
-// Disable TLS certificate validation for PostgreSQL providers with self-signed certificates
-// This is needed for some database providers (e.g., some cloud PostgreSQL services)
-// Note: This applies to both development and production
-if (!process.env.NODE_TLS_REJECT_UNAUTHORIZED) {
-  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-}
 
 let pool: Pool | undefined;
 let adapter: PrismaPg | undefined;
@@ -22,6 +21,7 @@ if (process.env.DATABASE_URL) {
     pool = new Pool({
       connectionString: process.env.DATABASE_URL,
       // Disable SSL certificate validation for self-signed certificates
+      // This is needed for some PostgreSQL providers with self-signed certificates
       ssl: { rejectUnauthorized: false },
     });
     adapter = new PrismaPg(pool);

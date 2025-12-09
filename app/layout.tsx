@@ -23,6 +23,16 @@ export const metadata: Metadata = {
   icons: {
     icon: "/favicon.png",
   },
+  openGraph: {
+    title: "Eric Schoeffler",
+    description: "Official website of Eric Schoeffler",
+    type: "website",
+  },
+  twitter: {
+    card: "summary",
+    title: "Eric Schoeffler",
+    description: "Official website of Eric Schoeffler",
+  },
 };
 
 export default async function RootLayout({

@@ -1,6 +1,6 @@
-## Erik Schoeffler – Website
+## Eric Schoeffler – Website
 
-This is the source code for Erik Schoeffler's official website, built with Next.js and internationalization (multi-language) support via `next-intl`. The website presents content including a homepage, schedule, media, and information about Erik.
+This is the source code for Eric Schoeffler's official website, built with Next.js and internationalization (multi-language) support via `next-intl`. The website presents content including a homepage, schedule, media, and information about Eric.
 
 ### Technical Overview
 
@@ -20,7 +20,7 @@ This is the source code for Erik Schoeffler's official website, built with Next.
   - `/` – Homepage with hero section, previews, and contact form
   - `/schedule` – Schedule with upcoming concerts and events
   - `/media` – Media page with YouTube videos, Spotify embeds, and image gallery
-  - `/about` – Information about Erik Schoeffler
+  - `/about` – Information about Eric Schoeffler
   - `/news` – News page
 
 - **Language switching** via `LanguageSwitcher` (English, Swedish, French)
@@ -60,9 +60,9 @@ Changes to files under `app/` and `components/` will automatically reload.
 ### Project Structure
 
 ```
-erik-shoeffler/
+eric-schoeffler/
 ├── app/                          # Next.js App Router
-│   ├── about/                    # About Erik page
+│   ├── about/                    # About Eric page
 │   ├── agenda/                   # Schedule page (deprecated, use /schedule)
 │   ├── api/                      # API routes
 │   │   ├── contact/              # Contact form endpoint
@@ -88,7 +88,7 @@ erik-shoeffler/
 │   ├── LanguageSwitcher/         # Language switching
 │   │   └── messages/             # Translation files (en.json, sv.json, fr.json)
 │   ├── sections/                 # Sections for homepage
-│   │   ├── AboutPreview/         # Preview about Erik
+│   │   ├── AboutPreview/         # Preview about Eric
 │   │   ├── FormSpacer/           # Spacer for contact form
 │   │   ├── Hero/                 # Hero section with image and form
 │   │   ├── ListenPreview/        # Media preview

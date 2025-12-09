@@ -110,9 +110,9 @@ export default function HomeClient({ homeData, contactData }: HomeClientProps) {
             }`}
           >
             <div className={styles.videoContainer}>
-                <iframe
+              <iframe
                 src={youtubeEmbedUrl}
-                title="Erik Shoeffler - Klassisk sång"
+                title="Eric Schoeffler - Klassisk sång"
                 frameBorder="0"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen

@@ -62,7 +62,7 @@ const Hero = ({
           <Image
             className={styles.profileImage}
             src={heroImageUrl}
-            alt="Erik Shoeffler"
+            alt="Eric Schoeffler"
             fill
             priority
             quality={95}

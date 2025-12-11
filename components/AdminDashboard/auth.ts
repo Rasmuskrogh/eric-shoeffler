@@ -72,7 +72,4 @@ export const authOptions: NextAuthOptions = {
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
-  // Trust the host header to prevent localhost redirects in production
-  // This allows NextAuth to use the actual request URL instead of defaulting to localhost
-  trustHost: true,
 };

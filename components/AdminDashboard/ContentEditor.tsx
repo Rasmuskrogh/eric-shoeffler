@@ -998,8 +998,57 @@ export default function ContentEditor({
 
       const sanitizedSharedData = sanitizeSharedData(sharedData);
 
-      // Skapa data med bara det uppdaterade item:et
-      const updatedItems = [...listItems];
+      // Hämta alla befintliga items från initialData för att säkerställa att inga items försvinner
+      // Detta är viktigt eftersom listItems state kan vara ofullständig
+      let existingItems: ContentData[] = [];
+      if (initialData) {
+        const existingData = initialData as
+          | Record<string, ContentData>
+          | ContentData;
+        const isLocalized =
+          sectionConfig.languages &&
+          sectionConfig.languages.length > 0 &&
+          typeof existingData === "object" &&
+          existingData !== null &&
+          !Array.isArray(existingData) &&
+          sectionConfig.languages[0] in existingData;
+
+        if (isLocalized) {
+          // För lokaliserad data, items finns på toppnivån
+          const dataAsRecord = existingData as unknown as Record<string, unknown>;
+          if (dataAsRecord.items && Array.isArray(dataAsRecord.items)) {
+            existingItems = dataAsRecord.items as ContentData[];
+          }
+        } else {
+          // För icke-lokaliserad data, items finns direkt i initialData
+          if (Array.isArray((existingData as ContentData).items)) {
+            existingItems = (existingData as ContentData).items as ContentData[];
+          }
+        }
+      }
+
+      // Merga befintliga items med uppdaterade items från state
+      // Använd items från state om de finns, annars använd befintliga items
+      const allItemsFromState = listItems.length > 0 ? listItems : existingItems;
+      
+      // Skapa en map av befintliga items för snabb lookup
+      const itemsMap = new Map<string, ContentData>();
+      existingItems.forEach((item) => {
+        if (item.id && typeof item.id === "string") {
+          itemsMap.set(item.id, item);
+        }
+      });
+
+      // Uppdatera items från state i mapen
+      allItemsFromState.forEach((item) => {
+        if (item.id && typeof item.id === "string") {
+          itemsMap.set(item.id, item);
+        }
+      });
+
+      // Konvertera tillbaka till array
+      const updatedItems = Array.from(itemsMap.values());
+
       let dataToSave: ContentData | Record<string, ContentData> = {
         items: updatedItems,
         ...sanitizedSharedData,

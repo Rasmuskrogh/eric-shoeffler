@@ -998,8 +998,9 @@ export default function ContentEditor({
 
       const sanitizedSharedData = sanitizeSharedData(sharedData);
 
-      // Hämta alla befintliga items från initialData för att säkerställa att inga items försvinner
-      // Detta är viktigt eftersom listItems state kan vara ofullständig
+      // Hämta alla befintliga items från initialData som backup
+      // listItems state innehåller redan alla items från initialData (laddade i useEffect)
+      // men vi behöver en backup om listItems av någon anledning är tom eller ofullständig
       let existingItems: ContentData[] = [];
       if (initialData) {
         const existingData = initialData as
@@ -1014,40 +1015,89 @@ export default function ContentEditor({
           sectionConfig.languages[0] in existingData;
 
         if (isLocalized) {
-          // För lokaliserad data, items finns på toppnivån
-          const dataAsRecord = existingData as unknown as Record<string, unknown>;
+          // För lokaliserad data, items finns på toppnivån (t.ex. schedule: { items: [...], en: {...}, sv: {...} })
+          const dataAsRecord = existingData as unknown as Record<
+            string,
+            unknown
+          >;
           if (dataAsRecord.items && Array.isArray(dataAsRecord.items)) {
             existingItems = dataAsRecord.items as ContentData[];
           }
         } else {
-          // För icke-lokaliserad data, items finns direkt i initialData
+          // För icke-lokaliserad data, items finns direkt i initialData.items
           if (Array.isArray((existingData as ContentData).items)) {
-            existingItems = (existingData as ContentData).items as ContentData[];
+            existingItems = (existingData as ContentData)
+              .items as ContentData[];
           }
         }
       }
 
-      // Merga befintliga items med uppdaterade items från state
-      // Använd items från state om de finns, annars använd befintliga items
-      const allItemsFromState = listItems.length > 0 ? listItems : existingItems;
-      
-      // Skapa en map av befintliga items för snabb lookup
-      const itemsMap = new Map<string, ContentData>();
-      existingItems.forEach((item) => {
-        if (item.id && typeof item.id === "string") {
-          itemsMap.set(item.id, item);
-        }
-      });
+      // Använd listItems från state som primär källa (de innehåller redan alla items från initialData + uppdateringar)
+      // listItems laddas i useEffect från initialData.items, så den borde alltid innehålla alla items
+      let updatedItems: ContentData[] = [];
 
-      // Uppdatera items från state i mapen
-      allItemsFromState.forEach((item) => {
-        if (item.id && typeof item.id === "string") {
-          itemsMap.set(item.id, item);
-        }
-      });
+      // Debug logging
+      console.log("[saveSingleListItem] listItems length:", listItems.length);
+      console.log(
+        "[saveSingleListItem] existingItems length:",
+        existingItems.length
+      );
 
-      // Konvertera tillbaka till array
-      const updatedItems = Array.from(itemsMap.values());
+      if (listItems.length > 0) {
+        // listItems innehåller redan alla items från initialData (laddade i useEffect rad 36-65)
+        // plus eventuella uppdateringar från updateListItem, så använd dem direkt
+        updatedItems = [...listItems];
+        console.log(
+          "[saveSingleListItem] Using listItems, count:",
+          updatedItems.length
+        );
+      } else {
+        // Om listItems är tom (vilket inte borde hända normalt), använd existingItems som backup
+        console.warn(
+          "[saveSingleListItem] listItems is empty, using existingItems from initialData as backup"
+        );
+        updatedItems = [...existingItems];
+      }
+
+      // Extra säkerhet: säkerställ att vi inte förlorar några items genom att merga med existingItems
+      // om det finns items i existingItems som inte finns i updatedItems
+      if (existingItems.length > 0 && updatedItems.length > 0) {
+        const updatedItemsIds = new Set(
+          updatedItems
+            .map((item) => {
+              // Hantera både string och number IDs
+              if (item.id !== undefined && item.id !== null) {
+                return String(item.id);
+              }
+              return null;
+            })
+            .filter((id): id is string => id !== null)
+        );
+
+        // Lägg till items från existingItems som saknas i updatedItems
+        let addedCount = 0;
+        existingItems.forEach((item) => {
+          const itemId =
+            item.id !== undefined && item.id !== null ? String(item.id) : null;
+          if (itemId && !updatedItemsIds.has(itemId)) {
+            console.warn(
+              `[saveSingleListItem] Item with id ${itemId} was missing from listItems, adding it back`
+            );
+            updatedItems.push(item);
+            addedCount++;
+          }
+        });
+        if (addedCount > 0) {
+          console.log(
+            `[saveSingleListItem] Added ${addedCount} missing items back`
+          );
+        }
+      }
+
+      console.log(
+        "[saveSingleListItem] Final updatedItems count:",
+        updatedItems.length
+      );
 
       let dataToSave: ContentData | Record<string, ContentData> = {
         items: updatedItems,

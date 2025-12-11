@@ -72,4 +72,10 @@ export const authOptions: NextAuthOptions = {
     },
   },
   secret: process.env.NEXTAUTH_SECRET,
+  // Set the base URL for NextAuth to prevent localhost redirects
+  // This should be set to https://ericschoeffler.com in production
+  // If not set, NextAuth will default to localhost which causes redirect issues
+  url: process.env.NEXTAUTH_URL || (process.env.NODE_ENV === "production" 
+    ? "https://ericschoeffler.com" 
+    : "http://localhost:3000"),
 };

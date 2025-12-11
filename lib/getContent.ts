@@ -94,10 +94,33 @@ export async function getContent(
       });
 
       // Kombinera språk-data med delade fält/listor
-      return {
+      // For schedule: items should come from sharedData (top level) if it exists there,
+      // otherwise from locale-specific data
+      const result = {
         ...processedSharedData,
         ...langData,
       };
+
+      // Special handling for schedule section:
+      // After migration, items are on top level (sharedData)
+      // Before migration, items are in locale-specific data (langData)
+      if (sectionId === "schedule") {
+        // Prefer items from sharedData (top level after migration)
+        if (
+          processedSharedData.items &&
+          Array.isArray(processedSharedData.items)
+        ) {
+          result.items = processedSharedData.items;
+        } else if (langData.items && Array.isArray(langData.items)) {
+          // Fallback to locale-specific items (before migration)
+          result.items = langData.items;
+        } else {
+          // Ensure items is always an array, even if empty
+          result.items = [];
+        }
+      }
+
+      return result;
     }
   }
 

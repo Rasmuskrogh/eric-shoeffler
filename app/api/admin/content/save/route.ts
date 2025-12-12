@@ -16,6 +16,25 @@ export async function POST(request: NextRequest) {
     const body = await request.json();
     const { sectionId, data } = body;
 
+    // Debug: Logga vad som kommer in till API:et
+    const dataWithItems = data as ContentData | Record<string, ContentData>;
+    const itemsValue = 
+      typeof dataWithItems === "object" && 
+      dataWithItems !== null && 
+      "items" in dataWithItems
+        ? (dataWithItems as { items?: unknown }).items
+        : undefined;
+    
+    console.log("[API save] Received data:", {
+      sectionId,
+      hasItems: "items" in data,
+      itemsCount: Array.isArray(itemsValue) 
+        ? itemsValue.length 
+        : "not an array",
+      topLevelKeys: Object.keys(data),
+      dataPreview: JSON.stringify(data, null, 2).substring(0, 1000), // First 1000 chars
+    });
+
     if (!sectionId || !data) {
       return NextResponse.json(
         { error: "Missing sectionId or data" },

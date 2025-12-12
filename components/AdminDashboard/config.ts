@@ -101,6 +101,8 @@ export const dashboardConfig: SectionConfig[] = [
     name: "Schedule",
     type: "mixed",
     languages: ["en", "sv", "fr"],
+    // Items är en delad lista som finns på toppnivån (tillsammans med språk-objekten)
+    sharedLists: ["items"],
     fields: [
       {
         id: "scheduleTitle",

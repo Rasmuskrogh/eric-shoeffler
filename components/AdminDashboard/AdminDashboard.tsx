@@ -120,6 +120,18 @@ export default function AdminDashboard({
   const handleSave = useCallback(
     async (sectionId: string, data: ContentData) => {
       try {
+        // Debug: Logga vad som skickas till API:et
+        const itemsValue = "items" in data ? (data as { items?: unknown }).items : undefined;
+        console.log("[handleSave] Sending to API:", {
+          sectionId,
+          hasItems: "items" in data,
+          itemsCount: Array.isArray(itemsValue) 
+            ? itemsValue.length 
+            : "not an array",
+          topLevelKeys: Object.keys(data),
+          dataPreview: JSON.stringify(data, null, 2).substring(0, 1000), // First 1000 chars
+        });
+
         const response = await fetch("/api/admin/content/save", {
           method: "POST",
           headers: {

@@ -57,7 +57,7 @@ function getCloudinaryUrl(imagePath: string, folder: string = "hero"): string {
   const imageName = imagePath.replace(/^\//, "").replace(/\.[^.]+$/, "");
 
   // Build Cloudinary URL with optimization
-  return `https://res.cloudinary.com/${cloudName}/image/upload/a_auto,fl_ignore_orientation,w_auto,h_auto,f_auto,q_auto/${folder}/${imageName}`;
+  return `https://res.cloudinary.com/${cloudName}/image/upload/w_auto,h_auto,f_auto,q_auto/${folder}/${imageName}`;
 }
 
 // Load translation files

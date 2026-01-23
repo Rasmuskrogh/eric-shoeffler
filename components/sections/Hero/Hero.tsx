@@ -66,7 +66,7 @@ const Hero = ({
             fill
             priority
             quality={95}
-            /* unoptimized={true} */
+            unoptimized={true}
           />
         </figure>
       </div>

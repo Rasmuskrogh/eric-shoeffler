@@ -227,7 +227,6 @@
   z-index: 100;
   opacity: 0;
   animation: fadeIn 0.3s ease forwards;
-  margin-top: 8rem;
 }
 
 .mobileMenu {

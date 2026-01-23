@@ -24,6 +24,38 @@ const MobileMenu = ({ isOpen, onToggle, items }: MobileMenuProps) => {
     };
   }, [isOpen, onToggle]);
 
+  // Förhindra scrollning när menyn är öppen
+  useEffect(() => {
+    if (isOpen) {
+      // Spara nuvarande scrollposition
+      const scrollY = window.scrollY;
+      // Förhindra scrollning
+      document.body.style.position = "fixed";
+      document.body.style.top = `-${scrollY}px`;
+      document.body.style.width = "100%";
+      document.body.style.overflow = "hidden";
+    } else {
+      // Återställ scrollning
+      const scrollY = document.body.style.top;
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      document.body.style.overflow = "";
+      // Återställ scrollposition
+      if (scrollY) {
+        window.scrollTo(0, parseInt(scrollY || "0") * -1);
+      }
+    }
+
+    return () => {
+      // Rensa upp vid unmount
+      document.body.style.position = "";
+      document.body.style.top = "";
+      document.body.style.width = "";
+      document.body.style.overflow = "";
+    };
+  }, [isOpen]);
+
   return (
     <>
       {/* Mobile hamburger menu button */}

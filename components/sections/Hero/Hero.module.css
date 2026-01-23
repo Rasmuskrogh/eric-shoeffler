@@ -66,7 +66,7 @@
 
 .redArea .tagline {
   position: absolute;
-  right: calc(2rem + 1vw); /* Responsiv marginal från höger kant */
+  right: calc(2rem + 1vw);
   left: auto;
   top: 50%;
   transform: translateY(-50%);
@@ -75,7 +75,7 @@
 }
 
 .redArea:not(.active) .tagline {
-  right: calc(-200px - 1vw); /* Responsiv utflyttning till höger */
+  right: calc(-200px - 1vw);
 }
 .taglineTitle {
   font-family: "Poppins", sans-serif;
@@ -94,21 +94,13 @@
 
 .profileImageWrapper {
   position: relative;
-  /* right: 0;
-  top: 0;
-  transform: none; */
   width: 100%;
   height: 100%;
-  /*  transition: all 0.5s ease-in-out;
-  margin: 0; */
 }
 
 .profileImage {
   object-fit: cover;
-  /*  width: 100%;
-  height: 100%; */
-  object-position: center /*  center */;
-  /*  image-rendering: auto; */
+  object-position: center 23%;
 }
 
 .redArea .profileImage {
@@ -119,20 +111,16 @@
 
 .redArea .profileImageWrapper {
   position: absolute;
-  left: calc(2rem + 1vw); /* Avstånd från vänster kant */
+  left: calc(2rem + 1vw);
   right: auto;
   top: 50%;
   transform: translateY(-50%);
   width: auto;
   height: calc(100% - 4rem);
   transition: all 0.5s ease-in-out;
-  margin-right: 3rem; /* Ökar marginalen mellan tagline och bild */
+  margin-right: 3rem;
   margin-left: 0rem;
 }
-
-/* Bilden ska alltid hålla samma avstånd till vänster kant - ingen utflyttning */
-
-/* FORMULÄR STYLING */
 .formContainer {
   position: absolute;
   left: 50%;
@@ -274,8 +262,8 @@
   .profileImage {
     width: 100%;
     height: 100%;
-    object-fit: contain;
-    object-position: center center;
+    object-fit: cover;
+    object-position: center 30%;
   }
 
   .contactText {
@@ -341,7 +329,6 @@
   }
 }
 
-/* Stora skärmar - förbättrad upplösning */
 @media (min-width: 1920px) {
   .profileImage {
     image-rendering: auto;

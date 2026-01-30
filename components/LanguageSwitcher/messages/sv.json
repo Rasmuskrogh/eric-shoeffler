@@ -1,67 +1,12 @@
 {
-  "LanguageSwitch": {
-    "selectLanguage": "Välj språk",
-    "currentLanguage": "Aktuellt språk"
-  },
   "Header": {
     "home": "Hem",
     "schedule": "Kalender",
     "media": "Media",
     "aboutMe": "Om",
+    "repertoire": "Repertoar",
     "buttonActive": "BOKA",
     "buttonInactive": "BACKA"
-  },
-  "Hero": {
-    "name": "Eric Schoeffler",
-    "tagline": "Den fransk-svenske basbarytonen",
-    "description": "Med en gedigen sångutbildning, omfattande erfarenhet inom både klassiska och moderna genrer samt ett brett nätverk av musiker, pianister, DJ:s och evenemangsarrangörer är Eric Schoeffler det naturliga valet när du vill boka sång och livemusik till bröllop, dop, begravningar, företagsevenemang eller privata tillställningar. Baserad i Stockholm men verksam internationellt anpassar Eric sin musik efter varje tillfälle och samarbetar regelbundet med Stockholm Music Group utöver sina opera- och konsertframträdanden. Kontakta oss för en kostnadsfri offert, konsultation eller bokning."
-  },
-  "Short": {
-    "title": "Om",
-    "description": "Eric Schoeffler förenar lyrisk värme med dramatisk intensitet och skapar djup och närvaro i varje framträdande. Med en röst som förenar elegans och kraft fängslar han publiken i ett brett repertoarspann.",
-    "button": "Läs mer"
-  },
-  "ListenShort": {
-    "title": "Lyssna",
-    "button": "Mer"
-  },
-  "Schedule": {
-    "title": "Kalender",
-    "undertitle": "Kommande konserter och evenemang",
-    "lohengrinDesc": "En mystisk riddare räddar en prinsessa men förbjuder henne att fråga efter hans namn – en romantisk och ödesmättad berättelse om tro och tvivel. Kompositör: Richard Wagner.",
-    "faureDesc": "Med de stillsamma och eftertänksamma bassolona i Faurés älskade Requiem. Kompositör: Gabriel Fauré.",
-    "carmenDesc": "En passionerad berättelse om kärlek, frihet och svartsjuka, där den fria Carmen förför och förgör den plågade Don José. Kompositör: Georges Bizet.",
-    "bookTitle": "Boka en konsert",
-    "bookDesc": "Vill du boka Eric till ett evenemang? Kontakta oss för mer information om priser och tillgänglighet.",
-    "january": "Januari",
-    "february": "Februari",
-    "march": "Mars",
-    "april": "April",
-    "may": "Maj",
-    "june": "Juni",
-    "july": "Juli",
-    "august": "Augusti",
-    "september": "September",
-    "october": "Oktober",
-    "november": "November",
-    "december": "December"
-  },
-  "Media": {
-    "title": "Media",
-    "undertitle": "Upptäck Eric Schoefflers musik",
-    "videosTitle": "Videor",
-    "vousQuiFaitesL’endormieDesc": "Djävulens förföriska serenad ur Gounods Faust.",
-    "starsDesc": "Inspektörens högtidliga ed ur Les Misérables.",
-    "leCouteauDesc": "Nadia Boulangers gripande sång om kärlek och smärta.",
-    "enVisaTillKarinDesc": "Den galne kung Erik XIV:s visa till sin älskade, av den svenske tonsättaren Ture Rangström.",
-    "musicTitle": "Musik"
-  },
-  "About": {
-    "title": "Eric Schoeffler — Basbaryton",
-    "para1": "Den fransk-svenske basbarytonen Eric Schoeffler hyllad för sin dramatiska närvaro och fylliga, klangrika röst.",
-    "para2": "Bland senaste operauppsättningar märks Greve Almaviva i \"Le nozze di Figaro\" (Turin 2023), Schaunard i \"La Bohème\" (Paris 2023) och Peter i \"Hänsel und Gretel\" (Berlin 2022). I konsertsammanhang framträder han ofta som Pilatus i Bachs Johannespassion, som barytonsolist i Faures requiem och som solist i Rossinis Petite messe solennelle. Kommande roller inkluderar Escamillo i Carmen, Don Giovanni och Méphistophélès i Faust.",
-    "para3": "Eric är utbildad vid Högskolan för scen och musik i Göteborg och har förfinat sin konst vid Stockholm Opera Studio och Vadstena-Akademien, efter tidigare studier vid Conservatoire Nadia & Lili Boulanger i Paris samt en civilingenjörsexamen i Stockholm. Flytande på franska, svenska, tyska, spanska och engelska förenar han nordisk klarhet med fransk lyrik i sitt konstnärskap.",
-    "para4": "Han har även framträtt i olika musikaliska sammanhang, bland annat vid Stockholm Jazz Festival (2013) och Nordic Song Festival (2024)."
   },
   "Contact": {
     "name": "Namn",
@@ -88,8 +33,12 @@
     "media": "Media",
     "creator": "Skapad av"
   },
+  "Repertoire": {
+    "avaliable": "Tillgänglig nu (Fördigt för casting)",
+    "inPreparation": "I förberedelse / Studerade roller",
+    "inPreparationSubtitle": "(tillgänglig för auditions, studioarbete och framtida casting)"
+  },
   "Gallery": {
-    "title": "Galleri",
     "imageLoadingError": "Bilden kunde inte laddas"
   }
 }

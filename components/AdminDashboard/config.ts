@@ -364,6 +364,74 @@ export const dashboardConfig: SectionConfig[] = [
     ],
   },
   {
+    id: "repertoire",
+    name: "Repertoire",
+    type: "mixed",
+    languages: ["en", "sv", "fr"],
+    sharedLists: ["availableNow", "inPreparation"],
+    fields: [
+      {
+        id: "repertoireTitle",
+        label: "Repertoire Title",
+        type: "text",
+        required: false,
+        placeholder: "Enter Repertoir Title"
+      },
+    ],
+    listItemConfigs: {
+      availableNow: {
+        fields: [
+          {
+            id: "composer",
+            label: "Composer",
+            type: "text",
+            required: true,
+            placeholder: "e.g. Bizet, Mozart, Verdi",
+          },
+          {
+            id: "role",
+            label: "Role",
+            type: "text",
+            required: true,
+            placeholder: "e.g. Morales, Masetto",
+          },
+          {
+            id: "opera",
+            label: "Opera",
+            type: "text",
+            required: true,
+            placeholder: "e.g. Carmen, Don Giovanni",
+          },
+        ],
+      },
+      inPreparation: {
+        fields: [
+          {
+            id: "composer",
+            label: "Composer",
+            type: "text",
+            required: true,
+            placeholder: "e.g. Mozart, Bizet, Gounod",
+          },
+          {
+            id: "role",
+            label: "Role",
+            type: "text",
+            required: true,
+            placeholder: "e.g. Leporello, Escamillo",
+          },
+          {
+            id: "opera",
+            label: "Opera",
+            type: "text",
+            required: true,
+            placeholder: "e.g. Don Giovanni, Carmen",
+          },
+        ],
+      },
+    },
+  },
+  {
     id: "contact",
     name: "Contact",
     type: "mixed",

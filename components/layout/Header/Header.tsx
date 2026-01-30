@@ -31,7 +31,7 @@ function Header() {
 
   const blueNavItems: NavItem[] = [
     { label: t("home"), href: "/" },
-    /* { label: "News", href: "/news" }, */
+    { label: t("repertoire"), href: "/repertoire" },
     { label: t("schedule"), href: "/schedule" },
     { label: t("media"), href: "/media" },
     { label: t("aboutMe"), href: "/about" },

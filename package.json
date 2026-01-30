@@ -12,7 +12,8 @@
     "migrate:schedule": "node --max-old-space-size=4096 node_modules/tsx/dist/cli.mjs prisma/migrate-schedule-items.ts",
     "fix:schedule-descriptions": "node --max-old-space-size=4096 node_modules/tsx/dist/cli.mjs prisma/fix-schedule-descriptions.ts",
     "fix:videos": "node --max-old-space-size=4096 node_modules/tsx/dist/cli.mjs prisma/fix-videos.ts",
-    "import:gallery": "node --max-old-space-size=4096 node_modules/tsx/dist/cli.mjs prisma/import-gallery.ts"
+    "import:gallery": "node --max-old-space-size=4096 node_modules/tsx/dist/cli.mjs prisma/import-gallery.ts",
+    "seed:repertoire": "node --max-old-space-size=4096 node_modules/tsx/dist/cli.mjs prisma/seed-repertoire.ts"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.0.0",

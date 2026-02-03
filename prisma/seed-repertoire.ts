@@ -32,9 +32,27 @@ const repertoireData = {
     { composer: "Gounod", role: "Méphistophélès", opera: "Faust" },
     { composer: "Beethoven", role: "Don Pizarro", opera: "Fidelio" },
   ],
-  en: { repertoireTitle: "Repertoire" },
-  sv: { repertoireTitle: "Repertoar" },
-  fr: { repertoireTitle: "Répertoire" },
+  en: {
+    repertoireTitle: "Repertoire",
+    avaliableListTitle: "Available Now (Casting-Ready)",
+    avaliableListSubtitle: "",
+    inPreparationListTitle: "In Preparation / Studied Roles",
+    inPreparationListSubtitle: "(available for auditions, studio work, and future casting)",
+  },
+  sv: {
+    repertoireTitle: "Repertoar",
+    avaliableListTitle: "Tillgänglig nu (Fördigt för casting)",
+    avaliableListSubtitle: "",
+    inPreparationListTitle: "I förberedelse / Studerade roller",
+    inPreparationListSubtitle: "(tillgänglig för auditions, studioarbete och framtida casting)",
+  },
+  fr: {
+    repertoireTitle: "Répertoire",
+    avaliableListTitle: "Disponible maintenant (Prêt pour la prestation)",
+    avaliableListSubtitle: "",
+    inPreparationListTitle: "En préparation / Rôles étudiés",
+    inPreparationListSubtitle: "(disponible pour les auditions, travaux de studio et futur casting)",
+  },
 };
 
 async function seedRepertoire() {

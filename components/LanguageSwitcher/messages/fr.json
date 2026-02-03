@@ -33,11 +33,6 @@
     "media": "Médias",
     "creator": "Créé par"
   },
-  "Repertoire": {
-    "avaliable": "Disponible maintenant (Prêt pour la prestation)",
-    "inPreparation": "En préparation / Rôles étudiés",
-    "inPreparationSubtitle": "(disponible pour les auditions, travaux de studio et futur casting)"
-  },
   "Gallery": {
     "imageLoadingError": "L'image n'a pas pu être chargée"
   }

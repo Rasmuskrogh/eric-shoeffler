@@ -33,11 +33,6 @@
     "media": "Media",
     "creator": "Skapad av"
   },
-  "Repertoire": {
-    "avaliable": "Tillgänglig nu (Fördigt för casting)",
-    "inPreparation": "I förberedelse / Studerade roller",
-    "inPreparationSubtitle": "(tillgänglig för auditions, studioarbete och framtida casting)"
-  },
   "Gallery": {
     "imageLoadingError": "Bilden kunde inte laddas"
   }

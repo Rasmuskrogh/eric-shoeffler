@@ -3,7 +3,6 @@
 import React from "react";
 import styles from "../../app/repertoire/page.module.css";
 import type { ContentData } from "@/components/AdminDashboard/types";
-import { useTranslations } from "next-intl";
 
 interface Role {
   composer: string;
@@ -15,6 +14,10 @@ interface RepertoireDataFromDb {
   availableNow?: Role[];
   inPreparation?: Role[];
   repertoireTitle?: string;
+  avaliableListTitle?: string;
+  avaliableListSubtitle?: string;
+  inPreparationListTitle?: string;
+  inPreparationListSubtitle?: string;
 }
 
 const defaultRepertoire: RepertoireDataFromDb = {
@@ -60,15 +63,26 @@ function toRoleList(arr: unknown): Role[] {
     .filter((r): r is Role => r !== null);
 }
 
+function str(x: unknown): string {
+  return typeof x === "string" ? x : "";
+}
+
 export default function RepertoireClient({
   repertoireData,
 }: RepertoireClientProps) {
-  const t = useTranslations("Repertoire");
   const data = repertoireData as RepertoireDataFromDb | null | undefined;
   const pageTitle =
-    typeof data?.repertoireTitle === "string" && data.repertoireTitle.trim()
-      ? data.repertoireTitle.trim()
-      : "Repertoire";
+    str(data?.repertoireTitle).trim() || "Repertoire";
+  const availableListTitle =
+    str(data?.avaliableListTitle).trim() || "Available Now (Casting-Ready)";
+  const availableListSubtitle = str(data?.avaliableListSubtitle).trim();
+  const inPreparationListTitle =
+    str(data?.inPreparationListTitle).trim() ||
+    "In Preparation / Studied Roles";
+  const inPreparationListSubtitle = str(
+    data?.inPreparationListSubtitle
+  ).trim();
+
   const availableNow =
     data?.availableNow && data.availableNow.length > 0
       ? toRoleList(data.availableNow)
@@ -102,8 +116,13 @@ export default function RepertoireClient({
         <div className={styles.container}>
           <div className={styles.section}>
             <h2 className={styles.sectionTitle}>
-              {t("avaliable")}
+              {availableListTitle}
             </h2>
+            {availableListSubtitle && (
+              <p className={styles.sectionSubtitle}>
+                {availableListSubtitle}
+              </p>
+            )}
             <div className={styles.rolesContainer}>
               {Object.entries(availableGrouped).map(([composer, roles]) => (
                 <div key={composer} className={styles.composerGroup}>
@@ -125,11 +144,13 @@ export default function RepertoireClient({
 
           <div className={styles.section}>
             <h2 className={styles.sectionTitle}>
-              {t("inPreparation")}
+              {inPreparationListTitle}
             </h2>
-            <p className={styles.sectionSubtitle}>
-              {t("inPreparationSubtitle")}
-            </p>
+            {inPreparationListSubtitle && (
+              <p className={styles.sectionSubtitle}>
+                {inPreparationListSubtitle}
+              </p>
+            )}
             <div className={styles.rolesContainer}>
               {Object.entries(inPreparationGrouped).map(([composer, roles]) => (
                 <div key={composer} className={styles.composerGroup}>

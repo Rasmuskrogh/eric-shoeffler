@@ -61,8 +61,7 @@ export const dashboardConfig: SectionConfig[] = [
         label: "YouTube URL",
         type: "text",
         required: false,
-        placeholder:
-          "https://www.youtube.com/watch?v=... eller https://youtu.be/...",
+        placeholder: "https://www.youtube.com/watch?v=... eller https://youtu.be/...",
       },
     ],
     sharedFields: [
@@ -270,8 +269,7 @@ export const dashboardConfig: SectionConfig[] = [
             label: "YouTube URL",
             type: "text",
             required: false,
-            placeholder:
-              "https://www.youtube.com/watch?v=... eller https://youtu.be/...",
+            placeholder: "https://www.youtube.com/watch?v=... eller https://youtu.be/...",
           },
           {
             id: "title",
@@ -306,8 +304,7 @@ export const dashboardConfig: SectionConfig[] = [
             label: "Title",
             type: "text",
             required: false,
-            placeholder:
-              "Track/Album/Playlist title (e.g., 'Eric Schoeffler - Album')",
+            placeholder: "Track/Album/Playlist title (e.g., 'Eric Schoeffler - Album')",
           },
         ],
       },
@@ -375,7 +372,35 @@ export const dashboardConfig: SectionConfig[] = [
         label: "Repertoire Title",
         type: "text",
         required: false,
-        placeholder: "Enter Repertoir Title"
+        placeholder: "Enter Repertoir Title",
+      },
+      {
+        id: "avaliableListTitle",
+        label: "Avaliable List Title",
+        type: "text",
+        required: false,
+        placeholder: "Enter Avaliable List Title",
+      },
+      {
+        id: "avaliableListSubtitle",
+        label: "Avaliable List Subtitle",
+        type: "text",
+        required: false,
+        placeholder: "Enter Avaliable List Subtitle",
+      },
+      {
+        id: "inPreparationListTitle",
+        label: "In Preparation List Title",
+        type: "text",
+        required: false,
+        placeholder: "Enter In Preparation List Title",
+      },
+      {
+        id: "inPreparationListSubtitle",
+        label: "In Preparation List Subtitle",
+        type: "text",
+        required: false,
+        placeholder: "Enter In Preparation List Subtitle",
       },
     ],
     listItemConfigs: {

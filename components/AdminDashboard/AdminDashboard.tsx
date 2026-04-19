@@ -6,6 +6,40 @@ import ContentEditor from "./ContentEditor";
 import { dashboardConfig } from "./config";
 import type { ContentData, AdminDashboardProps } from "./types";
 
+/** Schedule items must have a complete startDate or the public page can crash. */
+function getScheduleSaveValidationError(data: ContentData): string | null {
+  const record = data as Record<string, unknown>;
+  const items = record.items;
+  if (!Array.isArray(items) || items.length === 0) return null;
+
+  const hasCompleteStartDate = (item: Record<string, unknown>): boolean => {
+    const sd = item.startDate;
+    if (!sd || typeof sd !== "object" || Array.isArray(sd)) return false;
+    const start = sd as Record<string, unknown>;
+    const year = start.year;
+    const month = start.month;
+    const day = start.day;
+    if (year === undefined || year === null || String(year).trim() === "")
+      return false;
+    if (Number.isNaN(Number(year))) return false;
+    if (month === undefined || month === null || String(month).trim() === "")
+      return false;
+    if (day === undefined || day === null || String(day).trim() === "")
+      return false;
+    if (Number.isNaN(Number(day))) return false;
+    return true;
+  };
+
+  for (let i = 0; i < items.length; i++) {
+    const item = items[i];
+    if (!item || typeof item !== "object" || Array.isArray(item)) continue;
+    if (!hasCompleteStartDate(item as Record<string, unknown>)) {
+      return `Evenemang ${i + 1}: Det går inte att spara utan fullständigt startdatum (år, månad och dag).`;
+    }
+  }
+  return null;
+}
+
 export default function AdminDashboard({
   initialContent,
 }: AdminDashboardProps) {
@@ -120,6 +154,14 @@ export default function AdminDashboard({
   const handleSave = useCallback(
     async (sectionId: string, data: ContentData) => {
       try {
+        if (sectionId === "schedule") {
+          const validationError = getScheduleSaveValidationError(data);
+          if (validationError) {
+            setErrorMessage(validationError);
+            throw new Error(validationError);
+          }
+        }
+
         // Debug: Logga vad som skickas till API:et
         const itemsValue = "items" in data ? (data as { items?: unknown }).items : undefined;
         console.log("[handleSave] Sending to API:", {
